@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nitya's Notes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* 3D Book Styles */
+    .book-container {
+      perspective: 1000px;
+      width: 120px;
+    }
+
+    .book {
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.4s ease;
+      transform: rotateY(-8deg);
+    }
+
+    .book-container:hover .book {
+      transform: rotateY(-30deg);
+    }
+
+    .book-cover {
+      position: relative;
+      height: 180px;
+      border-radius: 0 3px 3px 0;
+      overflow: hidden;
+      transform: translateZ(12px);
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .book-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .book-spine {
+      position: absolute;
+      width: 24px;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background: #1a1a1a;
+      transform: rotateY(-90deg) translateX(-12px);
+      transform-origin: left center;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .book-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background: #222;
+      transform: translateZ(-12px);
+      border-radius: 3px 0 0 3px;
+    }
+
+    .book-pages {
+      position: absolute;
+      width: 20px;
+      height: 94%;
+      right: 0;
+      top: 3%;
+      background: #f0f0f0;
+      transform: rotateY(90deg) translateX(10px);
+      transform-origin: right center;
+    }
+
+    /* List view item */
+    .list-item {
+      cursor: pointer;
+      padding: 16px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .list-item:hover {
+      background: #fafafa;
+    }
+
+    .list-item.selected {
+      background: #f5f5f5;
+    }
+
+    .list-item.selected::before {
+      content: ">";
+      position: absolute;
+      left: -20px;
+      color: #f97316;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+  <header class="px-8 py-6 border-b border-gray-100">
+    <h1 class="text-4xl font-medium tracking-tight text-gray-900">Nitya's Notes</h1>
+  </header>
+
+  <div class="flex">
+    <!-- Left: Categories -->
+    <aside class="w-44 p-8 shrink-0">
+      <nav id="categories" class="space-y-2"></nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div id="main-area" class="flex-1 flex">
+      <!-- Content will be rendered here based on selected category -->
+    </div>
+  </div>
+
+  <!-- Popup Modal (only for Bookshelf tab) -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-8 max-w-lg mx-4 relative">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">✕</button>
+      
+      <div class="flex gap-6">
+        <img id="modal-cover" class="w-32 h-auto object-contain rounded shadow" />
+        <div class="flex-1">
+          <h2 id="modal-title" class="text-xl font-bold mb-1"></h2>
+          <p id="modal-author" class="text-gray-500 mb-3"></p>
+          <div id="modal-rating" class="text-sm mb-2"></div>
+          <p id="modal-date" class="text-sm text-gray-400 mb-4"></p>
+        </div>
+      </div>
+      
+      <div id="modal-notes" class="text-gray-700 text-sm leading-relaxed mt-4 mb-6"></div>
+      
+      <a id="modal-category-link" href="#" onclick="goToCategory(event)" class="text-orange-500 hover:text-orange-600 text-sm">
+        → Go to all books
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Sample data
+    const items = [
+      { 
+        id: 1, 
+        title: "Accelerando", 
+        author: "Charles Stross", 
+        year: 2005,
+        category: ["Books"], 
+        cover: "https://m.media-amazon.com/images/I/41l2E2p2YaL._SY445_SX342_.jpg",
+        dateRead: "10-15-2025",
+        notes: "A mind-bending exploration of post-human futures. The pace is relentless and the ideas about technology acceleration are fascinating.\n\nDense but rewarding if you stick with it."
+      },
+      { 
+        id: 2, 
+        title: "Bubbles and the End of Stagnation", 
+        author: "Byrne Hobart and Tobias Huber", 
+        year: 2023,
+        category: ["Books", "2026"], 
+        cover: "https://m.media-amazon.com/images/I/71kKECrPd4L._SY466_.jpg",
+        dateRead: "11-02-2025",
+        notes: "Interesting thesis on how speculative bubbles can drive real innovation.\n\nThe core argument: bubbles fund infrastructure that outlasts the bubble itself."
+      },
+      { 
+        id: 3, 
+        title: "A Psalm for the Wild-Built", 
+        author: "Becky Chambers", 
+        year: 2021,
+        category: ["Books"], 
+        cover: "https://m.media-amazon.com/images/I/91PosgFcBAL._SY466_.jpg",
+        dateRead: "11-20-2025",
+        notes: "Gentle, hopeful solarpunk. A tea monk meets a robot in a rewilded world.\n\nMade me think about purpose, service, and what we actually need to be content."
+      },
+      { 
+        id: 4, 
+        title: "Obviously Awesome", 
+        author: "April Dunford", 
+        year: 2019,
+        category: ["Books", "2026"], 
+        cover: "https://m.media-amazon.com/images/I/71hPfHfcvzL._SY466_.jpg",
+        dateRead: "12-01-2025",
+        notes: "Best book on product positioning I've read. Practical frameworks, not fluff.\n\nThe 'competitive alternatives' reframe was eye-opening."
+      },
+      { 
+        id: 5, 
+        title: "The Tinkerings of Robert Noyce", 
+        author: "Tom Wolfe", 
+        year: 1983,
+        category: ["Papers"], 
+        cover: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=300&h=400&fit=crop",
+        dateRead: "09-10-2025",
+        notes: "Classic Wolfe profile of the Intel co-founder. Great narrative journalism."
+      },
+      { 
+        id: 6, 
+        title: "Welcome to the Era of Experience", 
+        author: "David Silver, Richard Sutton", 
+        year: 2025,
+        category: ["Papers", "2026"], 
+        cover: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=300&h=400&fit=crop",
+        dateRead: "12-15-2025",
+        notes: "A vision for AI systems that learn from experience rather than human data.\n\nKey insight: the next frontier is agents that improve through interaction."
+      },
+    ];
+
+    const categories = ["Bookshelf", "Books", "Papers", "Movies", "2026"];
+    let selectedCategory = categories[0];
+    let selectedItemId = null;
+    let searchQuery = "";
+
+    function renderCategories() {
+      const nav = document.getElementById('categories');
+      nav.innerHTML = categories.map(category => `
+        <button 
+          onclick="selectCategory('${category}')"
+          class="block text-xl transition-colors ${
+            selectedCategory === category 
+              ? 'text-gray-900 font-semibold' 
+              : 'text-gray-400 hover:text-gray-600'
+          }"
+        >
+          ${category}
+        </button>
+      `).join('');
+    }
+
+    function selectCategory(category) {
+      selectedCategory = category;
+      selectedItemId = null;
+      searchQuery = "";
+      renderCategories();
+      renderMainArea();
+    }
+
+    function renderMainArea() {
+      const mainArea = document.getElementById('main-area');
+      
+      if (selectedCategory === "Bookshelf") {
+        renderGridView(mainArea);
+      } else {
+        renderListView(mainArea);
+      }
+    }
+
+    // ==================== GRID VIEW (Bookshelf tab) ====================
+    function renderGridView(container) {
+      // Show all items in grid
+      const allItems = items;
+      
+      container.innerHTML = `
+        <main class="flex-1 p-8">
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            ${allItems.map(item => `
+              <div class="book-container cursor-pointer" onclick="openModal(${item.id})">
+                <div class="book">
+                  <div class="book-back"></div>
+                  <div class="book-spine"></div>
+                  <div class="book-pages"></div>
+                  <div class="book-cover">
+                    <img src="${item.cover}" alt="${item.title}" />
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </main>
+      `;
+    }
+
+    // ==================== LIST VIEW (Books, Papers, etc.) ====================
+    function renderListView(container) {
+      // Filter items by category
+      let filtered = items.filter(item => item.category.includes(selectedCategory));
+      
+      // Apply search filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        filtered = filtered.filter(item => 
+          item.title.toLowerCase().includes(query) || 
+          item.author.toLowerCase().includes(query)
+        );
+      }
+      
+      container.innerHTML = `
+        <!-- List -->
+        <main class="flex-1 p-8 border-r border-gray-200 max-w-xl">
+          <!-- Search bar -->
+          <div class="mb-6">
+            <input 
+              type="text" 
+              placeholder="Search..." 
+              value="${searchQuery}"
+              onkeyup="handleSearch(event)"
+              class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400"
+            />
+          </div>
+          
+          <!-- List of items -->
+          <div class="space-y-0">
+            ${filtered.map(item => `
+              <div 
+                class="list-item relative ${selectedItemId === item.id ? 'selected' : ''}" 
+                onclick="selectItem(${item.id})"
+              >
+                <h3 class="font-semibold text-gray-900">${item.title}</h3>
+                <p class="text-gray-500 text-sm">${item.author}, ${item.year}</p>
+              </div>
+            `).join('')}
+            ${filtered.length === 0 ? '<p class="text-gray-400 italic">No items found</p>' : ''}
+          </div>
+        </main>
+        
+        <!-- Side Panel -->
+        <aside class="w-96 p-8 bg-white shrink-0 min-h-screen">
+          <div id="panel-content">
+            ${selectedItemId ? renderPanelContent() : '<p class="text-gray-400 italic">Click an item to see notes</p>'}
+          </div>
+        </aside>
+      `;
+    }
+
+    function renderPanelContent() {
+      const item = items.find(i => i.id === selectedItemId);
+      if (!item) return '';
+      
+      const notesHtml = item.notes 
+        ? item.notes.split('\n\n').map(p => `<p class="mb-4">${p}</p>`).join('')
+        : '<p class="italic text-gray-400">No notes yet.</p>';
+      
+      return `
+        <button onclick="closePanel()" class="text-gray-400 hover:text-gray-600 text-xl float-right">✕</button>
+        <h2 class="text-2xl font-serif font-bold mb-1 pr-8">${item.title}</h2>
+        <p class="text-gray-500 mb-6">${item.author}</p>
+        <p class="text-sm text-gray-400 mb-4">${item.dateRead || ''}</p>
+        <div class="text-gray-700 leading-relaxed">${notesHtml}</div>
+      `;
+    }
+
+    function handleSearch(event) {
+      searchQuery = event.target.value;
+      renderMainArea();
+    }
+
+    function selectItem(id) {
+      selectedItemId = id;
+      renderMainArea();
+    }
+
+    function closePanel() {
+      selectedItemId = null;
+      renderMainArea();
+    }
+
+    // ==================== MODAL (for Bookshelf tab) ====================
+    function openModal(id) {
+      const item = items.find(item => item.id === id);
+      if (!item) return;
+      
+      document.getElementById('modal-cover').src = item.cover;
+      document.getElementById('modal-title').textContent = item.title;
+      document.getElementById('modal-author').textContent = item.author;
+      document.getElementById('modal-date').textContent = item.dateRead || '';
+      
+      const notesHtml = item.notes 
+        ? item.notes.split('\n\n').map(p => `<p class="mb-3">${p}</p>`).join('')
+        : '<p class="italic text-gray-400">No notes yet.</p>';
+      document.getElementById('modal-notes').innerHTML = notesHtml;
+      
+      // Set the category link based on item's first category (other than Bookshelf)
+      const itemCategory = item.category.find(c => c !== "Bookshelf") || "Books";
+      document.getElementById('modal-category-link').textContent = `→ Go to all ${itemCategory.toLowerCase()}`;
+      document.getElementById('modal-category-link').dataset.category = itemCategory;
+      
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    }
+
+    function goToCategory(event) {
+      event.preventDefault();
+      const category = event.target.dataset.category;
+      closeModal();
+      selectCategory(category);
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    // Initialize
+    renderCategories();
+    renderMainArea();
+  </script>
+
+</body>
+</html>

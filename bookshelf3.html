@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nitya's Bookshelf</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body class="left-aligned min-h-screen bg-gray-50">
+
+  <!-- Header -->
+  <header class="pl-8 pr-8 py-6 text-left bg-text-gray-900 border-b border-gray-100">
+    <h1 class="text-5xl font-medium tracking-tight text-gray-900">
+      Nitya's Bookshelf
+    </h1>
+  </header>
+
+  <div class="flex">
+    <aside class="w-48 p-8 shrink-0">
+      <nav id="categories" class="space-y-2">
+      </nav>
+    </aside>
+
+    <!-- Main Grid -->
+    <main class="flex-1 p-8" text-align: left;>
+      <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-x-10 gap-y-0 items-start">
+      </div>
+    </main>
+  </div>
+
+  <script src="Books.js"></script>
+
+  <script>
+    const categories = ["Bookshelf","Books", "Papers", "Movies","2026"];
+    let selectedCategory = categories[0];
+
+    function renderCategories() {
+      const nav = document.getElementById('categories');
+      nav.innerHTML = categories.map(category => `
+        <button 
+          onclick="selectCategory('${category}')"
+          class="block text-xl transition-colors ${
+            selectedCategory === category 
+              ? 'text-gray-900 text-xl font-semibold' 
+              : 'text-gray-400 hover:text-gray-600'
+          }"
+        >
+          ${category}
+        </button>
+      `).join('');
+    }
+
+    function renderGrid() {
+  const grid = document.getElementById('grid');
+  const filtered = items.filter(item => item.category.includes(selectedCategory));
+  
+  grid.innerHTML = filtered.map(item => {
+
+      if (item.category.includes("Papers")) {
+      return `
+        <div class="cursor-pointer">
+          <div class="paper-card">
+            <div>
+              <div class="paper-accent" style="background: ${item.spineColor || '#e85d04'}"></div>
+              <h3 class="paper-title">${item.title}</h3>
+            </div>
+            <p class="paper-author">${item.author}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    if (item.type === "painting") {
+      return `
+        <div class="painting-container cursor-pointer">
+          <div class="painting-frame">
+            <img src="${item.cover}" alt="${item.title}" />
+          </div>
+        </div>
+      `;
+    }
+
+    if (item.type === "lamp") {
+      return `
+        <div class="lamp-container cursor-pointer">
+          <div class="lamp-frame">
+            <img src="${item.cover}" alt="${item.title}" />
+          </div>
+        </div>
+      `;
+    }
+    
+    return `
+      <div class="book-container cursor-pointer">
+        <div class="book">
+          <div class="book-back"></div>
+          <div class="book-spine" style="background: ${item.spineColor || '#1a1a1a'}"></div>
+          <div class="book-pages"></div>
+          <div class="book-cover">
+            <img src="${item.cover}" alt="${item.title}" />
+          </div>
+        </div>
+        <div class="book-info">
+          <h3 class="text-sm font-bold text-gray-900">${item.title}</h3>
+        </div>
+      </div>
+    `;
+    
+  }).join('');
+}
+    function selectCategory(category) {
+      selectedCategory = category;
+      renderCategories();
+      renderGrid();
+    }
+
+    renderCategories();
+    renderGrid();
+  </script>
+
+</body>
+</html>
