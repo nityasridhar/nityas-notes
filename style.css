@@ -1,8 +1,31 @@
+:root {
+    /* lightmode */
+    --bg-primary: #f9fafb;
+    --bg-secondary: #ffffff;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --border-color: #f3f4f6;
+  }
+  
+  .dark-mode {
+    /* darkmode */
+    --bg-primary: #000000;
+    --bg-secondary: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border-color: #334155;
+  }
+  
 body {
     display: flex;
     flex-direction: column;
     font-family: 'Gill Facia', sans-serif;
     font-size: 16px;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 .centered-content {
     max-width: 800px;
@@ -165,7 +188,7 @@ box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     width: 100px;
     height: 140px;
     display: flex;
-    align-items: flex-end;  /* lamp sits at bottom like on a shelf */
+    align-items: flex-end;  
   }
   
   .lamp-container img {

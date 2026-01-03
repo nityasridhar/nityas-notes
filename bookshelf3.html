@@ -7,15 +7,24 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.tailwindcss.com"></script>
 
+  
 </head>
-<body class="left-aligned min-h-screen bg-gray-50">
+<body class="min-h-screen">
 
   <!-- Header -->
-  <header class="pl-8 pr-8 py-6 text-left bg-text-gray-900 border-b border-gray-100">
-    <h1 class="text-5xl font-medium tracking-tight text-gray-900">
+  <header class="pl-8 pr-8 py-6 text-left border-b flex justify-between items-baseline">
+    <h1 class="text-5xl font-medium tracking-tight">
       Nitya's Bookshelf
     </h1>
-  </header>
+  <nav class="flex gap-4">
+    <!-- nav lol -->
+<a href="index.html">ABOUT</a>
+<a href="bookshelf3.html">BOOKSHELF</a>
+<a href="writing.html">WRITING</a>
+<a href="notes.html">NOTES</a>
+<a href="https://example.com/rss">RSS</a>
+</nav>
+</header>
 
   <div class="flex">
     <aside class="w-48 p-8 shrink-0">
@@ -41,11 +50,10 @@
       nav.innerHTML = categories.map(category => `
         <button 
           onclick="selectCategory('${category}')"
-          class="block text-xl transition-colors ${
-            selectedCategory === category 
-              ? 'text-gray-900 text-xl font-semibold' 
-              : 'text-gray-400 hover:text-gray-600'
-          }"
+          class="block text-xl transition-colors"
+            style="color: ${selectedCategory === category ? 'var(--text-primary)' : 'var(--text-muted)'};
+             font-weight: ${selectedCategory === category ? '600' : '400'};"
+            }"
         >
           ${category}
         </button>
@@ -71,7 +79,6 @@
         </div>
       `;
     }
-
     if (item.type === "painting") {
       return `
         <div class="painting-container cursor-pointer">
@@ -118,6 +125,20 @@
 
     renderCategories();
     renderGrid();
+
+    let lightsOn = true;
+
+    document.getElementById('grid').addEventListener('click', function(event) {
+      if (event.target.closest('.lamp-container')) {
+        lightsOn = !lightsOn;
+        
+        if (lightsOn) {
+          document.body.classList.remove('dark-mode');
+        } else {
+          document.body.classList.add('dark-mode');
+        }
+      }
+    });
   </script>
 
 </body>
