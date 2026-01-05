@@ -1,3 +1,3 @@
 export default async function getStravaData(request) {
-return new Response("Welcome to the Strava API!")
+res.status(200).send("Hello from Strava API!");
 }
