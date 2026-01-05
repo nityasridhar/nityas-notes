@@ -1,3 +1,3 @@
-export default async function getStravaData() {
+export default async function getStravaData(request) {
 return new Response("Welcome to the Strava API!")
 }

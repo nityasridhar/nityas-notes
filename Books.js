@@ -1,14 +1,17 @@
 const items = [
+    /* 22>*/
     { id: 1, title: "Accelerando", author: "Charles Stross", category: ["Books","Bookshelf"], cover: "https://m.media-amazon.com/images/I/51978vBJLyL.jpg", spineColor: "#1a0a05", notes: "xyz" },
     
     { id: 13, title: "In the Mood for Love", author: "Wong Kar-Wai", category: ["Movies","Bookshelf"], cover: "https://m.media-amazon.com/images/I/91+V2AunifL._AC_UY436_FMwebp_QL65_.jpg", spineColor: "#8b0000", notes: "xyz" },
-    
+    { id: 21, type: "lamp", title: "Akari Lamp", author: "Isamu Noguchi", category: ["Bookshelf"], cover: "images/v2lamp.png", notes: "" },
+
     { id: 10, title: "The Tinkerings of Robert Noyce", author: "Tom Wolfe", category: ["Papers","Bookshelf"], cover: "https://esquire.blob.core.windows.net/esquire19831201thumbnails/Spreads/0x600/176.jpg", spineColor: "#2a2a2a", notes: "xyz" },
     
     { id: 2, title: "Bubbles and the End of Stagnation", author: "Byrne Hobart and Tobias Huber", category: ["Books","Bookshelf"], cover: "https://m.media-amazon.com/images/I/41GCdF4CmAL.jpg", spineColor: "#4a1942", notes: "xyz" },
     
     { id: 14, title: "Tenet", author: "Christopher Nolan", category: ["Movies","Bookshelf"], cover: "https://m.media-amazon.com/images/I/81eNWOyO4FL._AC_UY436_FMwebp_QL65_.jpg", spineColor: "#1a3a5c", notes: "xyz" },
     { id: 20, type: "painting", title: "Reader", author: "Simon LeClerc", category: ["Bookshelf"], cover: "https://i.imgur.com/rUxGR8O.jpg", spineColor: "#1a1a1a", notes: "xyz" },
+    { id: 12, title: "Marty Supreme", author: "Josh Safdie", category: ["Movies","Bookshelf"], cover: "https://m.media-amazon.com/images/I/81wNksmqCBL._AC_UY436_FMwebp_QL65_.jpg", spineColor: "#8b2942", notes: "xyz" },
 
     { id: 3, title: "A Psalm for the Wild Built", author: "Becky Chambers", category: ["Books","Bookshelf"], cover: "https://m.media-amazon.com/images/I/91+7TFTHmDS._SL1500_.jpg", spineColor: "#2d4a35", notes: "xyz" },
     
@@ -17,7 +20,7 @@ const items = [
     { id: 15, title: "Midsommar", author: "Ari Aster", category: ["Movies","Bookshelf"], cover: "https://m.media-amazon.com/images/I/81ya-oBGcbL._AC_UY436_FMwebp_QL65_.jpg", spineColor: "#5a7a32", notes: "xyz" },
     
     { id: 4, title: "The Weight of Glory", author: "C.S. Lewis", category: ["Books","Bookshelf"], cover: "https://m.media-amazon.com/images/I/81ip7E3aihL._SL1500_.jpg", spineColor: "#1a1a1a", notes: "xyz" },
-    { id: 21, type: "lamp", title: "Akari Lamp", author: "Isamu Noguchi", category: ["Bookshelf"], cover: "images/v2lamp.png", notes: "" },
+
     { id: 16, title: "Spirited Away", author: "Miyazaki", category: ["Movies","Bookshelf"], cover: "https://m.media-amazon.com/images/I/81yCVQUS5hL._AC_UY436_FMwebp_QL65_.jpg", spineColor: "#8b2942", notes: "xyz" },
     
     { id: 6, title: "Hidden Valley Road", author: "Robert Kolker", category: ["Books","Bookshelf"], cover: "https://m.media-amazon.com/images/I/81+i2LgzZkL._SL1500_.jpg", spineColor: "#8b7355", notes: "xyz" },
