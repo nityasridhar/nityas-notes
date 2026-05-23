@@ -1,111 +1,357 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nitya's Notes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <style>
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Medium.ttf'); font-weight: 500; }
 
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <meta charset="UTF-8">
+    body {
+      background: #f0ede6;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      font-family: 'Spectral', Georgia, serif;
+    }
 
+    #tile-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 100px);
+      grid-template-rows: repeat(auto-fill, 100px);
+      gap: 0;
+      opacity: 0.35;
+    }
+
+    .tile {
+      width: 100px;
+      height: 100px;
+      border: 1px solid #e0dbd4;
+      background: #f0ede8;
+      position: relative;
+    }
+
+    .tile-social {
+      background: #eef2f7;
+      color: #1e3a6e;
+      font-family: 'Spectral', Georgia, serif;
+      font-weight: 400;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      border: 2px solid #a8bdd8;
+      background-image:
+        radial-gradient(ellipse at 30% 20%, rgba(30,58,110,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(30,58,110,0.04) 0%, transparent 50%);
+      text-shadow: 1px 1px 0 rgba(30,58,110,0.15);
+      letter-spacing: 2px;
+    }
+
+    .tile-social:hover {
+      opacity: 0.7;
+    }
+
+    .tile-social.small-text {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    #scene {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      perspective: 900px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #globe {
+      position: relative;
+      width: 0;
+      height: 0;
+      transform-style: preserve-3d;
+    }
+
+    .card {
+      position: absolute;
+      backface-visibility: hidden;
+      border-radius: 3px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      opacity: 0.6;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 3px;
+      display: block;
+    }
+
+    #title-overlay {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    #title-overlay a {
+      pointer-events: auto;
+      text-decoration: none;
+      color: #6b7280;
+      font-size: 64px;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 30px rgba(240,237,230,1), 0 0 60px rgba(240,237,230,1), 0 0 90px rgba(240,237,230,1), 0 0 120px rgba(240,237,230,0.9);
+    }
+
+    #title-overlay a:hover {
+      opacity: 0.5;
+    }
+
+    #title-overlay .subtitle {
+      pointer-events: none;
+      font-size: 13px;
+      color: #9ca3af;
+      margin-top: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(250,250,250,1);
+    }
+
+    .fade-out {
+      animation: fadeOut 0.6s ease forwards;
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; }
+    }
+  </style>
 </head>
+<body>
 
+  <div id="tile-bg"></div>
 
-<body class="left-aligned">
-<main class="centered-content">
-<!-- heading -->
-<header class="pl-8 mt-8 mb-4 w-full flex justify-between items-center">
-    <h1 class="text-4xl font-medium tracking-tight text-gray-900">Nitya Sridhar</h1>
-
-
-
-<nav class="flex gap-4">
-            <!-- nav lol -->
-        <a href="index.html">ABOUT</a>
-        <a href="bookshelf3.html">BOOKSHELF</a>
-        <a href="writing.html">WRITING</a>
-        <a href="notes.html">NOTES</a>
-        <a href="https://example.com/rss">RSS</a>
-    </nav>
-</header>
-
-
-
-        <p class="pl-8 mt-8 mb-4 text-xl"><strong>Some things about me:</strong></p>
-
-        <ul class="pl-16 space-y-4 text-xl list-disc">
-        <li> Building 
-            <a href="https://www.exa.ai/">exa.ai</a>,  
-            a search engine for LLMs. 
-        </li>     
-        <li> Used to work in biotech: at Amgen for 2 oncology assets (<a href="https://www.lumakras.com/">Lumakras</a>     
-        and <a href="https://www.blincyto.com/">Blincyto</a>) before eventually deciding to
-        work on what I view as a key bottleneck to global health: 
-        <a href="https://www.blincyto.com/">the current state of clinical trials</a>.     
-        </li>  
-        <li> I read a lot and keep track of books, papers, movies, blogs on my <a href="bookshelf3.html"> bookshelf</a>. Favourites below:
-            
-        </li> 
-        <li> Some of my quests here. If you like similar things, reach out!        </li> 
-        </ul>
-
-        <!-- writing + projects --
-        <div class="two-column">
-
-        <br>
-        <div class="column">
-        <strong> Writing + Projects</strong> 
-        
-        <br> 
-        1. 
-        2. 
-        3.
-        </div>
-        <br>
-
-        <div class="column">
-        <br>
-        <strong>Notes</strong> 
-        <br> wip thoughts, things I find interesting, strong divergence in conviction of belief for these
-        </div>
-
-        <br>
-    </div>
-    <br><br>
-    <strong> Bookshelf</strong> 
-
-
-
-
-
-        bookshelf of favorites  
-             2026 media 
-        notes tab
-        writing + projects tab 
-        bookshelf tab
-            2026 media
-            papers-->
-
-
-            <br><br>
-            <a href ="https://x.com/nityasnotes"><strong> Twitter</strong> </a>
-            
-            
-            &nbsp;&nbsp;
-            
-            <a href ="https://www.linkedin.com/in/nitya-sridhar-550131187/"><strong> LinkedIn</strong> </a>
-            <br><br>
-        
-        
-
-
-
-
-
+  <div id="title-overlay">
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:500px; height:120px; background:radial-gradient(ellipse, rgba(240,237,230,1) 30%, rgba(240,237,230,0) 70%); z-index:-1;"></div>
+    <a href="home.html" id="enter-link">nitya's notes</a>
   </div>
 
-  <script src="script.js"></script>
-</main>
+  <div id="scene">
+    <div id="globe"></div>
+  </div>
+
+  <script>
+    // Generate tile background with social links in top-left tiles
+    const tileBg = document.getElementById('tile-bg');
+    const cols = Math.ceil(window.innerWidth / 100);
+    const rows = Math.ceil(window.innerHeight / 100);
+    for (let i = 0; i < cols * rows; i++) {
+      const tile = document.createElement('div');
+      tile.className = 'tile';
+      tileBg.appendChild(tile);
+    }
+
+    const IMAGE_PATHS = [
+      'images/accelerando.jpg',
+      'images/attention_residuals.png',
+      'images/before_sunrise.jpg',
+      'images/bubbles_stagnation.jpg',
+      'images/bugonia.jpg',
+      'images/era_of_experience.png',
+      'images/hidden_valley_road.jpg',
+      'images/in_the_mood_for_love.jpg',
+      'images/marty_supreme.webp',
+      'images/mind_at_play.jpg',
+      'images/mississippi_masala.jpg',
+      'images/ogilvy.jpg',
+      'images/open_source.jpg',
+      'images/pachchai_nirame.jpg',
+      'images/project_hail_mary.jpg',
+      'images/psalm_wild_built.jpg',
+      'images/reader.jpg',
+      'images/spirited_away.jpg',
+      'images/strategic_wealth.jpg',
+      'images/tail_at_scale.png',
+      'images/tenet.jpg',
+      'images/tinkerings_noyce.jpg',
+      'images/v2lamp.png',
+      'images/weight_of_glory.jpg'
+    ];
+
+    const RADIUS = 300;
+    const CARD_SIZE = 45;
+    const N = IMAGE_PATHS.length;
+
+    const globe = document.getElementById('globe');
+
+    // Distribute cards on a sphere but avoid the center band visible from the front
+    function fibSphere(i, total) {
+      const golden = (1 + Math.sqrt(5)) / 2;
+      // Only place cards in the top and bottom caps of the sphere
+      // Split cards: first half on top cap, second half on bottom cap
+      const half = Math.ceil(total / 2);
+      let cosTheta;
+      if (i < half) {
+        // Top cap: cosTheta from 1.0 down to 0.3
+        cosTheta = 1.0 - (i / half) * 0.7;
+      } else {
+        // Bottom cap: cosTheta from -0.3 down to -1.0
+        const j = i - half;
+        const remaining = total - half;
+        cosTheta = -0.3 - (j / remaining) * 0.7;
+      }
+      const theta = Math.acos(cosTheta);
+      const phi = 2 * Math.PI * i / golden;
+      return {
+        x: RADIUS * Math.sin(theta) * Math.cos(phi),
+        y: RADIUS * Math.cos(theta),
+        z: RADIUS * Math.sin(theta) * Math.sin(phi)
+      };
+    }
+
+    // Create image cards on the sphere
+    IMAGE_PATHS.forEach((path, i) => {
+      const pos = fibSphere(i, N);
+      const card = document.createElement('div');
+      card.className = 'card';
+      if (path.includes('v2lamp')) {
+        card.style.boxShadow = 'none';
+        card.style.background = 'transparent';
+      }
+      card.style.width = CARD_SIZE + 'px';
+      card.style.height = (CARD_SIZE * 1.4) + 'px';
+      // Compute rotation to face outward
+      const rY = Math.atan2(pos.x, pos.z) * (180 / Math.PI);
+      const rX = -Math.asin(pos.y / RADIUS) * (180 / Math.PI);
+      card.style.transform = `translate3d(${pos.x - CARD_SIZE/2}px, ${pos.y - CARD_SIZE*0.7}px, ${pos.z}px) rotateY(${rY}deg) rotateX(${rX}deg)`;
+
+      const img = document.createElement('img');
+      img.src = path;
+      img.alt = '';
+      img.loading = 'eager';
+      card.appendChild(img);
+      globe.appendChild(card);
+    });
+
+    // Rotation state
+    let rotX = 0; // no tilt so equator gap faces viewer
+    let rotY = 0;
+    let velX = 0;
+    let velY = 0;
+    let isDragging = false;
+    let lastX = 0, lastY = 0;
+    let autoRotate = true;
+
+    function updateTransform() {
+      globe.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    }
+
+    // Drag handlers
+    function getPointer(e) {
+      if (e.touches && e.touches[0]) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      return { x: e.clientX, y: e.clientY };
+    }
+
+    function onDown(e) {
+      isDragging = true;
+      autoRotate = false;
+      const p = getPointer(e);
+      lastX = p.x;
+      lastY = p.y;
+      velX = 0;
+      velY = 0;
+    }
+
+    function onMove(e) {
+      if (!isDragging) return;
+      const p = getPointer(e);
+      const dx = p.x - lastX;
+      const dy = p.y - lastY;
+      velY = dx * 0.3;
+      velX = -dy * 0.3;
+      rotY += velY;
+      rotX += velX;
+      rotX = Math.max(-60, Math.min(60, rotX));
+      lastX = p.x;
+      lastY = p.y;
+      updateTransform();
+    }
+
+    function onUp() {
+      isDragging = false;
+    }
+
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    document.addEventListener('touchstart', onDown, { passive: true });
+    document.addEventListener('touchmove', onMove, { passive: true });
+    document.addEventListener('touchend', onUp);
+
+    // Animation loop: inertia + auto-rotate
+    function animate() {
+      if (!isDragging) {
+        rotY += velY;
+        rotX += velX;
+        rotX = Math.max(-60, Math.min(60, rotX));
+        velX *= 0.95;
+        velY *= 0.95;
+
+        if (Math.abs(velX) < 0.01 && Math.abs(velY) < 0.01) {
+          velX = 0;
+          velY = 0;
+          autoRotate = true;
+        }
+
+        if (autoRotate) {
+          rotY += 0.15;
+        }
+
+        updateTransform();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    updateTransform();
+    animate();
+
+    // Click to enter
+    document.getElementById('enter-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.body.classList.add('fade-out');
+      setTimeout(() => window.location.href = 'home.html', 600);
+    });
+  </script>
+
+  <noscript>
+    <p style="text-align:center; margin-top:40vh; font-family:Georgia,serif;">
+      <a href="home.html">Enter Nitya's Notes</a>
+    </p>
+  </noscript>
 
 </body>
-  </html>
+</html>

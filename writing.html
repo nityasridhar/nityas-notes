@@ -3,25 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nitya's Notes</title>
-  <link rel="stylesheet" href="style.css">
-
+  <title>Nitya's Notes - Writing</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <style>
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Medium.ttf'); font-weight: 500; }
 
-<header class="pl-8 pr-8 py-6 text-left bg-text-gray-900 border-b border-gray-100 flex justify-between items-baseline">
-    <h1 class="text-5xl font-medium tracking-tight text-gray-900">
-      Writing
-    </h1>
-  <nav class="flex gap-4">
-    <!-- nav lol -->
-<a href="index.html">ABOUT</a>
-<a href="bookshelf3.html">BOOKSHELF</a>
-<a href="writing.html">WRITING</a>
-<a href="notes.html">NOTES</a>
-<a href="https://example.com/rss">RSS</a>
-</nav>
-</header>
+    body {
+      font-family: 'Spectral', serif;
+    }
 
+    .essay-item {
+      border-bottom: 1px solid #eee;
+      padding: 20px 0;
+      transition: background 0.2s;
+    }
+
+    .essay-item:hover {
+      background: #fafafa;
+    }
+
+    body.dark-mode {
+      background: #1a1a1a;
+      color: #e0e0e0;
+    }
+    body.dark-mode .essay-item {
+      border-bottom-color: #444;
+    }
+    body.dark-mode .essay-item:hover {
+      background: #333;
+    }
+  </style>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-transparent">
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a1a';
+    }
+  </script>
+
+  <header class="px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-baseline">
+    <a href="home.html" class="text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+    <nav class="flex gap-6 text-sm tracking-wide">
+      <a href="bookshelf4.html" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">BOOKSHELF</a>
+      <a href="writing.html" class="text-gray-900 dark:text-gray-100 font-normal">WRITING</a>
+    </nav>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+      <!-- Left column: Blogs + Essays -->
+      <div>
+        <h2 class="text-2xl font-light tracking-tight text-gray-900 dark:text-gray-100 mb-6">Blogs + Essays</h2>
+
+        <a href="https://exa.ai/blog/rl-search-outcomes" target="_blank" class="essay-item block">
+          <p class="text-sm text-gray-400 mb-1">May 2026</p>
+          <h3 class="text-lg font-normal text-gray-900 dark:text-gray-100 mb-1">How Search Quality Shapes RL Outcomes</h3>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">Agents trained with Exa as the search backend during RL reach higher performance with less training compute than those using Google.</p>
+        </a>
+
+        <a href="https://exa.ai/blog/webcode" target="_blank" class="essay-item block">
+          <p class="text-sm text-gray-400 mb-1">March 2026</p>
+          <h3 class="text-lg font-normal text-gray-900 dark:text-gray-100 mb-1">WebCode: Search Evals for Coding Agents</h3>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">Open sourcing WebCode, internal evaluations to improve content extraction and retrieval quality for coding agents.</p>
+        </a>
+
+        <a href="https://exa.ai/blog/exa-d" target="_blank" class="essay-item block">
+          <p class="text-sm text-gray-400 mb-1">January 2026</p>
+          <h3 class="text-lg font-normal text-gray-900 dark:text-gray-100 mb-1">exa-d: Data Framework to Process the Web</h3>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">Exa's internally-built framework for handling web data processing at scale.</p>
+        </a>
+
+        <a href="https://nityasridhar.substack.com/p/changes-in-government-policies-create" target="_blank" class="essay-item block">
+          <p class="text-sm text-gray-400 mb-1">July 2025</p>
+          <h3 class="text-lg font-normal text-gray-900 dark:text-gray-100 mb-1">Changes in Government Policies Create Markets for Startups in Highly Regulated Industries</h3>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">policy shifts in regulated sectors like healthcare create time-bound windows where startups can entirely capture this new market</p>
+        </a>
+
+        <a href="https://nityasridhar.substack.com/p/scientific-heretics-in-history-and" target="_blank" class="essay-item block">
+          <p class="text-sm text-gray-400 mb-1">April 2023</p>
+          <h3 class="text-lg font-normal text-gray-900 dark:text-gray-100 mb-1">Scientific Heretics: In History and Modernity</h3>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">old rabbit hole on how the modern world protects scientific heresy</p>
+        </a>
+
+        <a href="https://open.substack.com/pub/nityasridhar/p/applying-ai-to-the-industry-of-biology" target="_blank" class="essay-item block">
+          <p class="text-sm text-gray-400 mb-1">December 2022</p>
+          <h3 class="text-lg font-normal text-gray-900 dark:text-gray-100 mb-1">Applying AI to the Industry of Biology: Eligibility Criteria and Clinical Trial Design</h3>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">I spent years across Amgen and at a clinical trial startup thinking through how AI could improve core bottlenecks across issues like patient recruitment. I share some of my work on this here, always happy to chat about it.</p>
+        </a>
+      </div>
+
+      <!-- Right column: Notes -->
+      <div>
+        <h2 class="text-2xl font-light tracking-tight text-gray-900 dark:text-gray-100 mb-6">Notes</h2>
+      </div>
+
+    </div>
+  </main>
 
 </body>
-
+</html>

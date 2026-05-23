@@ -21,7 +21,7 @@
 body {
     display: flex;
     flex-direction: column;
-    font-family: 'Gill Facia', sans-serif;
+    font-family: 'Spectral', serif;
     font-size: 16px;
     background-color: var(--bg-primary);
     color: var(--text-primary);
@@ -64,12 +64,10 @@ div.container {
     flex: 1;
 }
 
-@font-face {
-    font-family: 'Gill Facia';
-    src: url('Gill Facia MT Std Regular.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
+@font-face { font-family: 'Spectral'; src: url('fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+@font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Light.ttf'); font-weight: 300; }
+@font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Regular.ttf'); font-weight: 400; }
+@font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Medium.ttf'); font-weight: 500; }
 
 .book-container:hover .book {
     transform: rotateY(-30deg);

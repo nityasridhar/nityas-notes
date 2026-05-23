@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nitya's Notes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Medium.ttf'); font-weight: 500; }
+    body {
+      font-family: 'Spectral', serif;
+    }
+    body.dark-mode {
+      background: #1a1a1a;
+      color: #e0e0e0;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a1a';
+    }
+  </script>
+
+  <div class="max-w-3xl mx-auto">
+    <header class="px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-baseline">
+      <a href="home.html" class="text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+      <nav class="flex gap-6 text-sm tracking-wide">
+        <a href="bookshelf4.html" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">BOOKSHELF</a>
+        <a href="writing.html" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">WRITING</a>
+      </nav>
+    </header>
+
+    <main class="px-8 py-12 font-serif">
+      <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">Most things I do are for the love of the game. I discover something I enjoy and decide to obsessively rabbithole for extended periods of time.</p>
+      <ul class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mt-4 list-disc list-inside space-y-1">
+        <li>Building a search engine for AI @ <a href="https://exa.ai" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Exa</a></li>
+        <li>Previously working on the <a href="https://www.lumakras.com" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Lumakras</a>, <a href="https://www.blincyto.com" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Blincyto</a> + data science team at <a href="https://www.amgen.com" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Amgen</a></li>
+      </ul>
+
+      <p class="text-gray-500 dark:text-gray-400 mt-6">currently reading: <span class="italic text-gray-700 dark:text-gray-300">A Mind at Play: How Claude Shannon Invented the Information Age</span></p>
+
+      <div class="mt-10">
+        <h3 class="text-xl font-normal text-gray-900 dark:text-gray-100 mb-4">Recent Writing</h3>
+        <div class="space-y-3">
+          <a href="https://exa.ai/blog/rl-search-outcomes" target="_blank" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">How Search Quality Shapes RL Outcomes</a>
+          <a href="https://exa.ai/blog/webcode" target="_blank" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">WebCode: Search Evals for Coding Agents</a>
+          <a href="https://exa.ai/blog/exa-d" target="_blank" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">exa-d: Data Framework to Process the Web</a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>

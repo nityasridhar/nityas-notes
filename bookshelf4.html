@@ -5,11 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nitya's Notes</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
   <style>
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Medium.ttf'); font-weight: 500; }
+
+    body {
+      font-family: 'Spectral', serif;
+    }
+
     /* 3D Book Styles */
     .book-container {
       perspective: 1000px;
-      width: 120px;
+      width: 80px;
     }
 
     .book {
@@ -25,10 +35,10 @@
 
     .book-cover {
       position: relative;
-      height: 180px;
+      height: 120px;
       border-radius: 0 3px 3px 0;
       overflow: hidden;
-      transform: translateZ(12px);
+      transform: translateZ(8px);
       box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
     }
 
@@ -41,12 +51,12 @@
 
     .book-spine {
       position: absolute;
-      width: 24px;
+      width: 16px;
       height: 100%;
       left: 0;
       top: 0;
       background: #1a1a1a;
-      transform: rotateY(-90deg) translateX(-12px);
+      transform: rotateY(-90deg) translateX(-8px);
       transform-origin: left center;
       border-radius: 3px 0 0 3px;
     }
@@ -58,18 +68,18 @@
       left: 0;
       top: 0;
       background: #222;
-      transform: translateZ(-12px);
+      transform: translateZ(-8px);
       border-radius: 3px 0 0 3px;
     }
 
     .book-pages {
       position: absolute;
-      width: 20px;
+      width: 14px;
       height: 94%;
       right: 0;
       top: 3%;
       background: #f0f0f0;
-      transform: rotateY(90deg) translateX(10px);
+      transform: rotateY(90deg) translateX(7px);
       transform-origin: right center;
     }
 
@@ -93,14 +103,18 @@
       position: absolute;
       left: -20px;
       color: #f97316;
-      font-weight: bold;
+      font-weight: 400;
     }
   </style>
 </head>
 <body class="min-h-screen bg-gray-50">
 
-  <header class="px-8 py-6 border-b border-gray-100">
-    <h1 class="text-4xl font-medium tracking-tight text-gray-900">Nitya's Notes</h1>
+  <header class="px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-baseline">
+    <a href="home.html" class="text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+    <nav class="flex gap-6 text-sm tracking-wide">
+      <a href="bookshelf4.html" class="text-gray-900 dark:text-gray-100 font-normal">BOOKSHELF</a>
+      <a href="writing.html" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">WRITING</a>
+    </nav>
   </header>
 
   <div class="flex">
@@ -131,92 +145,67 @@
       </div>
       
       <div id="modal-notes" class="text-gray-700 text-sm leading-relaxed mt-4 mb-6"></div>
-      
-      <a id="modal-category-link" href="#" onclick="goToCategory(event)" class="text-orange-500 hover:text-orange-600 text-sm">
-        → Go to all books
-      </a>
+
+      <a id="modal-read-link" href="#" target="_blank" class="text-orange-500 hover:text-orange-600 text-sm block mb-3" style="display:none;">→ Read it</a>
+
     </div>
   </div>
 
-  <script>
-    // Sample data
-    const items = [
-      { 
-        id: 1, 
-        title: "Accelerando", 
-        author: "Charles Stross", 
-        year: 2005,
-        category: ["Books"], 
-        cover: "https://m.media-amazon.com/images/I/41l2E2p2YaL._SY445_SX342_.jpg",
-        dateRead: "10-15-2025",
-        notes: "A mind-bending exploration of post-human futures. The pace is relentless and the ideas about technology acceleration are fascinating.\n\nDense but rewarding if you stick with it."
-      },
-      { 
-        id: 2, 
-        title: "Bubbles and the End of Stagnation", 
-        author: "Byrne Hobart and Tobias Huber", 
-        year: 2023,
-        category: ["Books", "2026"], 
-        cover: "https://m.media-amazon.com/images/I/71kKECrPd4L._SY466_.jpg",
-        dateRead: "11-02-2025",
-        notes: "Interesting thesis on how speculative bubbles can drive real innovation.\n\nThe core argument: bubbles fund infrastructure that outlasts the bubble itself."
-      },
-      { 
-        id: 3, 
-        title: "A Psalm for the Wild-Built", 
-        author: "Becky Chambers", 
-        year: 2021,
-        category: ["Books"], 
-        cover: "https://m.media-amazon.com/images/I/91PosgFcBAL._SY466_.jpg",
-        dateRead: "11-20-2025",
-        notes: "Gentle, hopeful solarpunk. A tea monk meets a robot in a rewilded world.\n\nMade me think about purpose, service, and what we actually need to be content."
-      },
-      { 
-        id: 4, 
-        title: "Obviously Awesome", 
-        author: "April Dunford", 
-        year: 2019,
-        category: ["Books", "2026"], 
-        cover: "https://m.media-amazon.com/images/I/71hPfHfcvzL._SY466_.jpg",
-        dateRead: "12-01-2025",
-        notes: "Best book on product positioning I've read. Practical frameworks, not fluff.\n\nThe 'competitive alternatives' reframe was eye-opening."
-      },
-      { 
-        id: 5, 
-        title: "The Tinkerings of Robert Noyce", 
-        author: "Tom Wolfe", 
-        year: 1983,
-        category: ["Papers"], 
-        cover: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=300&h=400&fit=crop",
-        dateRead: "09-10-2025",
-        notes: "Classic Wolfe profile of the Intel co-founder. Great narrative journalism."
-      },
-      { 
-        id: 6, 
-        title: "Welcome to the Era of Experience", 
-        author: "David Silver, Richard Sutton", 
-        year: 2025,
-        category: ["Papers", "2026"], 
-        cover: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=300&h=400&fit=crop",
-        dateRead: "12-15-2025",
-        notes: "A vision for AI systems that learn from experience rather than human data.\n\nKey insight: the next frontier is agents that improve through interaction."
-      },
-    ];
+  <!-- Fullscreen painting modal -->
+  <div id="painting-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center z-50"></div>
 
-    const categories = ["Bookshelf", "Books", "Papers", "Movies", "2026"];
+  <script src="Books.js"></script>
+  <script>
+    let darkMode = localStorage.getItem('darkMode') === 'true';
+
+    function toggleDarkMode() {
+      darkMode = !darkMode;
+      localStorage.setItem('darkMode', darkMode);
+      applyDarkMode(darkMode);
+    }
+
+    function applyDarkMode(on) {
+      document.body.classList.toggle('dark-mode', on);
+      document.documentElement.classList.toggle('dark', on);
+      if (on) {
+        document.body.style.background = '#1a1a1a';
+        document.body.style.color = '#e0e0e0';
+      } else {
+        document.body.style.background = '';
+        document.body.style.color = '';
+      }
+      renderCategories();
+      renderMainArea();
+    }
+
+    const categories = ["Bookshelf", "Books", "Papers", "Blogs", "Movies"];
     let selectedCategory = categories[0];
     let selectedItemId = null;
     let searchQuery = "";
 
+    // Render any stored date as "Month YYYY" (e.g. "May 2026").
+    // Accepts "May 2026", "2026-05[-DD]", or "MM/DD/YYYY"; passes through anything else.
+    const MONTHS = ["January","February","March","April","May","June",
+                    "July","August","September","October","November","December"];
+    function formatDate(d) {
+      if (!d) return '';
+      let m = d.match(/^(\d{4})-(\d{1,2})(?:-\d{1,2})?$/);
+      if (m) return `${MONTHS[+m[2] - 1]} ${m[1]}`;
+      m = d.match(/^(\d{1,2})\/\d{1,2}\/(\d{4})$/);
+      if (m) return `${MONTHS[+m[1] - 1]} ${m[2]}`;
+      return d;
+    }
+
     function renderCategories() {
       const nav = document.getElementById('categories');
+      const dm = darkMode;
       nav.innerHTML = categories.map(category => `
-        <button 
+        <button
           onclick="selectCategory('${category}')"
           class="block text-xl transition-colors ${
-            selectedCategory === category 
-              ? 'text-gray-900 font-semibold' 
-              : 'text-gray-400 hover:text-gray-600'
+            selectedCategory === category
+              ? (dm ? 'text-gray-100 font-normal' : 'text-gray-900 font-normal')
+              : (dm ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600')
           }"
         >
           ${category}
@@ -249,19 +238,53 @@
       
       container.innerHTML = `
         <main class="flex-1 p-8">
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            ${allItems.map(item => `
-              <div class="book-container cursor-pointer" onclick="openModal(${item.id})">
-                <div class="book">
-                  <div class="book-back"></div>
-                  <div class="book-spine"></div>
-                  <div class="book-pages"></div>
-                  <div class="book-cover">
-                    <img src="${item.cover}" alt="${item.title}" />
+          <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-11 gap-4">
+            ${allItems.map(item => {
+              if (item.type === "lamp") {
+                return `
+                  <div class="lamp-container cursor-pointer" onclick="toggleDarkMode()" title="Toggle dark mode">
+                    <img src="${item.cover}" alt="${item.title}" style="width:80px; height:120px; object-fit:contain; filter: drop-shadow(0 4px 12px rgba(255,200,100,${darkMode ? '0.6' : '0.2'})); transition: filter 0.3s;" />
+                  </div>
+                `;
+              }
+              if (item.type === "painting") {
+                return `
+                  <div class="cursor-pointer" onclick="openModal(${item.id})" style="width:80px;">
+                    <img src="${item.cover}" alt="${item.title}" style="width:80px; height:120px; object-fit:cover; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15);" />
+                  </div>
+                `;
+              }
+              if (item.type === "blog") {
+                return `
+                  <div class="cursor-pointer" onclick="window.open('${item.url}', '_blank')" style="width:80px; height:120px; background:#fff; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15); padding:8px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;">
+                    <div>
+                      <div style="width:20px; height:2px; background:#e85d04; margin-bottom:6px;"></div>
+                      <p style="font-size:8px; font-weight:600; color:#1a1a1a; line-height:1.3; margin:0;">${item.title}</p>
+                    </div>
+                    <p style="font-size:6px; color:#666; margin:0;">${item.author}</p>
+                  </div>
+                `;
+              }
+              if (item.category.includes("Books")) {
+                return `
+                <div class="book-container cursor-pointer" onclick="${item.url ? `window.open('${item.url}', '_blank')` : `openModal(${item.id})`}">
+                  <div class="book">
+                    <div class="book-back"></div>
+                    <div class="book-spine" style="background:${item.spineColor || '#1a1a1a'}"></div>
+                    <div class="book-pages"></div>
+                    <div class="book-cover">
+                      <img src="${item.cover}" alt="${item.title}" />
+                    </div>
                   </div>
                 </div>
+                `;
+              }
+              return `
+              <div class="cursor-pointer" onclick="${item.url ? `window.open('${item.url}', '_blank')` : `openModal(${item.id})`}" style="width:80px;">
+                <img src="${item.cover}" alt="${item.title}" style="width:80px; height:120px; object-fit:cover; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15);" />
               </div>
-            `).join('')}
+            `;
+            }).join('')}
           </div>
         </main>
       `;
@@ -281,37 +304,44 @@
         );
       }
       
+      const dm = darkMode;
       container.innerHTML = `
         <!-- List -->
-        <main class="flex-1 p-8 border-r border-gray-200 max-w-xl">
+        <main class="flex-1 p-8 border-r ${dm ? 'border-gray-600' : 'border-gray-200'} max-w-xl">
           <!-- Search bar -->
           <div class="mb-6">
-            <input 
-              type="text" 
-              placeholder="Search..." 
+            <input
+              type="text"
+              placeholder="Search..."
               value="${searchQuery}"
               onkeyup="handleSearch(event)"
-              class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400"
+              class="w-full px-4 py-2 border ${dm ? 'border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400' : 'border-gray-200 bg-white text-gray-900'} rounded-lg focus:outline-none"
             />
           </div>
-          
+
           <!-- List of items -->
           <div class="space-y-0">
             ${filtered.map(item => `
-              <div 
-                class="list-item relative ${selectedItemId === item.id ? 'selected' : ''}" 
+              <div
+                class="list-item relative ${selectedItemId === item.id ? 'selected' : ''}"
                 onclick="selectItem(${item.id})"
+                style="${dm ? 'border-color: #444;' : ''}"
               >
-                <h3 class="font-semibold text-gray-900">${item.title}</h3>
-                <p class="text-gray-500 text-sm">${item.author}, ${item.year}</p>
+                <div class="flex justify-between items-baseline gap-4">
+                  <div class="min-w-0">
+                    <h3 class="font-normal ${dm ? 'text-gray-100' : 'text-gray-900'}">${item.title}</h3>
+                    <p class="${dm ? 'text-gray-400' : 'text-gray-500'} text-sm">${item.author}</p>
+                  </div>
+                  ${item.dateRead ? `<span class="shrink-0 text-sm ${dm ? 'text-gray-500' : 'text-gray-400'}">${formatDate(item.dateRead)}</span>` : ''}
+                </div>
               </div>
             `).join('')}
             ${filtered.length === 0 ? '<p class="text-gray-400 italic">No items found</p>' : ''}
           </div>
         </main>
-        
+
         <!-- Side Panel -->
-        <aside class="w-96 p-8 bg-white shrink-0 min-h-screen">
+        <aside class="w-96 p-8 ${dm ? 'bg-gray-800' : 'bg-white'} shrink-0 min-h-screen">
           <div id="panel-content">
             ${selectedItemId ? renderPanelContent() : '<p class="text-gray-400 italic">Click an item to see notes</p>'}
           </div>
@@ -322,17 +352,18 @@
     function renderPanelContent() {
       const item = items.find(i => i.id === selectedItemId);
       if (!item) return '';
-      
-      const notesHtml = item.notes 
+      const dm = darkMode;
+
+      const notesHtml = item.notes
         ? item.notes.split('\n\n').map(p => `<p class="mb-4">${p}</p>`).join('')
-        : '<p class="italic text-gray-400">No notes yet.</p>';
-      
+        : '';
+
       return `
-        <button onclick="closePanel()" class="text-gray-400 hover:text-gray-600 text-xl float-right">✕</button>
-        <h2 class="text-2xl font-serif font-bold mb-1 pr-8">${item.title}</h2>
-        <p class="text-gray-500 mb-6">${item.author}</p>
-        <p class="text-sm text-gray-400 mb-4">${item.dateRead || ''}</p>
-        <div class="text-gray-700 leading-relaxed">${notesHtml}</div>
+        <button onclick="closePanel()" class="${dm ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'} text-xl float-right">✕</button>
+        <h2 class="text-2xl font-serif font-bold mb-1 pr-8 ${dm ? 'text-gray-100' : ''}">${item.title}</h2>
+        <p class="${dm ? 'text-gray-400' : 'text-gray-500'} mb-6">${item.author}</p>
+        <p class="text-sm text-gray-400 mb-4">${formatDate(item.dateRead)}</p>
+        <div class="${dm ? 'text-gray-300' : 'text-gray-700'} leading-relaxed">${notesHtml}</div>
       `;
     }
 
@@ -355,24 +386,64 @@
     function openModal(id) {
       const item = items.find(item => item.id === id);
       if (!item) return;
-      
+
+      if (item.type === "painting") {
+        openPaintingModal(item);
+        return;
+      }
+      if (item.type === "blog") {
+        window.open(item.url, '_blank');
+        return;
+      }
+
       document.getElementById('modal-cover').src = item.cover;
       document.getElementById('modal-title').textContent = item.title;
       document.getElementById('modal-author').textContent = item.author;
-      document.getElementById('modal-date').textContent = item.dateRead || '';
-      
-      const notesHtml = item.notes 
+      document.getElementById('modal-date').textContent = formatDate(item.dateRead);
+
+      const notesHtml = item.notes
         ? item.notes.split('\n\n').map(p => `<p class="mb-3">${p}</p>`).join('')
-        : '<p class="italic text-gray-400">No notes yet.</p>';
+        : '';
       document.getElementById('modal-notes').innerHTML = notesHtml;
-      
+
+      // Add link to paper/source if available
+      const readLink = document.getElementById('modal-read-link');
+      if (item.url) {
+        readLink.href = item.url;
+        readLink.style.display = 'inline';
+      } else {
+        readLink.style.display = 'none';
+      }
+
       // Set the category link based on item's first category (other than Bookshelf)
       const itemCategory = item.category.find(c => c !== "Bookshelf") || "Books";
       document.getElementById('modal-category-link').textContent = `→ Go to all ${itemCategory.toLowerCase()}`;
       document.getElementById('modal-category-link').dataset.category = itemCategory;
-      
+
       document.getElementById('modal').classList.remove('hidden');
       document.getElementById('modal').classList.add('flex');
+    }
+
+    function openPaintingModal(item) {
+      const paintingModal = document.getElementById('painting-modal');
+      paintingModal.innerHTML = `
+        <div class="relative w-full h-full flex items-center justify-center" onclick="if(event.target===this)closePaintingModal()">
+          <button onclick="closePaintingModal()" class="absolute top-6 right-6 text-white text-3xl hover:text-gray-300 z-10">&#10005;</button>
+          <div class="text-center">
+            <img src="${item.cover}" alt="${item.title}" style="max-width:90vw; max-height:80vh; object-fit:contain; border-radius:4px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);" />
+            <h2 class="text-white text-2xl font-normal mt-4">${item.title}</h2>
+            <p class="text-gray-300 text-lg">${item.author}</p>
+          </div>
+        </div>
+      `;
+      paintingModal.classList.remove('hidden');
+      paintingModal.classList.add('flex');
+    }
+
+    function closePaintingModal() {
+      const paintingModal = document.getElementById('painting-modal');
+      paintingModal.classList.add('hidden');
+      paintingModal.classList.remove('flex');
     }
 
     function closeModal() {
@@ -393,6 +464,7 @@
     });
 
     // Initialize
+    if (darkMode) applyDarkMode(true);
     renderCategories();
     renderMainArea();
   </script>
