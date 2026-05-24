@@ -117,14 +117,14 @@
     </nav>
   </header>
 
-  <div class="flex">
+  <div class="flex flex-col md:flex-row">
     <!-- Left: Categories -->
-    <aside class="w-44 p-8 shrink-0">
-      <nav id="categories" class="space-y-2"></nav>
+    <aside class="w-full md:w-44 px-8 py-4 md:p-8 shrink-0">
+      <nav id="categories" class="flex flex-row flex-wrap gap-x-4 gap-y-1 md:flex-col md:gap-x-0 md:space-y-2"></nav>
     </aside>
 
     <!-- Main Content Area -->
-    <div id="main-area" class="flex-1 flex">
+    <div id="main-area" class="flex-1 flex flex-col md:flex-row min-w-0">
       <!-- Content will be rendered here based on selected category -->
     </div>
   </div>
@@ -202,7 +202,7 @@
       nav.innerHTML = categories.map(category => `
         <button
           onclick="selectCategory('${category}')"
-          class="block text-xl transition-colors ${
+          class="block text-lg md:text-xl whitespace-nowrap transition-colors ${
             selectedCategory === category
               ? (dm ? 'text-gray-100 font-normal' : 'text-gray-900 font-normal')
               : (dm ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600')
@@ -237,8 +237,8 @@
       const allItems = items;
       
       container.innerHTML = `
-        <main class="flex-1 p-8">
-          <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-11 gap-4">
+        <main class="flex-1 min-w-0 p-8">
+          <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-11 gap-4">
             ${allItems.map(item => {
               if (item.type === "lamp") {
                 return `
@@ -307,7 +307,7 @@
       const dm = darkMode;
       container.innerHTML = `
         <!-- List -->
-        <main class="flex-1 p-8 border-r ${dm ? 'border-gray-600' : 'border-gray-200'} max-w-xl">
+        <main class="flex-1 min-w-0 w-full p-8 border-b md:border-b-0 md:border-r ${dm ? 'border-gray-600' : 'border-gray-200'} md:max-w-xl">
           <!-- Search bar -->
           <div class="mb-6">
             <input
@@ -341,7 +341,7 @@
         </main>
 
         <!-- Side Panel -->
-        <aside class="w-96 p-8 ${dm ? 'bg-gray-800' : 'bg-white'} shrink-0 min-h-screen">
+        <aside class="w-full md:w-96 p-8 ${dm ? 'bg-gray-800' : 'bg-white'} shrink-0 md:min-h-screen">
           <div id="panel-content">
             ${selectedItemId ? renderPanelContent() : '<p class="text-gray-400 italic">Click an item to see notes</p>'}
           </div>
