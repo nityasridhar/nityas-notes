@@ -328,7 +328,7 @@
       const dm = darkMode;
       container.innerHTML = `
         <!-- List -->
-        <main class="flex-1 min-w-0 w-full p-8 border-b md:border-b-0 md:border-r ${dm ? 'border-gray-600' : 'border-gray-200'} md:max-w-xl">
+        <main class="flex-1 min-w-0 w-full p-8 border-b md:border-b-0 md:border-r ${dm ? 'border-gray-600' : 'border-gray-200'} md:max-w-xl ${selectedItemId ? 'hidden md:block' : ''}">
           <!-- Search bar -->
           <div class="mb-6">
             <input
@@ -362,7 +362,7 @@
         </main>
 
         <!-- Side Panel -->
-        <aside class="w-full md:w-[34rem] p-8 ${dm ? 'bg-gray-800' : 'bg-white'} shrink-0 md:min-h-screen">
+        <aside class="w-full md:w-[34rem] p-8 ${dm ? 'bg-gray-800' : 'bg-white'} shrink-0 md:min-h-screen ${selectedItemId ? '' : 'hidden md:block'}">
           <div id="panel-content">
             ${selectedItemId ? renderPanelContent() : '<p class="text-gray-400 italic">Click an item to see notes</p>'}
           </div>
@@ -397,6 +397,8 @@
     function selectItem(id) {
       selectedItemId = id;
       renderMainArea();
+      // On mobile the notes open full-screen — jump to the top so they're visible
+      if (window.innerWidth < 768) window.scrollTo(0, 0);
     }
 
     // From a cover in the Bookshelf grid: jump to that item's section and open its notes
@@ -408,8 +410,12 @@
       searchQuery = "";
       renderCategories();
       renderMainArea();
-      const sel = document.querySelector('.list-item.selected');
-      if (sel) sel.scrollIntoView({ block: 'center' });
+      if (window.innerWidth < 768) {
+        window.scrollTo(0, 0);
+      } else {
+        const sel = document.querySelector('.list-item.selected');
+        if (sel) sel.scrollIntoView({ block: 'center' });
+      }
     }
 
     function closePanel() {
