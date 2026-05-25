@@ -47,6 +47,23 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      position: relative;
+      z-index: 1;
+    }
+
+    .book-fallback {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      text-align: center;
+      font-size: 9px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: #fff;
     }
 
     .book-spine {
@@ -272,8 +289,9 @@
                     <div class="book-back"></div>
                     <div class="book-spine" style="background:${item.spineColor || '#1a1a1a'}"></div>
                     <div class="book-pages"></div>
-                    <div class="book-cover">
-                      <img src="${item.cover}" alt="${item.title}" />
+                    <div class="book-cover" style="background:${item.spineColor || '#1a1a1a'}">
+                      <span class="book-fallback">${item.title}</span>
+                      <img src="${item.cover}" alt="${item.title}" onerror="this.remove()" />
                     </div>
                   </div>
                 </div>
@@ -304,6 +322,9 @@
         );
       }
       
+      // Items with notes/descriptions first; ones without fall to the bottom
+      filtered.sort((a, b) => (b.notes ? 1 : 0) - (a.notes ? 1 : 0));
+
       const dm = darkMode;
       container.innerHTML = `
         <!-- List -->
@@ -341,7 +362,7 @@
         </main>
 
         <!-- Side Panel -->
-        <aside class="w-full md:w-96 p-8 ${dm ? 'bg-gray-800' : 'bg-white'} shrink-0 md:min-h-screen">
+        <aside class="w-full md:w-[34rem] p-8 ${dm ? 'bg-gray-800' : 'bg-white'} shrink-0 md:min-h-screen">
           <div id="panel-content">
             ${selectedItemId ? renderPanelContent() : '<p class="text-gray-400 italic">Click an item to see notes</p>'}
           </div>
@@ -355,7 +376,7 @@
       const dm = darkMode;
 
       const notesHtml = item.notes
-        ? item.notes.split('\n\n').map(p => `<p class="mb-4">${p}</p>`).join('')
+        ? item.notes.split('\n\n').map(p => p.trim().startsWith('<') ? p : `<p class="mb-4">${p}</p>`).join('')
         : '<p class="text-gray-400 italic">No notes yet.</p>';
 
       return `
