@@ -350,6 +350,12 @@
       document.body.classList.add('fade-out');
       setTimeout(() => window.location.href = '/home', 600);
     });
+
+    // When returning via the browser Back button (incl. bfcache restore),
+    // clear the fade-out so the globe shows again instead of a blank screen
+    window.addEventListener('pageshow', () => {
+      document.body.classList.remove('fade-out');
+    });
   </script>
 
   <noscript>
