@@ -161,7 +161,7 @@
 
   <div id="title-overlay">
     <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:500px; height:120px; background:radial-gradient(ellipse, rgba(240,237,230,1) 30%, rgba(240,237,230,0) 70%); z-index:-1;"></div>
-    <a href="home.html" id="enter-link">nitya's notes</a>
+    <a href="/home" id="enter-link">nitya's notes</a>
   </div>
 
   <div id="scene">
@@ -347,13 +347,13 @@
     document.getElementById('enter-link').addEventListener('click', (e) => {
       e.preventDefault();
       document.body.classList.add('fade-out');
-      setTimeout(() => window.location.href = 'home.html', 600);
+      setTimeout(() => window.location.href = '/home', 600);
     });
   </script>
 
   <noscript>
     <p style="text-align:center; margin-top:40vh; font-family:Georgia,serif;">
-      <a href="home.html">Enter Nitya's Notes</a>
+      <a href="/home">Enter Nitya's Notes</a>
     </p>
   </noscript>
 

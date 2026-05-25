@@ -7,10 +7,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config = { darkMode: 'class' }</script>
   <style>
-    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
-    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Light.ttf'); font-weight: 300; }
-    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Regular.ttf'); font-weight: 400; }
-    @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Medium.ttf'); font-weight: 500; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Medium.ttf'); font-weight: 500; }
 
     body {
       font-family: 'Spectral', serif;
@@ -110,10 +110,10 @@
 <body class="min-h-screen bg-gray-50">
 
   <header class="px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-baseline">
-    <a href="home.html" class="text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+    <a href="/home" class="text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
     <nav class="flex gap-6 text-sm tracking-wide">
-      <a href="bookshelf4.html" class="text-gray-900 dark:text-gray-100 font-normal">BOOKSHELF</a>
-      <a href="writing.html" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">WRITING</a>
+      <a href="/bookshelf" class="text-gray-900 dark:text-gray-100 font-normal">BOOKSHELF</a>
+      <a href="/writing" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">WRITING</a>
     </nav>
   </header>
 
@@ -154,7 +154,7 @@
   <!-- Fullscreen painting modal -->
   <div id="painting-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center z-50"></div>
 
-  <script src="Books.js"></script>
+  <script src="/Books.js"></script>
   <script>
     let darkMode = localStorage.getItem('darkMode') === 'true';
 
@@ -256,7 +256,7 @@
               }
               if (item.type === "blog") {
                 return `
-                  <div class="cursor-pointer" onclick="window.open('${item.url}', '_blank')" style="width:80px; height:120px; background:#fff; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15); padding:8px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;">
+                  <div class="cursor-pointer" onclick="goToItemNotes(${item.id})" style="width:80px; height:120px; background:#fff; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15); padding:8px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;">
                     <div>
                       <div style="width:20px; height:2px; background:#e85d04; margin-bottom:6px;"></div>
                       <p style="font-size:8px; font-weight:600; color:#1a1a1a; line-height:1.3; margin:0;">${item.title}</p>
@@ -267,7 +267,7 @@
               }
               if (item.category.includes("Books")) {
                 return `
-                <div class="book-container cursor-pointer" onclick="${item.url ? `window.open('${item.url}', '_blank')` : `openModal(${item.id})`}">
+                <div class="book-container cursor-pointer" onclick="goToItemNotes(${item.id})">
                   <div class="book">
                     <div class="book-back"></div>
                     <div class="book-spine" style="background:${item.spineColor || '#1a1a1a'}"></div>
@@ -280,7 +280,7 @@
                 `;
               }
               return `
-              <div class="cursor-pointer" onclick="${item.url ? `window.open('${item.url}', '_blank')` : `openModal(${item.id})`}" style="width:80px;">
+              <div class="cursor-pointer" onclick="goToItemNotes(${item.id})" style="width:80px;">
                 <img src="${item.cover}" alt="${item.title}" style="width:80px; height:120px; object-fit:cover; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15);" />
               </div>
             `;
@@ -356,7 +356,7 @@
 
       const notesHtml = item.notes
         ? item.notes.split('\n\n').map(p => `<p class="mb-4">${p}</p>`).join('')
-        : '';
+        : '<p class="text-gray-400 italic">No notes yet.</p>';
 
       return `
         <button onclick="closePanel()" class="${dm ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'} text-xl float-right">✕</button>
@@ -364,6 +364,7 @@
         <p class="${dm ? 'text-gray-400' : 'text-gray-500'} mb-6">${item.author}</p>
         <p class="text-sm text-gray-400 mb-4">${formatDate(item.dateRead)}</p>
         <div class="${dm ? 'text-gray-300' : 'text-gray-700'} leading-relaxed">${notesHtml}</div>
+        ${item.url ? `<a href="${item.url}" target="_blank" class="text-orange-500 hover:text-orange-600 text-sm block mt-6">→ Read it</a>` : ''}
       `;
     }
 
@@ -375,6 +376,19 @@
     function selectItem(id) {
       selectedItemId = id;
       renderMainArea();
+    }
+
+    // From a cover in the Bookshelf grid: jump to that item's section and open its notes
+    function goToItemNotes(id) {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      selectedCategory = item.category.find(c => c !== "Bookshelf") || "Books";
+      selectedItemId = id;
+      searchQuery = "";
+      renderCategories();
+      renderMainArea();
+      const sel = document.querySelector('.list-item.selected');
+      if (sel) sel.scrollIntoView({ block: 'center' });
     }
 
     function closePanel() {
