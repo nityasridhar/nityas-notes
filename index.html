@@ -206,8 +206,9 @@
       'images/weight_of_glory.jpg'
     ];
 
-    const RADIUS = 300;
-    const CARD_SIZE = 45;
+    const isMobile = window.innerWidth < 600;
+    const RADIUS = isMobile ? 160 : 300;
+    const CARD_SIZE = isMobile ? 38 : 45;
     const N = IMAGE_PATHS.length;
 
     const globe = document.getElementById('globe');
