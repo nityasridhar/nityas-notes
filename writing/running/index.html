@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How lazy do you need to be to keep going? — Nitya's Notes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <style>
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Medium.ttf'); font-weight: 500; }
+    body { font-family: 'Spectral', serif; }
+    body.dark-mode { background: #1a1a1a; color: #e0e0e0; }
+  </style>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-transparent">
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a1a';
+    }
+  </script>
+
+  <header class="px-5 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-baseline">
+    <a href="/home" class="text-2xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+    <nav class="flex gap-4 sm:gap-6 text-sm tracking-wide">
+      <a href="/bookshelf" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">BOOKSHELF</a>
+      <a href="/writing" class="text-gray-900 dark:text-gray-100 font-normal">WRITING</a>
+    </nav>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-5 sm:px-8 py-12">
+    <p class="text-sm text-gray-400 mb-3">May 2026</p>
+    <h1 class="text-3xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 mb-2 leading-snug">How lazy do you need to be to keep going?</h1>
+    <p class="text-lg text-gray-500 dark:text-gray-400 italic mb-10">What I learned from running + refusing to take the Faustian bargain</p>
+
+    <article class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg space-y-5">
+      <p>I've spent the last 5 years trying to enjoy running but failed every time, until recently.</p>
+
+      <p>The world of running is full of preachers of motivation, people I tried learning from like David Goggins who promise that suffering at all times is the correct path to a long run. I don't have an answer for the voice in my head asking me why I would possibly want to listen to someone who seems to hate his life. I tried increasing mileage to match the best runners I knew. Very quickly, I'd get a shin splint or lower back pain and find myself retired until I tried again a few months later.</p>
+
+      <p>I've asked myself many times, why return to running at all? My answers mostly point to because I want to. Being outdoors running near the water with people in San Francisco, feels like the point of life some mornings.</p>
+
+      <p>I recently picked up a book left at my house, <em>Daniels' Running Formula</em> by Jack Daniels. Daniels is a running coach and former Olympian who coached some of the top runners in the US. I was expecting another round of Goggins.</p>
+
+      <p>What I found instead in every chapter was iterations of the same thought, <strong>"You must do whatever it takes to keep going."</strong></p>
+
+      <p>It sounds like a very simple idea but I live in San Francisco in 2026. Everyone seems to be optimizing for short term outcomes, taking the Faustian bargain, "It's now or never for you to escape the permanent underclass". It unironically does feel like unprecedented times, and prioritizing longevity is not top of mind for most people around me. No one knows what the world will look like 3 months from now, and super human intelligence towers in the shadows.</p>
+
+      <p>This may be part of why I <a href="/writing/decades" class="underline hover:text-gray-900 dark:hover:text-gray-100">collect examples of people</a> that worked on iterations of the same idea over the course of decades, before landing on their magnum opus.</p>
+
+      <ul class="list-disc pl-6 space-y-4">
+        <li>Stephen Robertson is a computer scientist known for his work on probabilistic information retrieval, most famously leading to BM25. In 1976, he released a paper on how discriminating words determine document relevancy to query more than generic words. 23 years later, he added in term frequency, document normalization and shared with the world BM25, a search algorithm still used today that scores how well a document matches a query and is used to rank documents by relevance.</li>
+        <li>Few paintings have lasted the test of time as the great wave of Kanagawa. It took Kanagawa 40 years before he drew the wave he is most known for, saying at 73 he finally understands: "the underlying structure of birds and animals, insects and fish, and the way trees and plants grow. Thus if I keep up my efforts, I will have even a better understanding when I was 80 and by 90 will have penetrated to the heart of things. At 100, I may reach a level of divine understanding, and if I live decades beyond that, everything I paint — dot and line — will be alive."</li>
+      </ul>
+
+      <p>When I run now, I find myself thinking</p>
+
+      <ul class="list-disc pl-6 space-y-2">
+        <li>walk for 10 minutes in the middle so you finish the 6 mile run</li>
+        <li>plan runs around your friend schedules so you don't skip the workout tomorrow</li>
+        <li>increase mileage but not more than 10% no matter what other people around you are doing</li>
+      </ul>
+
+      <p>There is a <a href="https://x.com/visakanv/status/1294903763761676289?s=20" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">visakan tweet</a>: "the big lesson of survivor bias is that you should optimize for being a survivor". You can't win if you lose he says in the replies. I can't enjoy running if I stop running so I should optimize for continuing to run. I can't claim to be particularly fast quite yet but I'm gradually increasing my mileage every week. I feel healthier, baby muscles growing, sleeping a bit better.</p>
+
+      <p>Time on feet, actually understanding things, most meaningful relationships. Running has been a reminder for me that certain things do still compound with time.</p>
+    </article>
+  </main>
+
+</body>
+</html>

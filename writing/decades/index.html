@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>People that worked on the same idea for decades — Nitya's Notes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <style>
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Medium.ttf'); font-weight: 500; }
+    body { font-family: 'Spectral', serif; }
+    body.dark-mode { background: #1a1a1a; color: #e0e0e0; }
+  </style>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-transparent">
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a1a';
+    }
+  </script>
+
+  <header class="px-5 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-baseline">
+    <a href="/home" class="text-2xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+    <nav class="flex gap-4 sm:gap-6 text-sm tracking-wide">
+      <a href="/bookshelf" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">BOOKSHELF</a>
+      <a href="/writing" class="text-gray-900 dark:text-gray-100 font-normal">WRITING</a>
+    </nav>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-5 sm:px-8 py-12">
+    <p class="text-sm text-gray-400 mb-3">May 2026</p>
+    <h1 class="text-3xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 mb-2 leading-snug">People that worked on the same idea for decades</h1>
+    <p class="text-lg text-gray-500 dark:text-gray-400 italic mb-10">I collect examples of people that worked on iterations of the same idea over the course of decades, before landing on their magnum opus.</p>
+
+    <article class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg space-y-5">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-10 mb-3">1. BM25 + Stephen Robertson</h2>
+
+      <p>Stephen Robertson is a computer scientist known for his work on probabilistic information retrieval, most famously leading to BM25. In 1976, when researchers wanted to determine the relevancy of a document to a query, prevailing intuition was that a document that has a greater count of query term is more relevant. Robertson and Sparck Jones showed that relevance of a document to a query is more dependent on if the word is discriminating and uniquely present in relevant documents.</p>
+
+      <p class="border-l-2 border-gray-300 dark:border-gray-600 pl-4">Let's say there are 10 documents of which 4 are relevant to a query about elite marathoners like Kipchoge. All 10 documents contain the word "the". Only the 4 relevant documents contain the word "Kipchoge". Per their 1976 paper, the term Kipchoge would have a heavier weight than "the" because it is discriminatorily present in the relevant documents.</p>
+
+      <p>Calculating term weight required knowing which documents were relevant in advance and did not consider term frequency or length of documents.</p>
+
+      <p>Eventually in 1994, Robertson and Walker published BM25, which is IDF * term frequency adjusted for length. It takes the concept of term weights in 1976 and incorporates the assumption that relevant documents are a fraction of a total set.</p>
+
+      <figure class="my-6">
+        <img src="/images/bm25-paper.jpg" alt="BM25 paper excerpt" class="w-full h-auto rounded shadow-sm" />
+      </figure>
+
+      <p>I skipped a few chapters, there was a 1981 paper where he incorporated term frequency for example. All in all, he spent decades thinking about search algorithms and retrieval.</p>
+
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-10 mb-3">2. The Great Wave by Kanagawa</h2>
+
+      <p>Few paintings have lasted the test of time as the great wave of Kanagawa. It took Kanagawa 40 years before he drew the wave he is most known for. At 73, he said he finally understands "the underlying structure of birds and animals, insects and fish, and the way trees and plants grow. Thus if I keep up my efforts, I will have even a better understanding when I was 80 and by 90 will have penetrated to the heart of things. At 100, I may reach a level of divine understanding, and if I live decades beyond that, everything I paint — dot and line — will be alive."</p>
+
+      <div class="grid grid-cols-2 gap-3 my-6 items-center">
+        <figure>
+          <img src="/images/great-wave-1.jpg" alt="Hokusai wave, 1792" class="w-full h-auto rounded shadow-sm" />
+          <figcaption class="text-xs text-gray-400 italic text-center mt-2">at age 33 (1792)</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/great-wave-2.jpg" alt="Hokusai wave, 1803" class="w-full h-auto rounded shadow-sm" />
+          <figcaption class="text-xs text-gray-400 italic text-center mt-2">at age 44 (1803)</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/great-wave-3.jpg" alt="Hokusai wave, 1805" class="w-full h-auto rounded shadow-sm" />
+          <figcaption class="text-xs text-gray-400 italic text-center mt-2">at age 46 (1805)</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/great-wave-4.jpg" alt="The Great Wave off Kanagawa, 1832" class="w-full h-auto rounded shadow-sm" />
+          <figcaption class="text-xs text-gray-400 italic text-center mt-2">at age 73 (1832)</figcaption>
+        </figure>
+      </div>
+    </article>
+  </main>
+
+</body>
+</html>

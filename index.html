@@ -133,7 +133,7 @@
     }
 
     @media (max-width: 600px) {
-      #title-overlay a { font-size: 40px; }
+      #title-overlay a { font-size: 34px; }
     }
 
     #title-overlay .subtitle {
@@ -179,36 +179,44 @@
       tileBg.appendChild(tile);
     }
 
+    // Ordered so the inner ring (near the title) is books and the outer ring (near the poles) is movies.
+    // Top cap goes outer→inner (i=0 is the pole); bottom cap goes inner→outer (i=half is closest to centre).
     const IMAGE_PATHS = [
-      'images/accelerando.jpg',
-      'images/attention_residuals.png',
-      'images/before_sunrise.jpg',
-      'images/bubbles_stagnation.jpg',
+      // top cap — outer (movies)
       'images/bugonia.jpg',
-      'images/era_of_experience.png',
-      'images/hidden_valley_road.jpg',
+      'images/before_sunrise.jpg',
       'images/in_the_mood_for_love.jpg',
       'images/marty_supreme.webp',
-      'images/mind_at_play.jpg',
       'images/mississippi_masala.jpg',
+      // top cap — middle (papers + painting)
+      'images/attention_residuals.png',
+      'images/era_of_experience.png',
+      'images/reader.jpg',
+      // top cap — inner (books, near the title)
+      'images/accelerando.jpg',
+      'images/bubbles_stagnation.jpg',
+      'images/hidden_valley_road.jpg',
+      'images/mind_at_play.jpg',
+      // bottom cap — inner (books, near the title)
       'images/ogilvy.jpg',
       'images/open_source.jpg',
-      'images/pachchai_nirame.jpg',
-      'images/project_hail_mary.jpg',
       'images/psalm_wild_built.jpg',
-      'images/reader.jpg',
-      'images/spirited_away.jpg',
+      'images/weight_of_glory.jpg',
+      // bottom cap — middle (papers + lamp)
       'images/strategic_wealth.jpg',
       'images/tail_at_scale.png',
-      'images/tenet.jpg',
       'images/tinkerings_noyce.jpg',
       'images/v2lamp.png',
-      'images/weight_of_glory.jpg'
+      // bottom cap — outer (movies)
+      'images/pachchai_nirame.jpg',
+      'images/project_hail_mary.jpg',
+      'images/spirited_away.jpg',
+      'images/tenet.jpg'
     ];
 
-    const isMobile = window.innerWidth < 600;
-    const RADIUS = isMobile ? 160 : 300;
-    const CARD_SIZE = isMobile ? 38 : 45;
+    // Scale the globe proportionally to the screen so it holds its composition on any device
+    const RADIUS = Math.max(150, Math.min(300, window.innerWidth * 0.45));
+    const CARD_SIZE = Math.max(32, Math.min(45, window.innerWidth * 0.1));
     const N = IMAGE_PATHS.length;
 
     const globe = document.getElementById('globe');
