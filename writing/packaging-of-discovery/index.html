@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>On the Packaging of Discovery — Nitya's Notes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <style>
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Medium.ttf'); font-weight: 500; }
+    body { font-family: 'Spectral', serif; }
+    body.dark-mode { background: #1a1a1a; color: #e0e0e0; }
+  </style>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-transparent">
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a1a';
+    }
+  </script>
+
+  <header class="px-5 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-baseline">
+    <a href="/home" class="text-2xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+    <nav class="flex gap-4 sm:gap-6 text-sm tracking-wide">
+      <a href="/bookshelf" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">BOOKSHELF</a>
+      <a href="/writing" class="text-gray-900 dark:text-gray-100 font-normal">WRITING</a>
+    </nav>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-5 sm:px-8 py-12">
+    <p class="text-sm text-gray-400 mb-3">May 2026</p>
+    <h1 class="text-3xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 mb-6 leading-snug">On the Packaging of Discovery</h1>
+
+    <div class="grid grid-cols-2 gap-3 mb-8 items-center">
+      <img src="/images/packaging-discovery-1.jpg" alt="" class="w-full h-auto rounded shadow-sm" />
+      <img src="/images/packaging-discovery-2.jpg" alt="" class="w-full h-auto rounded shadow-sm" />
+    </div>
+
+    <article class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg space-y-5">
+      <p>In 1987, clustered regularly interspaced palindromic repeats or CRISPR was accidentally discovered in the sequences of DNA in E coli bacteria.</p>
+
+      <p>It was not until 2012, that Doudna and others directed CRISPR into a precise gene editing tool.</p>
+
+      <p>In the first chapter of <em>When We Cease to Understand the World</em>, they tell the story of Carl Wilhelm Schelle, a chemist who invented cyanide by combining sulphuric acid and Prussian Blue. Again, it is not the discovery of cyanide that was notable but the optimization of it into a dangerous gas used infamously on the trenches of World War I.</p>
+
+      <p>I've been thinking a lot recently about how discovery is distinctly accidental and comes years before the engineering and packaging that eventually makes it impactful.</p>
+
+      <p>Optimization rarely appears to lead to discovery.</p>
+
+      <p>I work at a company where we are building a search engine. We're sitting on the backbones of years of crawling, indexing research efforts. But time and time again, all the actual value we generate as a company comes from variations of packaging: product interfaces, API design, "Exa for code search". The abstraction of the search engine needs to be legible for people to use, the models do not in fact sell themselves.</p>
+    </article>
+  </main>
+
+</body>
+</html>
