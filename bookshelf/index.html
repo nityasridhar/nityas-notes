@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nitya's Notes</title>
+  <link rel="alternate" type="application/rss+xml" title="Nitya's Notes" href="https://nityasnotes.com/feed.xml">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config = { darkMode: 'class' }</script>
   <style>
@@ -16,10 +17,30 @@
       font-family: 'Spectral', serif;
     }
 
+    :root {
+      --shelf-item-width: 64px;
+      --shelf-item-height: 96px;
+      --book-depth: 6px;
+      --book-spine-width: 12px;
+      --book-pages-width: 10px;
+      --book-fallback-size: 8px;
+    }
+
+    @media (min-width: 640px) {
+      :root {
+        --shelf-item-width: 80px;
+        --shelf-item-height: 120px;
+        --book-depth: 8px;
+        --book-spine-width: 16px;
+        --book-pages-width: 14px;
+        --book-fallback-size: 9px;
+      }
+    }
+
     /* 3D Book Styles */
     .book-container {
       perspective: 1000px;
-      width: 80px;
+      width: var(--shelf-item-width);
     }
 
     .book {
@@ -35,10 +56,10 @@
 
     .book-cover {
       position: relative;
-      height: 120px;
+      height: var(--shelf-item-height);
       border-radius: 0 3px 3px 0;
       overflow: hidden;
-      transform: translateZ(8px);
+      transform: translateZ(var(--book-depth));
       box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
     }
 
@@ -60,7 +81,7 @@
       justify-content: center;
       padding: 6px;
       text-align: center;
-      font-size: 9px;
+      font-size: var(--book-fallback-size);
       font-weight: 600;
       line-height: 1.2;
       color: #fff;
@@ -68,12 +89,12 @@
 
     .book-spine {
       position: absolute;
-      width: 16px;
+      width: var(--book-spine-width);
       height: 100%;
       left: 0;
       top: 0;
       background: #1a1a1a;
-      transform: rotateY(-90deg) translateX(-8px);
+      transform: rotateY(-90deg) translateX(calc(var(--book-spine-width) / -2));
       transform-origin: left center;
       border-radius: 3px 0 0 3px;
     }
@@ -85,18 +106,18 @@
       left: 0;
       top: 0;
       background: #222;
-      transform: translateZ(-8px);
+      transform: translateZ(calc(var(--book-depth) * -1));
       border-radius: 3px 0 0 3px;
     }
 
     .book-pages {
       position: absolute;
-      width: 14px;
+      width: var(--book-pages-width);
       height: 94%;
       right: 0;
       top: 3%;
       background: #f0f0f0;
-      transform: rotateY(90deg) translateX(7px);
+      transform: rotateY(90deg) translateX(calc(var(--book-pages-width) / 2));
       transform-origin: right center;
     }
 
@@ -137,7 +158,7 @@
   <div class="flex flex-col md:flex-row">
     <!-- Left: Categories -->
     <aside class="w-full md:w-44 px-8 py-4 md:p-8 shrink-0">
-      <nav id="categories" class="flex flex-row flex-wrap gap-x-4 gap-y-1 md:flex-col md:gap-x-0 md:space-y-2"></nav>
+      <nav id="categories" class="flex flex-row flex-wrap items-start justify-start gap-x-4 gap-y-1 md:flex-col md:gap-x-0 md:space-y-2"></nav>
     </aside>
 
     <!-- Main Content Area -->
@@ -171,7 +192,7 @@
   <!-- Fullscreen painting modal -->
   <div id="painting-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center z-50"></div>
 
-  <script src="/Books.js"></script>
+  <script src="/Books.js?v=bookshelf-videos"></script>
   <script>
     let darkMode = localStorage.getItem('darkMode') === 'true';
 
@@ -195,7 +216,7 @@
       renderMainArea();
     }
 
-    const categories = ["Bookshelf", "Books", "Papers", "Blogs", "Movies"];
+    const categories = ["Bookshelf", "Books", "Papers", "Blogs", "Movies", "Videos"];
     let selectedCategory = categories[0];
     let selectedItemId = null;
     let searchQuery = "";
@@ -219,7 +240,7 @@
       nav.innerHTML = categories.map(category => `
         <button
           onclick="selectCategory('${category}')"
-          class="block text-lg md:text-xl whitespace-nowrap transition-colors ${
+          class="block text-left text-lg md:text-xl whitespace-nowrap transition-colors ${
             selectedCategory === category
               ? (dm ? 'text-gray-100 font-normal' : 'text-gray-900 font-normal')
               : (dm ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600')
@@ -250,30 +271,33 @@
 
     // ==================== GRID VIEW (Bookshelf tab) ====================
     function renderGridView(container) {
-      // Show all items in grid
-      const allItems = items;
+      // Show only items that explicitly belong on the bookshelf grid.
+      const allItems = items.filter(item =>
+        item.category?.includes("Bookshelf") &&
+        !item.category?.some(category => category === "Videos" || category === "Video")
+      );
       
       container.innerHTML = `
         <main class="flex-1 min-w-0 p-8">
-          <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-11 gap-4">
+          <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-11 gap-4">
             ${allItems.map(item => {
               if (item.type === "lamp") {
                 return `
                   <div class="lamp-container cursor-pointer" onclick="toggleDarkMode()" title="Toggle dark mode">
-                    <img src="${item.cover}" alt="${item.title}" style="width:80px; height:120px; object-fit:contain; filter: drop-shadow(0 4px 12px rgba(255,200,100,${darkMode ? '0.6' : '0.2'})); transition: filter 0.3s;" />
+                    <img src="${item.cover}" alt="${item.title}" style="width:var(--shelf-item-width); height:var(--shelf-item-height); object-fit:contain; filter: drop-shadow(0 4px 12px rgba(255,200,100,${darkMode ? '0.6' : '0.2'})); transition: filter 0.3s;" />
                   </div>
                 `;
               }
               if (item.type === "painting") {
                 return `
-                  <div class="cursor-pointer" onclick="openModal(${item.id})" style="width:80px;">
-                    <img src="${item.cover}" alt="${item.title}" style="width:80px; height:120px; object-fit:cover; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15);" />
+                  <div class="cursor-pointer" onclick="openModal(${item.id})" style="width:var(--shelf-item-width);">
+                    <img src="${item.cover}" alt="${item.title}" style="width:var(--shelf-item-width); height:var(--shelf-item-height); object-fit:cover; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15);" />
                   </div>
                 `;
               }
               if (item.type === "blog") {
                 return `
-                  <div class="cursor-pointer" onclick="goToItemNotes(${item.id})" style="width:80px; height:120px; background:#fff; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15); padding:8px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;">
+                  <div class="cursor-pointer" onclick="goToItemNotes(${item.id})" style="width:var(--shelf-item-width); height:var(--shelf-item-height); background:#fff; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15); padding:8px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;">
                     <div>
                       <div style="width:20px; height:2px; background:#e85d04; margin-bottom:6px;"></div>
                       <p style="font-size:8px; font-weight:600; color:#1a1a1a; line-height:1.3; margin:0;">${item.title}</p>
@@ -298,8 +322,8 @@
                 `;
               }
               return `
-              <div class="cursor-pointer" onclick="goToItemNotes(${item.id})" style="width:80px;">
-                <img src="${item.cover}" alt="${item.title}" style="width:80px; height:120px; object-fit:cover; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15);" />
+              <div class="cursor-pointer" onclick="goToItemNotes(${item.id})" style="width:var(--shelf-item-width);">
+                <img src="${item.cover}" alt="${item.title}" style="width:var(--shelf-item-width); height:var(--shelf-item-height); object-fit:cover; border-radius:2px; box-shadow: 2px 2px 8px rgba(0,0,0,0.15);" />
               </div>
             `;
             }).join('')}
@@ -328,7 +352,7 @@
       const dm = darkMode;
       container.innerHTML = `
         <!-- List -->
-        <main class="flex-1 min-w-0 w-full p-8 border-b md:border-b-0 md:border-r ${dm ? 'border-gray-600' : 'border-gray-200'} md:max-w-xl ${selectedItemId ? 'hidden md:block' : ''}">
+        <main class="flex-1 min-w-0 w-full p-8 border-b xl:border-b-0 xl:border-r ${dm ? 'border-gray-600' : 'border-gray-200'} xl:max-w-lg ${selectedItemId ? 'hidden xl:block' : ''}">
           <!-- Search bar -->
           <div class="mb-6">
             <input
@@ -362,7 +386,7 @@
         </main>
 
         <!-- Side Panel -->
-        <aside class="w-full md:w-[34rem] p-8 ${dm ? 'bg-gray-800' : 'bg-white'} shrink-0 md:min-h-screen ${selectedItemId ? '' : 'hidden md:block'}">
+        <aside class="w-full xl:w-[32rem] p-8 ${dm ? 'bg-gray-800' : 'bg-white'} shrink-0 xl:min-h-screen ${selectedItemId ? '' : 'hidden xl:block'}">
           <div id="panel-content">
             ${selectedItemId ? renderPanelContent() : '<p class="text-gray-400 italic">Click an item to see notes</p>'}
           </div>
@@ -377,7 +401,10 @@
 
       const notesHtml = item.notes
         ? item.notes.split('\n\n').map(p => p.trim().startsWith('<') ? p : `<p class="mb-4">${p}</p>`).join('')
-        : '<p class="text-gray-400 italic">No notes yet.</p>';
+        : '';
+      const actionLabel = item.type === "video" || item.category?.some(c => c === "Videos" || c === "Video")
+        ? "Watch it"
+        : "Read it";
 
       return `
         <button onclick="closePanel()" class="${dm ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'} text-xl float-right">✕</button>
@@ -385,7 +412,7 @@
         <p class="${dm ? 'text-gray-400' : 'text-gray-500'} mb-6">${item.author}</p>
         <p class="text-sm text-gray-400 mb-4">${formatDate(item.dateRead)}</p>
         <div class="${dm ? 'text-gray-300' : 'text-gray-700'} leading-relaxed">${notesHtml}</div>
-        ${item.url ? `<a href="${item.url}" target="_blank" class="text-orange-500 hover:text-orange-600 text-sm block mt-6">→ Read it</a>` : ''}
+        ${item.url ? `<a href="${item.url}" target="_blank" class="text-orange-500 hover:text-orange-600 text-sm block mt-6">→ ${actionLabel}</a>` : ''}
       `;
     }
 
@@ -398,7 +425,7 @@
       selectedItemId = id;
       renderMainArea();
       // On mobile the notes open full-screen — jump to the top so they're visible
-      if (window.innerWidth < 768) window.scrollTo(0, 0);
+      if (window.innerWidth < 1280) window.scrollTo(0, 0);
     }
 
     // From a cover in the Bookshelf grid: jump to that item's section and open its notes
@@ -410,7 +437,7 @@
       searchQuery = "";
       renderCategories();
       renderMainArea();
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 1280) {
         window.scrollTo(0, 0);
       } else {
         const sel = document.querySelector('.list-item.selected');

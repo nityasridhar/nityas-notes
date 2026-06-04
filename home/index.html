@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nitya's Notes</title>
+  <link rel="alternate" type="application/rss+xml" title="Nitya's Notes" href="https://nityasnotes.com/feed.xml">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config = { darkMode: 'class' }</script>
   <script>
@@ -33,7 +34,7 @@
     }
   </script>
 
-  <div class="max-w-3xl mx-auto">
+  <div class="max-w-5xl mx-auto">
     <header class="px-5 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-baseline">
       <a href="/home" class="text-2xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
       <nav class="flex gap-4 sm:gap-6 text-sm tracking-wide">
@@ -43,28 +44,65 @@
     </header>
 
     <main class="px-8 py-12 font-serif">
-      <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">Most things I do are for the love of the game. I discover something I enjoy and decide to obsessively rabbithole for extended periods of time.</p>
-      <ul class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mt-4 list-disc list-inside space-y-1">
-        <li>Building a search engine for AI @ <a href="https://exa.ai" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Exa</a></li>
-        <li>Previously working on the <a href="https://www.lumakras.com" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Lumakras</a>, <a href="https://www.blincyto.com" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Blincyto</a> + data science team at <a href="https://www.amgen.com" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Amgen</a></li>
-      </ul>
+      <div class="max-w-3xl">
+        <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">Most things I do are for the love of the game. I discover something I enjoy and decide to obsessively rabbithole for extended periods of time.</p>
+        <ul class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mt-4 list-disc list-inside space-y-1">
+          <li>Building a search engine for AI @ <a href="https://exa.ai" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Exa</a></li>
+          <li>Previously working on the <a href="https://www.lumakras.com" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Lumakras</a>, <a href="https://www.blincyto.com" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Blincyto</a> + data science team at <a href="https://www.amgen.com" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Amgen</a></li>
+        </ul>
 
-      <p class="text-gray-500 dark:text-gray-400 mt-6">currently reading: <span class="italic text-gray-700 dark:text-gray-300">A Mind at Play: How Claude Shannon Invented the Information Age</span></p>
+        <p class="text-gray-500 dark:text-gray-400 mt-6">currently reading: <span class="italic text-gray-700 dark:text-gray-300">When We Cease to Understand the World</span></p>
+      </div>
 
-      <div class="mt-10">
-        <h3 class="text-xl font-normal text-gray-900 dark:text-gray-100 mb-4">Recent Writing</h3>
-        <div class="space-y-3">
-          <a href="/writing/packaging-of-discovery" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">On the Packaging of Discovery</a>
-          <a href="/writing/decades" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">People that worked on the same idea for decades</a>
-          <a href="/writing/running" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">What I learned from running</a>
-          <a href="https://exa.ai/blog/rl-search-outcomes" target="_blank" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">How Search Quality Shapes RL Outcomes</a>
-          <a href="https://exa.ai/blog/webcode" target="_blank" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">WebCode: Search Evals for Coding Agents</a>
-          <a href="https://exa.ai/blog/exa-d" target="_blank" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">exa-d: Data Framework to Process the Web</a>
-        </div>
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <section>
+          <h3 class="text-xl font-normal text-gray-900 dark:text-gray-100 mb-4">Recent Writing</h3>
+          <div class="space-y-3">
+            <a href="/writing/phrases-i-carry-around" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">LEARN THE FUNDAMENTALS</a>
+            <a href="/writing/packaging-of-discovery" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">On the Packaging of Discovery</a>
+            <a href="/writing/decades" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">People that worked on the same idea for decades</a>
+            <a href="/writing/running" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">What I learned from running</a>
+            <a href="https://exa.ai/blog/rl-search-outcomes" target="_blank" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">How Search Quality Shapes RL Outcomes</a>
+            <a href="https://exa.ai/blog/webcode" target="_blank" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">WebCode: Search Evals for Coding Agents</a>
+          </div>
+        </section>
+
+        <section>
+          <h3 class="text-xl font-normal text-gray-900 dark:text-gray-100 mb-4">Recently Reading + Watching</h3>
+          <div id="recent-reading-list" class="space-y-3"></div>
+        </section>
       </div>
 
     </main>
+
+    <footer class="px-8 pb-10 font-serif">
+      <nav class="flex gap-2 text-sm text-gray-500 dark:text-gray-400">
+        <a href="https://x.com/nityasnotes" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">twitter</a>
+        <span class="text-gray-400">|</span>
+        <a href="/feed.xml" class="underline hover:text-gray-900 dark:hover:text-gray-100">rss</a>
+      </nav>
+    </footer>
   </div>
 
+  <script src="/Books.js?v=recent-reading-watching-videos"></script>
+  <script>
+    const recentReadingList = document.getElementById('recent-reading-list');
+    const readingCategories = new Set(['Books', 'Papers', 'Blogs', 'Videos', 'Video']);
+    const readingItems = items
+      .filter((item) => item.category?.some((category) => readingCategories.has(category)))
+      .slice(0, 6);
+
+    readingItems.forEach((item) => {
+      const link = document.createElement('a');
+      const belongsOnBookshelf = item.category?.includes('Bookshelf');
+      link.href = belongsOnBookshelf ? '/bookshelf' : (item.url || '#');
+      if (!belongsOnBookshelf && item.url) {
+        link.target = '_blank';
+      }
+      link.className = 'block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline';
+      link.textContent = item.displayTitle || item.title;
+      recentReadingList.appendChild(link);
+    });
+  </script>
 </body>
 </html>

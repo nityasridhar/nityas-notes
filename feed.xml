@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nitya's Notes</title>
+    <link>https://nityasnotes.com/</link>
+    <atom:link href="https://nityasnotes.com/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Writing and notes from Nitya Sridhar.</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 04 Jun 2026 00:00:00 GMT</lastBuildDate>
+
+    <item>
+      <title>LEARN THE FUNDAMENTALS</title>
+      <link>https://nityasnotes.com/writing/phrases-i-carry-around/</link>
+      <guid isPermaLink="true">https://nityasnotes.com/writing/phrases-i-carry-around/</guid>
+      <pubDate>Thu, 04 Jun 2026 00:00:00 GMT</pubDate>
+      <description>phrases I carry around like talismans</description>
+    </item>
+
+    <item>
+      <title>On the Packaging of Discovery</title>
+      <link>https://nityasnotes.com/writing/packaging-of-discovery/</link>
+      <guid isPermaLink="true">https://nityasnotes.com/writing/packaging-of-discovery/</guid>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description>Notes from Prussian Blue, the first chapter of When We Cease to Understand the World. Optimization rarely appears to lead to discovery</description>
+    </item>
+
+    <item>
+      <title>People that worked on the same idea for decades</title>
+      <link>https://nityasnotes.com/writing/decades/</link>
+      <guid isPermaLink="true">https://nityasnotes.com/writing/decades/</guid>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description>I collect examples of people that worked on iterations of the same idea over the course of decades, before landing on their magnum opus</description>
+    </item>
+
+    <item>
+      <title>What I learned from running</title>
+      <link>https://nityasnotes.com/writing/running/</link>
+      <guid isPermaLink="true">https://nityasnotes.com/writing/running/</guid>
+      <pubDate>Fri, 01 May 2026 00:00:00 GMT</pubDate>
+      <description>refusing to take the Faustian bargain: how lazy do you need to be to keep going?</description>
+    </item>
+  </channel>
+</rss>
