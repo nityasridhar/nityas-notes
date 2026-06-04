@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LEARN THE FUNDAMENTALS - Nitya's Notes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <style>
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Medium.ttf'); font-weight: 500; }
+    body { font-family: 'Spectral', serif; }
+    body.dark-mode { background: #1a1a1a; color: #e0e0e0; }
+  </style>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-transparent">
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a1a';
+    }
+  </script>
+
+  <header class="px-5 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-baseline">
+    <a href="/home" class="text-2xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+    <nav class="flex gap-4 sm:gap-6 text-sm tracking-wide">
+      <a href="/bookshelf" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">BOOKSHELF</a>
+      <a href="/writing" class="text-gray-900 dark:text-gray-100 font-normal">WRITING</a>
+    </nav>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-5 sm:px-8 py-12">
+    <p class="text-sm text-gray-400 mb-3">June 2026</p>
+    <h1 class="text-3xl sm:text-4xl font-light tracking-tight text-black dark:text-gray-100 mb-2 leading-snug">LEARN THE FUNDAMENTALS</h1>
+    <p class="text-lg text-black dark:text-gray-100 mb-10">phrases I carry around like talismans</p>
+
+    <article class="text-black dark:text-gray-100 leading-relaxed text-lg">
+      <ol class="list-decimal pl-6 space-y-4">
+        <li>
+          <p><strong>Learn the fundamentals</strong></p>
+          <div class="mt-4 text-black dark:text-gray-100 space-y-4">
+            <p>I've worked in biotech to AI and the main path to doing interesting work in new fields is that you have to take personal time to learn the fundamentals, there is no shortcut around it.</p>
+            <p>this should feel difficult</p>
+            <p>Approximate knowledge of many things can get you far but especially with AI, deep understanding of a few things gives you much more leverage to do things well.</p>
+          </div>
+        </li>
+        <li>
+          <p><strong>Focus on what you want to see more of</strong></p>
+          <div class="mt-4 text-black dark:text-gray-100 space-y-4">
+            <p>From <a href="https://x.com/visakanv" target="_blank" class="underline hover:text-gray-700 dark:hover:text-gray-300">Visa</a>, an internet writer who has been a big influence in how I interact with humans on the internet.</p>
+            <p>Twitter at large has been a place of ongoing, endless serendipity for me. I've met my long term boyfriend, career opportunities, close friends. It increasingly feels saturated by AI for {insert}, everyone trying to sell you something, politics, endless hype cycles. I find that the best accounts are increasingly going silent, I am muting a growing number of people I previously respected. I won't claim to be immune to this by the way, I've spent a good part of this last year tweeting about Exa.</p>
+            <p>I was telling a friend on a walk recently, it is a rare and special thing to have somebody to talk to about something you are interested in. I feel what you could call an obligation to create more of that on this app.</p>
+          </div>
+        </li>
+        <li>
+          <p><strong>Favorable conditions never come</strong></p>
+          <p class="mt-4 text-sm text-black dark:text-gray-100">From <em>The Weight of Glory</em> by C.S. Lewis:</p>
+          <blockquote class="mt-4 border-l-2 border-gray-300 dark:border-gray-600 pl-4 text-black dark:text-gray-100">
+            <p>&ldquo;We are always falling in love or quarreling, looking for jobs or fearing to lose them, getting ill and recovering, following public affairs. If we let ourselves, we shall always be waiting for some distraction or other to end before we can really get down to our work. The only people who achieve much are those who want knowledge so badly that they seek it while the conditions are still unfavorable. Favorable conditions never come.&rdquo;</p>
+          </blockquote>
+        </li>
+      </ol>
+    </article>
+  </main>
+
+</body>
+</html>
