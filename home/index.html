@@ -94,9 +94,12 @@
 
     readingItems.forEach((item) => {
       const link = document.createElement('a');
-      const belongsOnBookshelf = item.category?.includes('Bookshelf');
-      link.href = belongsOnBookshelf ? '/bookshelf' : (item.url || '#');
-      if (!belongsOnBookshelf && item.url) {
+      if (item.id !== undefined && item.id !== null) {
+        link.href = `/bookshelf/?item=${encodeURIComponent(item.id)}`;
+      } else {
+        link.href = item.url || '#';
+      }
+      if ((item.id === undefined || item.id === null) && item.url) {
         link.target = '_blank';
       }
       link.className = 'block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline';

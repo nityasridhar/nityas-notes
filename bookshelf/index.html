@@ -234,6 +234,38 @@
       return d;
     }
 
+    function getItemCategory(item) {
+      return item.category?.find(category => category !== "Bookshelf" && categories.includes(category)) || "Books";
+    }
+
+    function updateItemUrl(id) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("item", id);
+      history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function clearItemUrl() {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("item");
+      history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
+    function applyInitialItemFromUrl() {
+      const itemId = new URLSearchParams(window.location.search).get("item");
+      if (!itemId) return;
+      const item = items.find(i => String(i.id) === itemId);
+      if (!item) return;
+      selectedCategory = getItemCategory(item);
+      selectedItemId = item.id;
+      searchQuery = "";
+    }
+
+    function scrollSelectedItemIntoView() {
+      if (!selectedItemId || window.innerWidth < 1280) return;
+      const selectedItem = document.querySelector('.list-item.selected');
+      if (selectedItem) selectedItem.scrollIntoView({ block: 'center' });
+    }
+
     function renderCategories() {
       const nav = document.getElementById('categories');
       const dm = darkMode;
@@ -255,6 +287,7 @@
       selectedCategory = category;
       selectedItemId = null;
       searchQuery = "";
+      clearItemUrl();
       renderCategories();
       renderMainArea();
     }
@@ -423,6 +456,7 @@
 
     function selectItem(id) {
       selectedItemId = id;
+      updateItemUrl(id);
       renderMainArea();
       // On mobile the notes open full-screen — jump to the top so they're visible
       if (window.innerWidth < 1280) window.scrollTo(0, 0);
@@ -432,9 +466,10 @@
     function goToItemNotes(id) {
       const item = items.find(i => i.id === id);
       if (!item) return;
-      selectedCategory = item.category.find(c => c !== "Bookshelf") || "Books";
+      selectedCategory = getItemCategory(item);
       selectedItemId = id;
       searchQuery = "";
+      updateItemUrl(id);
       renderCategories();
       renderMainArea();
       if (window.innerWidth < 1280) {
@@ -447,6 +482,7 @@
 
     function closePanel() {
       selectedItemId = null;
+      clearItemUrl();
       renderMainArea();
     }
 
@@ -484,7 +520,7 @@
       }
 
       // Set the category link based on item's first category (other than Bookshelf)
-      const itemCategory = item.category.find(c => c !== "Bookshelf") || "Books";
+      const itemCategory = getItemCategory(item);
       document.getElementById('modal-category-link').textContent = `→ Go to all ${itemCategory.toLowerCase()}`;
       document.getElementById('modal-category-link').dataset.category = itemCategory;
 
@@ -532,9 +568,14 @@
     });
 
     // Initialize
-    if (darkMode) applyDarkMode(true);
-    renderCategories();
-    renderMainArea();
+    applyInitialItemFromUrl();
+    if (darkMode) {
+      applyDarkMode(true);
+    } else {
+      renderCategories();
+      renderMainArea();
+    }
+    scrollSelectedItemIntoView();
   </script>
 
 </body>
