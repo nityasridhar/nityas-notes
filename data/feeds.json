@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Bartosz Milewski",
+    "url": "https://bartoszmilewski.com/feed/",
+    "siteUrl": "https://bartoszmilewski.com/",
+    "category": "Blogs"
+  },
+  {
+    "title": "Quanta Magazine",
+    "url": "https://www.quantamagazine.org/feed/",
+    "siteUrl": "https://www.quantamagazine.org/",
+    "category": "Science"
+  },
+  {
+    "title": "Google DeepMind",
+    "url": "https://deepmind.google/blog/rss.xml",
+    "siteUrl": "https://deepmind.google/blog/",
+    "category": "AI"
+  },
+  {
+    "title": "arXiv cs.AI",
+    "url": "https://rss.arxiv.org/rss/cs.AI",
+    "siteUrl": "https://arxiv.org/list/cs.AI/recent",
+    "category": "Papers"
+  }
+]

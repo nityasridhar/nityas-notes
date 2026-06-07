@@ -1,5 +1,7 @@
 const items = [
-    /* 24>*/
+    /* 26>*/
+    { id: 202, type: "blog", title: "Mixture of Experts Explained", author: "Omar Sanseviero, Lewis Tunstall, Philipp Schmid, Sourab Mangrulkar, Younes B, Pedro Cuenca", category: ["Blogs","Bookshelf"], url: "https://huggingface.co/blog/moe", notes: "" },
+    { id: 201, type: "blog", title: "Large Language Model Selection: Why the Parameter Count Isn't Everything", author: "Brien Posey", category: ["Blogs","Bookshelf"], url: "https://virtualizationreview.com/articles/2025/11/03/large-language-model-selection-why-the-parameter-count-isnt-everything.aspx", notes: "" },
     { id: 200, type: "video", title: "RSS in Plain English", author: "Common Craft Explainer Videos", category: ["Videos"], url: "https://www.youtube.com/watch?v=0klgLsSxGsU", notes: "" },
     { id: 23, title: "Attention Residuals", author: "Rami Al-Rfou et al.", category: ["Papers","Bookshelf"], cover: "/images/attention_residuals.png", spineColor: "#2a2a2a", url: "https://arxiv.org/abs/2603.15031", notes: "" },
     { id: 22, title: "A Mind at Play", displayTitle: "A Mind at Play: How Claude Shannon Invented the Information Age", author: "Jimmy Soni, Rob Goodman", category: ["Books","Bookshelf"], cover: "/images/mind_at_play.jpg", spineColor: "#1a3a5c", notes: "" },

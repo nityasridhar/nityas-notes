@@ -24,6 +24,7 @@
       --book-spine-width: 12px;
       --book-pages-width: 10px;
       --book-fallback-size: 8px;
+      --bookshelf-list-panel-width: 32rem;
     }
 
     @media (min-width: 640px) {
@@ -143,6 +144,48 @@
       color: #f97316;
       font-weight: 400;
     }
+
+    .split-resizer {
+      display: none;
+    }
+
+    @media (min-width: 1280px) {
+      .list-panel {
+        flex: 0 0 var(--bookshelf-list-panel-width);
+        width: var(--bookshelf-list-panel-width);
+        min-width: 240px;
+      }
+
+      .split-resizer {
+        align-items: stretch;
+        cursor: col-resize;
+        display: flex;
+        flex: 0 0 12px;
+        justify-content: center;
+        margin-left: -6px;
+        margin-right: -6px;
+        touch-action: none;
+        z-index: 10;
+      }
+
+      .split-resizer::before {
+        background: #e5e7eb;
+        content: "";
+        width: 1px;
+      }
+
+      .split-resizer:hover::before,
+      .split-resizer:focus-visible::before,
+      body.resizing-bookshelf-panel .split-resizer::before {
+        background: #f97316;
+        width: 2px;
+      }
+
+      body.resizing-bookshelf-panel {
+        cursor: col-resize;
+        user-select: none;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen bg-gray-50">
@@ -192,7 +235,7 @@
   <!-- Fullscreen painting modal -->
   <div id="painting-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center z-50"></div>
 
-  <script src="/Books.js?v=bookshelf-videos"></script>
+  <script src="/Books.js?v=bookshelf-videos-moe"></script>
   <script>
     let darkMode = localStorage.getItem('darkMode') === 'true';
 
@@ -220,6 +263,12 @@
     let selectedCategory = categories[0];
     let selectedItemId = null;
     let searchQuery = "";
+    const listPanelStorageKey = "bookshelfListPanelWidth";
+    const defaultListPanelWidth = 520;
+    let listPanelWidth = Number.parseFloat(localStorage.getItem(listPanelStorageKey)) || defaultListPanelWidth;
+    let listResizeState = null;
+
+    document.documentElement.style.setProperty("--bookshelf-list-panel-width", `${listPanelWidth}px`);
 
     // Render any stored date as "Month YYYY" (e.g. "May 2026").
     // Accepts "May 2026", "2026-05[-DD]", or "MM/DD/YYYY"; passes through anything else.
@@ -265,6 +314,75 @@
       const selectedItem = document.querySelector('.list-item.selected');
       if (selectedItem) selectedItem.scrollIntoView({ block: 'center' });
     }
+
+    function clampListPanelWidth(width) {
+      const mainArea = document.getElementById('main-area');
+      const availableWidth = mainArea?.getBoundingClientRect().width || window.innerWidth;
+      const minWidth = 240;
+      const detailMinWidth = 360;
+      const maxWidth = Math.max(minWidth, availableWidth - detailMinWidth);
+      return Math.min(Math.max(width, minWidth), maxWidth);
+    }
+
+    function setListPanelWidth(width, persist = true) {
+      const nextWidth = Number.isFinite(width) ? width : defaultListPanelWidth;
+      listPanelWidth = window.innerWidth >= 1280 ? clampListPanelWidth(nextWidth) : nextWidth;
+      document.documentElement.style.setProperty("--bookshelf-list-panel-width", `${listPanelWidth}px`);
+      if (persist) localStorage.setItem(listPanelStorageKey, String(Math.round(listPanelWidth)));
+    }
+
+    function startListPanelResize(event) {
+      if (window.innerWidth < 1280) return;
+      const panel = document.querySelector('.list-panel');
+      if (!panel) return;
+
+      event.preventDefault();
+      listResizeState = {
+        handle: event.currentTarget,
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startWidth: panel.getBoundingClientRect().width,
+      };
+      document.body.classList.add('resizing-bookshelf-panel');
+      event.currentTarget.setPointerCapture(event.pointerId);
+      window.addEventListener('pointermove', resizeListPanel);
+      window.addEventListener('pointerup', stopListPanelResize);
+      window.addEventListener('pointercancel', stopListPanelResize);
+    }
+
+    function resizeListPanel(event) {
+      if (!listResizeState) return;
+      setListPanelWidth(listResizeState.startWidth + event.clientX - listResizeState.startX);
+    }
+
+    function stopListPanelResize() {
+      if (listResizeState?.handle?.hasPointerCapture(listResizeState.pointerId)) {
+        listResizeState.handle.releasePointerCapture(listResizeState.pointerId);
+      }
+      listResizeState = null;
+      document.body.classList.remove('resizing-bookshelf-panel');
+      window.removeEventListener('pointermove', resizeListPanel);
+      window.removeEventListener('pointerup', stopListPanelResize);
+      window.removeEventListener('pointercancel', stopListPanelResize);
+    }
+
+    function handleListPanelResizeKey(event) {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      if (event.key === "Home") {
+        setListPanelWidth(240);
+      } else if (event.key === "End") {
+        setListPanelWidth(Number.MAX_SAFE_INTEGER);
+      } else {
+        setListPanelWidth(listPanelWidth + (event.key === "ArrowRight" ? 24 : -24));
+      }
+    }
+
+    function resetListPanelWidth() {
+      setListPanelWidth(defaultListPanelWidth);
+    }
+
+    window.addEventListener("resize", () => setListPanelWidth(listPanelWidth, false));
 
     function renderCategories() {
       const nav = document.getElementById('categories');
@@ -381,11 +499,12 @@
       
       // Items with notes/descriptions first; ones without fall to the bottom
       filtered.sort((a, b) => (b.notes ? 1 : 0) - (a.notes ? 1 : 0));
+      setListPanelWidth(listPanelWidth, false);
 
       const dm = darkMode;
       container.innerHTML = `
         <!-- List -->
-        <main class="flex-1 min-w-0 w-full p-8 border-b xl:border-b-0 xl:border-r ${dm ? 'border-gray-600' : 'border-gray-200'} xl:max-w-lg ${selectedItemId ? 'hidden xl:block' : ''}">
+        <main class="list-panel min-w-0 w-full p-8 border-b xl:border-b-0 ${dm ? 'border-gray-600' : 'border-gray-200'} ${selectedItemId ? 'hidden xl:block' : ''}">
           <!-- Search bar -->
           <div class="mb-6">
             <input
@@ -418,8 +537,19 @@
           </div>
         </main>
 
+        <div
+          class="split-resizer"
+          role="separator"
+          aria-label="Resize list and notes panels"
+          aria-orientation="vertical"
+          tabindex="0"
+          onpointerdown="startListPanelResize(event)"
+          onkeydown="handleListPanelResizeKey(event)"
+          ondblclick="resetListPanelWidth()"
+        ></div>
+
         <!-- Side Panel -->
-        <aside class="w-full xl:w-[32rem] p-8 ${dm ? 'bg-gray-800' : 'bg-white'} shrink-0 xl:min-h-screen ${selectedItemId ? '' : 'hidden xl:block'}">
+        <aside class="w-full flex-1 p-8 ${dm ? 'bg-gray-800' : 'bg-white'} xl:min-h-screen ${selectedItemId ? '' : 'hidden xl:block'}">
           <div id="panel-content">
             ${selectedItemId ? renderPanelContent() : '<p class="text-gray-400 italic">Click an item to see notes</p>'}
           </div>

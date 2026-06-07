@@ -6,7 +6,15 @@
     <atom:link href="https://nityasnotes.com/feed.xml" rel="self" type="application/rss+xml" />
     <description>Writing and notes from Nitya Sridhar.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 04 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jun 2026 00:00:00 GMT</lastBuildDate>
+
+    <item>
+      <title>Why did attention residuals get so much attention</title>
+      <link>https://nityasnotes.com/writing/why-are-attention-residuals-getting-so-much-attention/</link>
+      <guid isPermaLink="true">https://nityasnotes.com/writing/why-are-attention-residuals-getting-so-much-attention/</guid>
+      <pubDate>Fri, 05 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Notes on attention residuals.</description>
+    </item>
 
     <item>
       <title>LEARN THE FUNDAMENTALS</title>
