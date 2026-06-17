@@ -84,12 +84,12 @@
     </footer>
   </div>
 
-  <script src="/Books.js?v=recent-reading-watching-videos-moe"></script>
+  <script src="/Books.js?v=recent-reading-watching-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note"></script>
   <script>
     const recentReadingList = document.getElementById('recent-reading-list');
-    const readingCategories = new Set(['Books', 'Papers', 'Blogs', 'Videos', 'Video']);
+    const readingCategories = new Set(['Books', 'Papers', 'Blogs', 'Movies', 'Videos', 'Video']);
     const readingItems = items
-      .filter((item) => item.category?.some((category) => readingCategories.has(category)))
+      .filter((item) => item.showInRecent !== false && item.category?.some((category) => readingCategories.has(category)))
       .slice(0, 6);
 
     readingItems.forEach((item) => {
