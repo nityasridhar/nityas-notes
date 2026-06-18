@@ -169,6 +169,7 @@
     <div id="globe"></div>
   </div>
 
+  <script src="/Books.js?v=landing-globe-covers"></script>
   <script>
     // Generate tile background with social links in top-left tiles
     const tileBg = document.getElementById('tile-bg');
@@ -180,40 +181,41 @@
       tileBg.appendChild(tile);
     }
 
-    // Ordered so the inner ring (near the title) is books and the outer ring (near the poles) is movies.
-    // Top cap goes outer→inner (i=0 is the pole); bottom cap goes inner→outer (i=half is closest to centre).
-    const IMAGE_PATHS = [
-      // top cap — outer (movies)
+    // Fallback keeps the landing page alive if Books.js ever fails to load.
+    const FALLBACK_IMAGE_PATHS = [
       'images/bugonia.jpg',
       'images/before_sunrise.jpg',
       'images/in_the_mood_for_love.jpg',
       'images/marty_supreme.webp',
       'images/mississippi_masala.jpg',
-      // top cap — middle (papers + painting)
       'images/attention_residuals.png',
       'images/era_of_experience.png',
       'images/reader.jpg',
-      // top cap — inner (books, near the title)
       'images/accelerando.jpg',
       'images/bubbles_stagnation.jpg',
       'images/hidden_valley_road.jpg',
       'images/mind_at_play.jpg',
-      // bottom cap — inner (books, near the title)
       'images/ogilvy.jpg',
       'images/open_source.jpg',
       'images/psalm_wild_built.jpg',
       'images/weight_of_glory.jpg',
-      // bottom cap — middle (papers + lamp)
       'images/strategic_wealth.jpg',
       'images/tail_at_scale.png',
       'images/tinkerings_noyce.jpg',
       'images/v2lamp.png',
-      // bottom cap — outer (movies)
       'images/pachchai_nirame.jpg',
       'images/project_hail_mary.jpg',
       'images/spirited_away.jpg',
       'images/tenet.jpg'
     ];
+    const bookshelfItems = typeof items !== 'undefined' ? items : [];
+    const IMAGE_PATHS = bookshelfItems
+      .filter((item) => item.cover && Array.isArray(item.category) && item.category.includes('Bookshelf'))
+      .map((item) => item.cover.replace(/^\//, ''));
+
+    if (!IMAGE_PATHS.length) {
+      IMAGE_PATHS.push(...FALLBACK_IMAGE_PATHS);
+    }
 
     // Scale the globe proportionally to the screen so it holds its composition on any device
     const RADIUS = Math.max(150, Math.min(300, window.innerWidth * 0.45));
@@ -222,22 +224,15 @@
 
     const globe = document.getElementById('globe');
 
-    // Distribute cards on a sphere but avoid the center band visible from the front
+    // Distribute cards on a sphere but avoid the center band visible from the front.
+    // Newer image-backed items come first from Books.js, so place early items closest to the title.
     function fibSphere(i, total) {
       const golden = (1 + Math.sqrt(5)) / 2;
-      // Only place cards in the top and bottom caps of the sphere
-      // Split cards: first half on top cap, second half on bottom cap
-      const half = Math.ceil(total / 2);
-      let cosTheta;
-      if (i < half) {
-        // Top cap: cosTheta from 1.0 down to 0.3
-        cosTheta = 1.0 - (i / half) * 0.7;
-      } else {
-        // Bottom cap: cosTheta from -0.3 down to -1.0
-        const j = i - half;
-        const remaining = total - half;
-        cosTheta = -0.3 - (j / remaining) * 0.7;
-      }
+      const capSize = Math.ceil(total / 2);
+      const rank = Math.floor(i / 2);
+      const progress = capSize > 1 ? rank / (capSize - 1) : 0;
+      const distanceFromCenter = 0.3 + progress * 0.7;
+      const cosTheta = i % 2 === 0 ? distanceFromCenter : -distanceFromCenter;
       const theta = Math.acos(cosTheta);
       const phi = 2 * Math.PI * i / golden;
       return {
