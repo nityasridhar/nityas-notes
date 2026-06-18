@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genius needs leisure to think, and so do you - Nitya's Notes</title>
+  <link rel="alternate" type="application/rss+xml" title="Nitya's Notes" href="https://nityasnotes.com/feed.xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <style>
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Medium.ttf'); font-weight: 500; }
+    body { font-family: 'Spectral', serif; }
+    body.dark-mode { background: #1a1a1a; color: #e0e0e0; }
+  </style>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-transparent">
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a1a';
+    }
+  </script>
+
+  <header class="px-5 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-baseline">
+    <a href="/home" class="text-2xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+    <nav class="flex gap-4 sm:gap-6 text-sm tracking-wide">
+      <a href="/bookshelf" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">BOOKSHELF</a>
+      <a href="/writing" class="text-gray-900 dark:text-gray-100 font-normal">WRITING</a>
+    </nav>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-5 sm:px-8 py-12">
+    <p class="text-sm text-gray-400 mb-3">June 2026</p>
+    <h1 class="text-3xl sm:text-4xl font-light tracking-tight text-black dark:text-gray-100 mb-10 leading-snug">Genius needs leisure to think, and so do you</h1>
+
+    <article class="text-black dark:text-gray-100 leading-relaxed text-lg space-y-5">
+      <blockquote class="border-l-2 border-gray-300 dark:border-gray-700 pl-4 italic">
+        Of course, this characteristic of the intellectual man implies that he has one more need than the others, the need of reading, observing, studying, meditating, practising, the need, in short, of undisturbed leisure.
+      </blockquote>
+
+      <p>I read <em>The Wisdom of Life</em> by Arthur Schopenhauer recently, a philosopher that inspired Nietzsche to Toltsoy. He talks about how separation from ongoing labor is necessary to think well. coding agents have made many parts of software feel frenetic and constant short term movement feels like the uniquely characteristic quality of San Francisco today. I think back to <a href="https://nabeelqu.co/understanding" class="underline decoration-gray-400 underline-offset-4 hover:text-gray-600 dark:hover:text-gray-300" target="_blank" rel="noopener noreferrer">Nabeel Qureshi's blog on how to understand things</a>, <em>"My countervailing advice to people trying to understand something is: go slow"</em>. Understanding things take uninterrupted time. Feynman was putzing around with wobbles before eventually landing on his work on quantum electrodynamics for which he won the Nobel prize. paul graham describes the value of a makers schedule which is really just an empty calendar. most of us are not feynman but it seems clear that it is not possible to think well without leisure.</p>
+    </article>
+  </main>
+
+</body>
+</html>

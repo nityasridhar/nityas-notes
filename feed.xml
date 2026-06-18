@@ -6,7 +6,15 @@
     <atom:link href="https://nityasnotes.com/feed.xml" rel="self" type="application/rss+xml" />
     <description>Writing and notes from Nitya Sridhar.</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 05 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 18 Jun 2026 00:00:00 GMT</lastBuildDate>
+
+    <item>
+      <title>Genius needs leisure to think, and so do you</title>
+      <link>https://nityasnotes.com/writing/genius-needs-leisure-to-think-and-so-do-you/</link>
+      <guid isPermaLink="true">https://nityasnotes.com/writing/genius-needs-leisure-to-think-and-so-do-you/</guid>
+      <pubDate>Thu, 18 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Notes on leisure, uninterrupted time, and thinking well.</description>
+    </item>
 
     <item>
       <title>Why did attention residuals get so much attention</title>
