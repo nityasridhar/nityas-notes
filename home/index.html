@@ -57,14 +57,7 @@
       <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10">
         <section>
           <h3 class="text-xl font-normal text-gray-900 dark:text-gray-100 mb-4">Recent Writing</h3>
-          <div class="space-y-3">
-            <a href="/writing/why-are-attention-residuals-getting-so-much-attention" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">Why did attention residuals get so much attention</a>
-            <a href="/writing/phrases-i-carry-around" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">LEARN THE FUNDAMENTALS</a>
-            <a href="/writing/packaging-of-discovery" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">On the Packaging of Discovery</a>
-            <a href="/writing/decades" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">People that worked on the same idea for decades</a>
-            <a href="/writing/running" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">What I learned from running</a>
-            <a href="https://exa.ai/blog/rl-search-outcomes" target="_blank" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">How Search Quality Shapes RL Outcomes</a>
-          </div>
+          <div id="recent-writing-list" class="space-y-3"></div>
         </section>
 
         <section>
@@ -84,9 +77,66 @@
     </footer>
   </div>
 
-  <script src="/Books.js?v=recent-reading-watching-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote"></script>
+  <script src="/Books.js?v=recent-reading-watching-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote-reader-caption-live-calendar-ok-kanmani-cover"></script>
   <script>
+    const recentWritingList = document.getElementById('recent-writing-list');
     const recentReadingList = document.getElementById('recent-reading-list');
+
+    function parseMonthYear(dateText) {
+      const [monthName, yearText] = dateText.trim().split(/\s+/);
+      const monthIndex = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ].indexOf(monthName);
+      const year = Number(yearText);
+      if (monthIndex < 0 || !year) return 0;
+      return year * 12 + monthIndex;
+    }
+
+    function makeWritingLink(item) {
+      const link = document.createElement('a');
+      link.href = item.href;
+      if (item.isExternal) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+      link.className = 'block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline';
+      link.textContent = item.title;
+      return link;
+    }
+
+    async function renderRecentWriting() {
+      try {
+        const response = await fetch('/writing/');
+        if (!response.ok) throw new Error('Could not load writing index');
+
+        const html = await response.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const writingItems = Array.from(doc.querySelectorAll('a.essay-item'))
+          .map((anchor, index) => {
+            const title = anchor.querySelector('h3')?.textContent.trim();
+            const dateText = anchor.querySelector('p')?.textContent.trim() || '';
+            const href = anchor.getAttribute('href');
+            if (!title || !href) return null;
+            return {
+              title,
+              href,
+              dateScore: parseMonthYear(dateText),
+              index,
+              isExternal: /^https?:\/\//.test(href)
+            };
+          })
+          .filter(Boolean)
+          .sort((a, b) => b.dateScore - a.dateScore || a.index - b.index)
+          .slice(0, 7);
+
+        recentWritingList.innerHTML = '';
+        writingItems.forEach((item) => recentWritingList.appendChild(makeWritingLink(item)));
+      } catch (error) {
+        recentWritingList.innerHTML = '<a href="/writing/" class="block text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 underline">Writing</a>';
+      }
+    }
+
     const readingCategories = new Set(['Books', 'Papers', 'Blogs', 'Movies', 'Videos', 'Video']);
     const readingItems = items
       .filter((item) => item.showInRecent !== false && item.category?.some((category) => readingCategories.has(category)))
@@ -106,6 +156,8 @@
       link.textContent = item.displayTitle || item.title;
       recentReadingList.appendChild(link);
     });
+
+    renderRecentWriting();
   </script>
 </body>
 </html>

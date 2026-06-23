@@ -15,12 +15,22 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html {
+      background: #f0ede6;
+      height: 100%;
+      overflow: hidden;
+      width: 100%;
+    }
+
     body {
       background: #f0ede6;
       overflow: hidden;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       font-family: 'Spectral', Georgia, serif;
+      position: fixed;
+      inset: 0;
+      overscroll-behavior: none;
     }
 
     #tile-bg {
@@ -34,6 +44,51 @@
       grid-template-rows: repeat(auto-fill, 100px);
       gap: 0;
       opacity: 0.35;
+    }
+
+    #wall-text {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      --wall-clear-x: min(58vw, 760px);
+      --wall-clear-y: min(48vh, 560px);
+      overflow: hidden;
+      pointer-events: none;
+      padding: 18px 0;
+      opacity: 0.34;
+      color: rgba(87, 78, 66, 0.35);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.16;
+      letter-spacing: 0.08em;
+      word-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: left;
+      text-shadow:
+        1px 1px 0 rgba(255, 255, 255, 0.34),
+        -1px -1px 0 rgba(77, 68, 58, 0.13);
+      mix-blend-mode: multiply;
+      -webkit-mask-image: radial-gradient(
+        ellipse var(--wall-clear-x) var(--wall-clear-y) at 50% 50%,
+        transparent 0 76%,
+        rgba(0, 0, 0, 0.12) 88%,
+        #000 100%
+      );
+      mask-image: radial-gradient(
+        ellipse var(--wall-clear-x) var(--wall-clear-y) at 50% 50%,
+        transparent 0 76%,
+        rgba(0, 0, 0, 0.12) 88%,
+        #000 100%
+      );
+    }
+
+    .wall-text-line {
+      display: inline;
+    }
+
+    .wall-text-line::after {
+      content: " / ";
     }
 
     .tile {
@@ -75,10 +130,11 @@
 
     #scene {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       width: 100%;
       height: 100%;
-      perspective: 900px;
+      overflow: hidden;
+      perspective: 1100px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -96,7 +152,9 @@
       backface-visibility: hidden;
       border-radius: 3px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      opacity: 0.6;
+      opacity: 0.72;
+      transform-origin: center center;
+      will-change: transform, opacity;
     }
 
     .card img {
@@ -135,6 +193,17 @@
 
     @media (max-width: 600px) {
       #title-overlay a { font-size: 34px; }
+
+      #wall-text {
+        --wall-clear-x: 78vw;
+        --wall-clear-y: 44vh;
+        padding: 12px 0;
+        opacity: 0.3;
+        font-size: 8px;
+        line-height: 1.12;
+        letter-spacing: 0.06em;
+        word-spacing: 0.08em;
+      }
     }
 
     #title-overlay .subtitle {
@@ -159,6 +228,7 @@
 <body>
 
   <div id="tile-bg"></div>
+  <div id="wall-text" aria-hidden="true"></div>
 
   <div id="title-overlay">
     <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:500px; height:120px; background:radial-gradient(ellipse, rgba(240,237,230,1) 30%, rgba(240,237,230,0) 70%); z-index:-1;"></div>
@@ -169,8 +239,140 @@
     <div id="globe"></div>
   </div>
 
-  <script src="/Books.js?v=landing-globe-covers"></script>
+  <script src="/Books.js?v=landing-globe-covers-reader-caption-sphere-guides-v2-wall-text-live-calendar-ok-kanmani-cover"></script>
   <script>
+    const wallText = document.getElementById('wall-text');
+    const FALLBACK_WALL_TEXT_LINES = [
+      "genius needs leisure to think, and so do you",
+      "of course, this characteristic of the intellectual man implies that he has one more need than the others",
+      "the need of reading, observing, studying, meditating, practising",
+      "the need, in short, of undisturbed leisure",
+      "understanding things take uninterrupted time",
+      "it seems clear that it is not possible to think well without leisure",
+      "why did attention residuals get so much attention",
+      "the residual stream accumulating every layer with unit weight",
+      "attention residuals are a novel contribution on the relatively under explored axis of depth",
+      "learn the fundamentals",
+      "phrases i carry around like talismans",
+      "focus on what you want to see more of",
+      "favorable conditions never come"
+    ];
+    let cachedWallTextLines = FALLBACK_WALL_TEXT_LINES;
+
+    function cleanWallText(text) {
+      return text
+        .replace(/\s+/g, ' ')
+        .replace(/\[[^\]]*\]\([^)]*\)/g, '')
+        .trim();
+    }
+
+    function appendWallTextLine(text) {
+      const span = document.createElement('span');
+      span.className = 'wall-text-line';
+      span.textContent = cleanWallText(text);
+      wallText.appendChild(span);
+    }
+
+    function dedupeLines(lines) {
+      const seen = new Set();
+      return lines.filter((line) => {
+        const cleaned = cleanWallText(line);
+        const key = cleaned.toLowerCase();
+        if (!cleaned || cleaned.length < 12 || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    function renderWallText(lines) {
+      const sourceLines = dedupeLines(lines).length ? dedupeLines(lines) : FALLBACK_WALL_TEXT_LINES;
+      wallText.textContent = '';
+
+      const maxLineAttempts = 420;
+      for (let index = 0; index < maxLineAttempts; index++) {
+        appendWallTextLine(sourceLines[index % sourceLines.length]);
+        if (
+          wallText.scrollHeight > wallText.clientHeight + 2 ||
+          wallText.scrollWidth > wallText.clientWidth + 2
+        ) {
+          wallText.lastElementChild.remove();
+          break;
+        }
+      }
+    }
+
+    function parseWritingDate(dateText) {
+      const [month, year] = cleanWallText(dateText).split(' ');
+      const monthIndex = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ].indexOf(month);
+      return monthIndex === -1 ? 0 : new Date(Number(year), monthIndex, 1).getTime();
+    }
+
+    async function collectWritingPageLines(entry) {
+      const response = await fetch(entry.href);
+      if (!response.ok) return [];
+
+      const html = await response.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const selectors = [
+        'main article blockquote',
+        'main article p',
+        'main article li',
+        'main h1',
+        'main h2',
+        'main h3'
+      ];
+
+      return selectors
+        .flatMap(selector => Array.from(doc.querySelectorAll(selector)))
+        .map(element => cleanWallText(element.textContent))
+        .filter(text => text.length >= 18)
+        .slice(0, 12);
+    }
+
+    async function loadRecentWritingWallTextLines() {
+      const response = await fetch('/writing/');
+      if (!response.ok) return FALLBACK_WALL_TEXT_LINES;
+
+      const html = await response.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const entries = Array.from(doc.querySelectorAll('a.essay-item')).map((link, index) => ({
+        index,
+        href: link.getAttribute('href') || '',
+        date: parseWritingDate(link.querySelector('p')?.textContent || ''),
+        title: cleanWallText(link.querySelector('h3')?.textContent || ''),
+        subtitle: cleanWallText(link.querySelector('p.text-gray-500')?.textContent || '')
+      }))
+        .filter(entry => entry.title)
+        .sort((a, b) => b.date - a.date || a.index - b.index);
+
+      const lines = [];
+      for (const entry of entries.slice(0, 6)) {
+        lines.push(entry.title);
+        if (entry.subtitle) lines.push(entry.subtitle);
+
+        if (entry.href.startsWith('/writing/')) {
+          try {
+            lines.push(...await collectWritingPageLines(entry));
+          } catch (error) {
+            // Keep the landing page resilient if a writing page is missing.
+          }
+        }
+      }
+
+      return dedupeLines(lines).length ? lines : FALLBACK_WALL_TEXT_LINES;
+    }
+
+    function debounce(callback, wait = 120) {
+      let timeoutId;
+      return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => callback(...args), wait);
+      };
+    }
+
     // Generate tile background with social links in top-left tiles
     const tileBg = document.getElementById('tile-bg');
     const cols = Math.ceil(window.innerWidth / 100);
@@ -203,7 +405,7 @@
       'images/tail_at_scale.png',
       'images/tinkerings_noyce.jpg',
       'images/v2lamp.png',
-      'images/pachchai_nirame.jpg',
+      'images/o-kadhal-kanmani.jpg',
       'images/project_hail_mary.jpg',
       'images/spirited_away.jpg',
       'images/tenet.jpg'
@@ -217,34 +419,89 @@
       IMAGE_PATHS.push(...FALLBACK_IMAGE_PATHS);
     }
 
-    // Scale the globe proportionally to the screen so it holds its composition on any device
-    const RADIUS = Math.max(150, Math.min(300, window.innerWidth * 0.45));
-    const CARD_SIZE = Math.max(32, Math.min(45, window.innerWidth * 0.1));
-    const N = IMAGE_PATHS.length;
+    // Scale the globe to the available viewport while keeping the whole sphere legible.
+    const viewportMin = Math.min(window.innerWidth, window.innerHeight);
+    const isMobile = window.innerWidth < 700;
+    const RADIUS = Math.round(Math.max(
+      isMobile ? 128 : 250,
+      Math.min(
+        viewportMin * (isMobile ? 0.38 : 0.48),
+        window.innerWidth * (isMobile ? 0.42 : 0.4),
+        window.innerHeight * (isMobile ? 0.34 : 0.46),
+        isMobile ? 230 : 560
+      )
+    ));
+    const CARD_SIZE = Math.round(Math.max(
+      isMobile ? 27 : 32,
+      Math.min(isMobile ? 40 : 52, viewportMin * (isMobile ? 0.088 : 0.052))
+    ));
+
+    function syncWallTextClearZone() {
+      const titleRect = document.getElementById('title-overlay').getBoundingClientRect();
+      const horizontalClear = Math.min(
+        window.innerWidth * (isMobile ? 0.78 : 0.58),
+        Math.max(RADIUS + CARD_SIZE * (isMobile ? 3.2 : 5.1), titleRect.width / 2 + (isMobile ? 88 : 170))
+      );
+      const verticalClear = Math.min(
+        window.innerHeight * (isMobile ? 0.43 : 0.44),
+        Math.max(RADIUS + CARD_SIZE * (isMobile ? 2.2 : 2.1), titleRect.height / 2 + RADIUS * 0.78 + (isMobile ? 56 : 94))
+      );
+
+      wallText.style.setProperty('--wall-clear-x', `${Math.round(horizontalClear)}px`);
+      wallText.style.setProperty('--wall-clear-y', `${Math.round(verticalClear)}px`);
+    }
+
+    syncWallTextClearZone();
+    renderWallText(cachedWallTextLines);
+    loadRecentWritingWallTextLines().then((lines) => {
+      cachedWallTextLines = lines;
+      syncWallTextClearZone();
+      renderWallText(cachedWallTextLines);
+    });
+    window.addEventListener('resize', debounce(() => {
+      syncWallTextClearZone();
+      renderWallText(cachedWallTextLines);
+    }));
+
+    function cycleImagePaths(paths, targetCount) {
+      return Array.from({ length: targetCount }, (_, index) => paths[index % paths.length]);
+    }
+
+    const DISPLAY_IMAGE_PATHS = cycleImagePaths(IMAGE_PATHS, isMobile ? 28 : 52);
+    const N = DISPLAY_IMAGE_PATHS.length;
 
     const globe = document.getElementById('globe');
 
-    // Distribute cards on a sphere but avoid the center band visible from the front.
-    // Newer image-backed items come first from Books.js, so place early items closest to the title.
-    function fibSphere(i, total) {
-      const golden = (1 + Math.sqrt(5)) / 2;
-      const capSize = Math.ceil(total / 2);
-      const rank = Math.floor(i / 2);
-      const progress = capSize > 1 ? rank / (capSize - 1) : 0;
-      const distanceFromCenter = 0.3 + progress * 0.7;
-      const cosTheta = i % 2 === 0 ? distanceFromCenter : -distanceFromCenter;
-      const theta = Math.acos(cosTheta);
-      const phi = 2 * Math.PI * i / golden;
-      return {
-        x: RADIUS * Math.sin(theta) * Math.cos(phi),
-        y: RADIUS * Math.cos(theta),
-        z: RADIUS * Math.sin(theta) * Math.sin(phi)
-      };
+    function buildSpherePoints(total) {
+      const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+      const titleBandGap = isMobile ? 0.28 : 0.24;
+      return Array.from({ length: total }, (_, index) => {
+        const z = 1 - ((index + 0.5) / total) * 2;
+        const projectedRadius = Math.sqrt(Math.max(0, 1 - z * z));
+        const theta = index * goldenAngle;
+        const x = Math.cos(theta) * projectedRadius;
+        const rawY = Math.sin(theta) * projectedRadius;
+        const yDirection = rawY < 0 ? -1 : 1;
+        const y = Math.abs(rawY) < titleBandGap
+          ? yDirection * (titleBandGap + Math.abs(rawY) * 0.38)
+          : rawY;
+        return {
+          x,
+          y,
+          z
+        };
+      });
     }
 
     // Create image cards on the sphere
-    IMAGE_PATHS.forEach((path, i) => {
-      const pos = fibSphere(i, N);
+    const spherePoints = buildSpherePoints(N);
+    DISPLAY_IMAGE_PATHS.forEach((path, i) => {
+      const point = spherePoints[i];
+      const x = point.x * RADIUS;
+      const y = point.y * RADIUS;
+      const z = point.z * RADIUS;
+      const yaw = Math.atan2(point.x, point.z) * 180 / Math.PI;
+      const pitch = -Math.asin(Math.max(-1, Math.min(1, point.y))) * 180 / Math.PI;
       const card = document.createElement('div');
       card.className = 'card';
       if (path.includes('v2lamp')) {
@@ -253,11 +510,11 @@
       }
       card.style.width = CARD_SIZE + 'px';
       card.style.height = (CARD_SIZE * 1.4) + 'px';
-      // Compute rotation to face outward
-      const rY = Math.atan2(pos.x, pos.z) * (180 / Math.PI);
-      const rX = -Math.asin(pos.y / RADIUS) * (180 / Math.PI);
-      card.style.transform = `translate3d(${pos.x - CARD_SIZE/2}px, ${pos.y - CARD_SIZE*0.7}px, ${pos.z}px) rotateY(${rY}deg) rotateX(${rX}deg)`;
-
+      card.style.transform = `
+        translate3d(${x - CARD_SIZE / 2}px, ${y - CARD_SIZE * 0.7}px, ${z}px)
+        rotateY(${yaw}deg)
+        rotateX(${pitch}deg)
+      `;
       const img = document.createElement('img');
       img.src = path;
       img.alt = '';
@@ -267,7 +524,7 @@
     });
 
     // Rotation state
-    let rotX = 0; // no tilt so equator gap faces viewer
+    let rotX = 0;
     let rotY = 0;
     let velX = 0;
     let velY = 0;
@@ -337,7 +594,7 @@
         }
 
         if (autoRotate) {
-          rotY += 0.15;
+          rotY += 0.08;
         }
 
         updateTransform();

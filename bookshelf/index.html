@@ -122,6 +122,976 @@
       transform-origin: right center;
     }
 
+    .calendar-object {
+      --calendar-ink: #3b2a1e;
+      --calendar-paper: #f4ead6;
+      --calendar-panel: #eee0c4;
+      --calendar-strip: #784331;
+      --calendar-blue: #2c5f9f;
+      background: var(--calendar-paper);
+      border: 1px solid rgba(67, 49, 35, 0.34);
+      border-radius: 3px 6px 4px 5px;
+      box-shadow: 2px 3px 9px rgba(0,0,0,0.14);
+      color: var(--calendar-ink);
+      display: flex;
+      flex-direction: column;
+      height: var(--shelf-item-height);
+      overflow: hidden;
+      position: relative;
+      transform: rotate(-0.7deg);
+      width: var(--shelf-item-width);
+    }
+
+    .calendar-object::before {
+      background:
+        repeating-linear-gradient(86deg, rgba(63, 42, 30, 0.035) 0 1px, transparent 1px 8px),
+        radial-gradient(circle at 20% 12%, rgba(255,255,255,0.22), transparent 25%),
+        radial-gradient(circle at 88% 86%, rgba(67, 40, 25, 0.08), transparent 25%);
+      content: "";
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
+      z-index: 2;
+    }
+
+    .calendar-art {
+      background: var(--calendar-panel);
+      border-bottom: 1px solid rgba(67, 49, 35, 0.2);
+      display: flex;
+      flex: 0 0 45%;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .calendar-art::before {
+      background:
+        repeating-linear-gradient(90deg, rgba(54, 40, 29, 0.08) 0 1px, transparent 1px 11px),
+        repeating-linear-gradient(0deg, rgba(54, 40, 29, 0.06) 0 1px, transparent 1px 17px);
+      content: "";
+      inset: 0;
+      opacity: 0.46;
+      position: absolute;
+    }
+
+    .calendar-art::after {
+      background: repeating-linear-gradient(90deg, var(--calendar-ink) 0 2px, transparent 2px 8px);
+      bottom: 4px;
+      content: "";
+      height: 3px;
+      left: 10%;
+      opacity: 0.38;
+      position: absolute;
+      right: 10%;
+    }
+
+    .calendar-drawing {
+      align-self: flex-end;
+      height: 90%;
+      margin-bottom: 1%;
+      position: relative;
+      width: 94%;
+      z-index: 1;
+    }
+
+    .calendar-drawing .ink {
+      fill: none;
+      stroke: var(--calendar-ink);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .calendar-drawing .ink-soft {
+      opacity: 0.46;
+    }
+
+    .calendar-drawing .wash {
+      fill: #c19a58;
+      opacity: 0.14;
+      stroke: none;
+    }
+
+    .calendar-drawing .mark {
+      fill: var(--calendar-ink);
+      opacity: 0.72;
+      stroke: none;
+    }
+
+    .calendar-title-strip {
+      align-items: center;
+      background: var(--calendar-strip);
+      box-shadow:
+        inset 0 1px rgba(255,255,255,0.16),
+        inset 0 -1px rgba(55,25,18,0.32);
+      color: #f9ead0;
+      display: flex;
+      flex: 0 0 12%;
+      font-size: calc(var(--shelf-item-width) * 0.085);
+      font-weight: 600;
+      justify-content: center;
+      letter-spacing: 0.01em;
+      line-height: 1;
+      padding: 2px 3px;
+      position: relative;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .calendar-title-strip::before {
+      background: repeating-linear-gradient(90deg, #e0b260 0 3px, transparent 3px 8px);
+      content: "";
+      height: 3px;
+      left: 6%;
+      opacity: 0.75;
+      position: absolute;
+      right: 6%;
+      top: -5px;
+    }
+
+    .calendar-sheet {
+      align-items: center;
+      background:
+        linear-gradient(180deg, rgba(255,253,246,0.95), rgba(246,238,219,0.98)),
+        repeating-linear-gradient(0deg, transparent 0 10px, rgba(99, 74, 52, 0.055) 10px 11px);
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      padding: 7% 5% 6%;
+      position: relative;
+      text-align: center;
+    }
+
+    .calendar-sheet::before {
+      background:
+        radial-gradient(circle, rgba(105, 72, 49, 0.22) 0 1px, transparent 1.5px);
+      background-size: 9px 4px;
+      content: "";
+      height: 5px;
+      left: 8%;
+      opacity: 0.65;
+      position: absolute;
+      right: 8%;
+      top: 4px;
+    }
+
+    .calendar-weekday {
+      color: #7a4a38;
+      font-size: calc(var(--shelf-item-width) * 0.09);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .calendar-day {
+      color: var(--calendar-blue);
+      font-family: Georgia, serif;
+      font-size: calc(var(--shelf-item-width) * 0.31);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      text-shadow: 0 1px rgba(255,255,255,0.65);
+    }
+
+    .calendar-object.pen-wash {
+      --calendar-panel: #213d31;
+      --calendar-strip: #7f4432;
+      --calendar-ink: #2f251c;
+    }
+
+    .calendar-object.pen-wash .calendar-art {
+      background:
+        linear-gradient(145deg, rgba(31, 63, 48, 0.96), rgba(34, 70, 53, 0.92)),
+        var(--calendar-panel);
+    }
+
+    .calendar-object.pen-wash .calendar-drawing .ink {
+      stroke: #e2c178;
+    }
+
+    .calendar-object.pen-wash .calendar-drawing .mark {
+      fill: #7a3c2e;
+      opacity: 0.88;
+    }
+
+    .calendar-object.pen-wash .calendar-drawing .wash {
+      fill: #d4a750;
+      opacity: 0.18;
+    }
+
+    .calendar-object.pen-ink {
+      --calendar-panel: #f0e2c8;
+      --calendar-strip: #6e3e31;
+      --calendar-blue: #244f8a;
+      --calendar-ink: #2f241d;
+    }
+
+    .calendar-object.pen-ink .calendar-title-strip {
+      color: #f3e3cf;
+    }
+
+    .calendar-object.pen-ink .calendar-drawing .wash {
+      fill: #b07d35;
+      opacity: 0.08;
+    }
+
+    .calendar-object.pen-sparse {
+      --calendar-panel: #f6eddb;
+      --calendar-strip: #8a4d38;
+      --calendar-blue: #2b5c9a;
+      --calendar-ink: #4a3729;
+    }
+
+    .calendar-object.pen-sparse .calendar-drawing .wash {
+      opacity: 0;
+    }
+
+    .calendar-object.pen-sparse .calendar-drawing .ink-soft {
+      opacity: 0.28;
+    }
+
+    .calendar-object.pen-sparse .calendar-title-strip {
+      background: #efe2cb;
+      border-bottom: 1px solid rgba(74, 55, 41, 0.22);
+      border-top: 1px solid rgba(74, 55, 41, 0.22);
+      box-shadow: none;
+      color: #4a3729;
+    }
+
+    .calendar-month {
+      color: #3f2f27;
+      font-size: calc(var(--shelf-item-width) * 0.11);
+      font-weight: 600;
+      line-height: 1.1;
+    }
+
+    .calendar-tamil-date {
+      color: #6f6256;
+      font-size: calc(var(--shelf-item-width) * 0.08);
+      line-height: 1.1;
+      margin-top: 2px;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .calendar-object.large {
+      height: min(78vh, 640px);
+      width: min(88vw, 430px);
+      transform: rotate(-0.4deg);
+    }
+
+    .calendar-object.large .calendar-title-strip {
+      font-size: clamp(22px, 4vw, 34px);
+      padding: 14px 10px;
+    }
+
+    .calendar-object.large .calendar-title-strip::before {
+      height: 5px;
+      top: -8px;
+    }
+
+    .calendar-object.large .calendar-weekday {
+      font-size: clamp(13px, 2.6vw, 22px);
+    }
+
+    .calendar-object.large .calendar-day {
+      font-size: clamp(72px, 17vw, 124px);
+    }
+
+    .calendar-object.large .calendar-month {
+      font-size: clamp(17px, 3.3vw, 28px);
+    }
+
+    .calendar-object.large .calendar-tamil-date {
+      font-size: clamp(12px, 2.4vw, 20px);
+      white-space: normal;
+    }
+
+    .calendar-exploration {
+      align-items: start;
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      max-width: min(1120px, 96vw);
+      width: 100%;
+    }
+
+    .calendar-exploration .calendar-object.large {
+      height: min(70vh, 520px);
+      margin: 0 auto;
+      width: min(29vw, 320px);
+    }
+
+    .calendar-exploration .calendar-object.large .calendar-title-strip {
+      font-size: clamp(15px, 2vw, 22px);
+      padding: 8px 6px;
+    }
+
+    .calendar-option-label {
+      color: #d1d5db;
+      font-size: 13px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .calendar-exploration {
+        gap: 28px;
+        grid-template-columns: 1fr;
+        max-height: 92vh;
+        overflow-y: auto;
+        padding: 22px 0;
+      }
+
+      .calendar-exploration .calendar-object.large {
+        height: min(74vh, 560px);
+        width: min(84vw, 360px);
+      }
+    }
+
+    .calendar-object {
+      --calendar-ink: #1d1b18;
+      --calendar-muted: #6f6860;
+      --calendar-paper: #fbfaf5;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      color: var(--calendar-ink);
+      display: block;
+      height: var(--shelf-item-height);
+      overflow: visible;
+      position: relative;
+      transform: rotate(-0.5deg);
+      width: var(--shelf-item-width);
+    }
+
+    .calendar-object::before {
+      display: none;
+    }
+
+    .calendar-roll {
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.92), transparent 58%),
+        linear-gradient(180deg, #fbfaf5 0%, #efede4 56%, #d4cec1 100%);
+      border-radius: 999px 999px 2px 2px;
+      box-shadow:
+        0 3px 8px rgba(35, 29, 24, 0.16),
+        inset 0 -1px rgba(49, 41, 34, 0.18);
+      height: 5%;
+      left: 7%;
+      position: absolute;
+      right: 7%;
+      top: 0;
+      z-index: 3;
+    }
+
+    .calendar-page {
+      background:
+        radial-gradient(circle at 18% 8%, rgba(255,255,255,0.86), transparent 24%),
+        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(247,244,236,0.98)),
+        repeating-linear-gradient(88deg, rgba(43, 38, 32, 0.035) 0 1px, transparent 1px 8px);
+      border: 1px solid rgba(58, 52, 45, 0.16);
+      border-radius: 2px 2px 4px 4px;
+      box-shadow:
+        0 5px 14px rgba(41, 31, 23, 0.14),
+        inset 0 1px rgba(255,255,255,0.85);
+      display: grid;
+      grid-template-rows: 9% 54% 9% 28%;
+      height: 94%;
+      left: 0;
+      overflow: hidden;
+      position: absolute;
+      right: 0;
+      top: 5%;
+    }
+
+    .calendar-page::after {
+      background: radial-gradient(circle, rgba(43, 38, 32, 0.38) 0 0.6px, transparent 1.1px);
+      background-size: 8px 8px;
+      bottom: 4%;
+      content: "";
+      left: 9%;
+      opacity: 0.52;
+      position: absolute;
+      right: 9%;
+      top: 73%;
+    }
+
+    .calendar-top {
+      align-items: start;
+      display: grid;
+      grid-row: 2;
+      grid-template-columns: 22% 56% 22%;
+      padding: 1% 7% 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .calendar-side {
+      color: #24211d;
+      display: flex;
+      flex-direction: column;
+      font-family: Georgia, serif;
+      font-size: calc(var(--shelf-item-width) * 0.038);
+      font-weight: 600;
+      gap: 5%;
+      justify-content: start;
+      letter-spacing: 0.08em;
+      line-height: 1.04;
+      text-transform: uppercase;
+    }
+
+    .calendar-side-right {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .calendar-tamil-label {
+      font-family: Georgia, serif;
+      font-size: calc(var(--shelf-item-width) * 0.075);
+      font-weight: 700;
+      line-height: 1.05;
+    }
+
+    .calendar-side-note {
+      color: var(--calendar-muted);
+      font-size: calc(var(--shelf-item-width) * 0.027);
+      line-height: 1.05;
+    }
+
+    .calendar-mini-month {
+      border: 1px solid rgba(42, 34, 27, 0.22);
+      color: #51473f;
+      display: grid;
+      font-family: Georgia, serif;
+      font-size: calc(var(--shelf-item-width) * 0.023);
+      grid-template-columns: repeat(7, 1fr);
+      line-height: 1;
+      margin-top: 11%;
+      padding: 5%;
+      row-gap: 2px;
+      width: 100%;
+    }
+
+    .calendar-mini-month span {
+      text-align: center;
+    }
+
+    .calendar-mini-month .muted {
+      opacity: 0.28;
+    }
+
+    .calendar-mini-month .today {
+      background: #2b2a27;
+      color: #fff;
+    }
+
+    .calendar-main-day {
+      align-self: center;
+      color: #1f1d1a;
+      font-family: Georgia, serif;
+      font-size: calc(var(--shelf-item-width) * 0.72);
+      font-weight: 700;
+      grid-column: 2;
+      letter-spacing: -0.08em;
+      line-height: 0.74;
+      text-align: center;
+      transform: scaleX(0.96);
+    }
+
+    .calendar-meta {
+      align-items: center;
+      border-bottom: 1px solid rgba(65, 55, 44, 0.1);
+      border-top: 1px solid rgba(65, 55, 44, 0.1);
+      color: #50463e;
+      display: grid;
+      font-family: Georgia, serif;
+      font-size: calc(var(--shelf-item-width) * 0.048);
+      font-weight: 600;
+      grid-row: 3;
+      grid-template-columns: 1fr auto 1fr;
+      letter-spacing: 0.05em;
+      padding: 0 8%;
+      position: relative;
+      text-align: center;
+      text-transform: uppercase;
+      z-index: 1;
+    }
+
+    .calendar-meta .calendar-tamil-date {
+      color: #6c6259;
+      font-family: 'Spectral', Georgia, serif;
+      font-size: calc(var(--shelf-item-width) * 0.035);
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1.05;
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    .calendar-month {
+      color: #312a25;
+      font-size: calc(var(--shelf-item-width) * 0.13);
+      font-weight: 700;
+      line-height: 1;
+      margin-top: 2%;
+    }
+
+    .calendar-dot-field {
+      position: relative;
+      z-index: 1;
+    }
+
+    .calendar-object.large {
+      height: min(84vh, 720px);
+      transform: rotate(-0.3deg);
+      width: min(82vw, 460px);
+    }
+
+    .calendar-object.large .calendar-side {
+      font-size: clamp(9px, 1.35vw, 13px);
+    }
+
+    .calendar-object.large .calendar-tamil-label {
+      font-size: clamp(18px, 3.2vw, 34px);
+    }
+
+    .calendar-object.large .calendar-side-note {
+      font-size: clamp(7px, 1vw, 10px);
+    }
+
+    .calendar-object.large .calendar-mini-month {
+      font-size: clamp(5px, 0.72vw, 7px);
+    }
+
+    .calendar-object.large .calendar-main-day {
+      font-size: clamp(150px, 24vw, 245px);
+    }
+
+    .calendar-object.large .calendar-meta {
+      font-size: clamp(13px, 2.1vw, 20px);
+    }
+
+    .calendar-object.large .calendar-meta .calendar-tamil-date {
+      font-size: clamp(11px, 1.7vw, 16px);
+    }
+
+    .calendar-object.large .calendar-month {
+      font-size: clamp(24px, 4vw, 40px);
+    }
+
+    .calendar-display {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 100%;
+      width: min(90vw, 560px);
+    }
+
+    .calendar-modal-display {
+      flex: 0 0 auto;
+      width: min(90vw, 560px);
+    }
+
+    .calendar-object {
+      --calendar-ink: #e34834;
+      --calendar-muted: #e34834;
+      --calendar-paper: #fbfaf6;
+      --calendar-rule: rgba(227, 72, 52, 0.18);
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      color: var(--calendar-ink);
+      display: block;
+      height: var(--shelf-item-height);
+      overflow: visible;
+      perspective: 900px;
+      position: relative;
+      transform: rotate(-0.45deg);
+      width: var(--shelf-item-width);
+    }
+
+    .calendar-object::before {
+      display: none;
+    }
+
+    .calendar-roll {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.98), rgba(238,238,232,0.98) 44%, rgba(203,201,191,0.92) 52%, rgba(253,253,249,0.98) 71%, rgba(212,209,198,0.86)),
+        repeating-linear-gradient(90deg, rgba(28, 26, 22, 0.045) 0 1px, transparent 1px 8px);
+      border-radius: 999px 999px 4px 4px / 78% 78% 5px 5px;
+      box-shadow:
+        0 5px 9px rgba(22, 19, 16, 0.16),
+        inset 0 -1px rgba(39, 35, 30, 0.2),
+        inset 0 1px rgba(255,255,255,0.82);
+      height: 8.8%;
+      left: 3%;
+      overflow: hidden;
+      position: absolute;
+      right: 3%;
+      top: -2.2%;
+      z-index: 3;
+    }
+
+    .calendar-roll::before {
+      color: #1c1a16;
+      content: attr(data-prev-day);
+      font-family: "Arial Black", "HelveticaNeue-CondensedBlack", "Helvetica Neue Condensed Black", Impact, sans-serif;
+      font-size: calc(var(--shelf-item-width) * 0.62);
+      font-weight: 900;
+      left: 0;
+      letter-spacing: -0.06em;
+      line-height: 0.7;
+      opacity: 0.13;
+      position: absolute;
+      right: 0;
+      text-align: center;
+      top: -36%;
+      transform: scaleX(0.9);
+    }
+
+    .calendar-roll::after {
+      color: #1c1a16;
+      content: attr(data-month) " " attr(data-year);
+      font-family: "Courier New", Courier, monospace;
+      font-size: calc(var(--shelf-item-width) * 0.035);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      opacity: 0.2;
+      position: absolute;
+      right: 8%;
+      text-transform: uppercase;
+      top: 22%;
+    }
+
+    .calendar-page {
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255,255,255,0.96), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,253,0.99), rgba(250,249,244,0.99)),
+        repeating-linear-gradient(88deg, rgba(227, 72, 52, 0.025) 0 1px, transparent 1px 8px);
+      border: 1px solid var(--calendar-rule);
+      border-radius: 2px 2px 4px 4px;
+      box-shadow:
+        0 5px 14px rgba(23, 20, 17, 0.12),
+        inset 0 1px rgba(255,255,255,0.9);
+      display: grid;
+      grid-template-rows: 30% 37% 10% 23%;
+      height: 95%;
+      left: 0;
+      overflow: hidden;
+      position: absolute;
+      right: 0;
+      top: 5%;
+      transform-style: preserve-3d;
+    }
+
+    .calendar-page::after {
+      background: radial-gradient(circle, rgba(227, 72, 52, 0.34) 0 0.62px, transparent 1.05px);
+      background-size: 9px 9px;
+      bottom: 4%;
+      content: "";
+      left: 9%;
+      opacity: 0.42;
+      position: absolute;
+      right: 9%;
+      top: 77%;
+    }
+
+    .calendar-top {
+      align-items: start;
+      display: grid;
+      grid-row: 1;
+      grid-template-columns: 42% 1fr 34%;
+      padding: 14% 7% 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .calendar-side {
+      align-items: flex-start;
+      color: var(--calendar-ink);
+      display: flex;
+      flex-direction: column;
+      font-family: "Arial Black", "HelveticaNeue-CondensedBlack", "Helvetica Neue Condensed Black", Impact, sans-serif;
+      font-size: calc(var(--shelf-item-width) * 0.04);
+      font-weight: 900;
+      gap: 3px;
+      justify-content: start;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .calendar-side-right {
+      align-items: flex-end;
+      grid-column: 3;
+      text-align: right;
+    }
+
+    .calendar-side-label {
+      color: var(--calendar-ink);
+      font-family: "Arial Black", "HelveticaNeue-CondensedBlack", "Helvetica Neue Condensed Black", Impact, sans-serif;
+      font-size: calc(var(--shelf-item-width) * 0.14);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 0.95;
+    }
+
+    .calendar-side-note {
+      color: var(--calendar-muted);
+      font-size: calc(var(--shelf-item-width) * 0.052);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .calendar-mini-month {
+      background: rgba(255,255,255,0.24);
+      border: 1px solid rgba(227, 72, 52, 0.24);
+      color: var(--calendar-ink);
+      display: grid;
+      font-family: "Courier New", Courier, monospace;
+      font-size: calc(var(--shelf-item-width) * 0.024);
+      font-weight: 700;
+      grid-template-columns: repeat(7, 1fr);
+      line-height: 1;
+      margin-top: 12%;
+      padding: 5%;
+      row-gap: 2px;
+      width: 100%;
+    }
+
+    .calendar-mini-month span {
+      text-align: center;
+    }
+
+    .calendar-mini-month .muted {
+      opacity: 0.22;
+    }
+
+    .calendar-mini-month .today {
+      background: var(--calendar-ink);
+      color: #fff;
+    }
+
+    .calendar-date-stack {
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      grid-column: 1 / -1;
+      grid-row: 2;
+      justify-self: center;
+      max-width: 94%;
+      text-align: center;
+      width: 100%;
+    }
+
+    .calendar-month-overline {
+      color: var(--calendar-ink);
+      font-family: "Arial Black", "HelveticaNeue-CondensedBlack", "Helvetica Neue Condensed Black", Impact, sans-serif;
+      font-size: calc(var(--shelf-item-width) * 0.078);
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: calc(var(--shelf-item-width) * 0.025);
+      text-transform: uppercase;
+    }
+
+    .calendar-main-day {
+      color: var(--calendar-ink);
+      font-family: "Arial Black", "HelveticaNeue-CondensedBlack", "Helvetica Neue Condensed Black", Impact, sans-serif;
+      font-size: calc(var(--shelf-item-width) * 0.76);
+      font-weight: 900;
+      letter-spacing: -0.055em;
+      line-height: 0.76;
+      text-align: center;
+      transform: scaleX(0.88);
+      white-space: nowrap;
+    }
+
+    .calendar-meta {
+      align-items: center;
+      border-bottom: 1px solid var(--calendar-rule);
+      border-top: 1px solid var(--calendar-rule);
+      color: var(--calendar-ink);
+      display: grid;
+      font-family: "Arial Black", "HelveticaNeue-CondensedBlack", "Helvetica Neue Condensed Black", Impact, sans-serif;
+      font-size: calc(var(--shelf-item-width) * 0.052);
+      font-weight: 900;
+      grid-row: 3;
+      grid-template-columns: 0.85fr 1.15fr;
+      letter-spacing: 0.05em;
+      padding: 0 8%;
+      position: relative;
+      text-align: center;
+      text-transform: uppercase;
+      z-index: 1;
+    }
+
+    .calendar-meta .calendar-tamil-date {
+      color: var(--calendar-ink);
+      font-family: 'Spectral', Georgia, serif;
+      font-size: calc(var(--shelf-item-width) * 0.034);
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1.05;
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    .calendar-dot-field {
+      grid-row: 4;
+      position: relative;
+      z-index: 1;
+    }
+
+    .calendar-object:not(.large) .calendar-page {
+      grid-template-rows: 27% 40% 10% 23%;
+    }
+
+    .calendar-object:not(.large) .calendar-top {
+      grid-template-columns: 42% 1fr 28%;
+      padding: 13% 8% 0;
+    }
+
+    .calendar-object:not(.large) .calendar-mini-month {
+      display: none;
+    }
+
+    .calendar-object:not(.large) .calendar-month-overline {
+      font-size: calc(var(--shelf-item-width) * 0.06);
+      margin-bottom: calc(var(--shelf-item-width) * 0.018);
+    }
+
+    .calendar-object:not(.large) .calendar-main-day {
+      font-size: calc(var(--shelf-item-width) * 0.62);
+      line-height: 0.82;
+    }
+
+    .calendar-object:not(.large) .calendar-meta {
+      font-size: calc(var(--shelf-item-width) * 0.041);
+      padding: 0 9%;
+    }
+
+    .calendar-object:not(.large) .calendar-meta .calendar-tamil-date {
+      font-size: calc(var(--shelf-item-width) * 0.026);
+    }
+
+    .calendar-object.large {
+      flex: 0 0 auto;
+      height: min(82vh, 700px);
+      max-width: 100%;
+      transform: rotate(-0.2deg);
+      width: min(90vw, 560px);
+    }
+
+    .calendar-object.large .calendar-roll::before {
+      font-size: clamp(112px, 16vw, 178px);
+      top: -40%;
+    }
+
+    .calendar-object.large .calendar-roll::after {
+      font-size: clamp(8px, 1vw, 12px);
+    }
+
+    .calendar-object.large .calendar-page {
+      grid-template-rows: 32% 34% 10% 24%;
+    }
+
+    .calendar-object.large .calendar-side {
+      font-size: clamp(10px, 1.4vw, 15px);
+      gap: 5px;
+    }
+
+    .calendar-object.large .calendar-side-label {
+      font-size: clamp(34px, 5.4vw, 58px);
+    }
+
+    .calendar-object.large .calendar-side-note {
+      font-size: clamp(13px, 1.9vw, 21px);
+    }
+
+    .calendar-object.large .calendar-mini-month {
+      font-size: clamp(7px, 0.9vw, 10px);
+    }
+
+    .calendar-object.large .calendar-main-day {
+      font-size: clamp(150px, 22vw, 250px);
+      line-height: 0.78;
+    }
+
+    .calendar-object.large .calendar-month-overline {
+      font-size: clamp(16px, 2.2vw, 26px);
+      margin-bottom: clamp(6px, 1vw, 12px);
+    }
+
+    .calendar-object.large .calendar-meta {
+      font-size: clamp(15px, 2vw, 22px);
+    }
+
+    .calendar-object.large .calendar-meta .calendar-tamil-date {
+      font-size: clamp(12px, 1.55vw, 18px);
+    }
+
+    .calendar-page-flip {
+      background:
+        linear-gradient(180deg, rgba(255,255,253,0.99), rgba(250,249,244,0.98)),
+        repeating-linear-gradient(88deg, rgba(28, 26, 22, 0.026) 0 1px, transparent 1px 8px);
+      border-bottom: 1px solid var(--calendar-rule);
+      inset: 0;
+      opacity: 0;
+      position: absolute;
+      transform-origin: top center;
+      transform-style: preserve-3d;
+      z-index: 5;
+    }
+
+    .calendar-page-flip span {
+      color: var(--calendar-ink);
+      display: block;
+      font-family: "Arial Black", "HelveticaNeue-CondensedBlack", "Helvetica Neue Condensed Black", Impact, sans-serif;
+      font-size: calc(var(--shelf-item-width) * 0.76);
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      line-height: 0.76;
+      margin-top: 34%;
+      text-align: center;
+      transform: scaleX(0.88);
+    }
+
+    .calendar-object.large .calendar-page-flip span {
+      font-size: clamp(150px, 22vw, 250px);
+    }
+
+    .calendar-object.flip-once .calendar-page-flip {
+      animation: calendarPageFlip 1.25s cubic-bezier(0.45, 0, 0.18, 1) 0.25s forwards;
+      opacity: 1;
+    }
+
+    @keyframes calendarPageFlip {
+      0% {
+        opacity: 1;
+        transform: rotateX(0deg) translateY(0);
+      }
+      55% {
+        opacity: 1;
+        transform: rotateX(-82deg) translateY(-3%);
+      }
+      100% {
+        opacity: 0;
+        transform: rotateX(-118deg) translateY(-10%);
+      }
+    }
+
     /* List view item */
     .list-item {
       cursor: pointer;
@@ -235,7 +1205,7 @@
   <!-- Fullscreen painting modal -->
   <div id="painting-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center z-50"></div>
 
-  <script src="/Books.js?v=bookshelf-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote"></script>
+  <script src="/Books.js?v=bookshelf-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote-reader-caption-live-calendar-ok-kanmani-cover"></script>
   <script>
     let darkMode = localStorage.getItem('darkMode') === 'true';
 
@@ -281,6 +1251,88 @@
       m = d.match(/^(\d{1,2})\/\d{1,2}\/(\d{4})$/);
       if (m) return `${MONTHS[+m[1] - 1]} ${m[2]}`;
       return d;
+    }
+
+    const calendarShouldFlipOnLoad = true;
+    let calendarFlipConsumed = false;
+
+    function shouldUseCalendarFlip() {
+      if (!calendarShouldFlipOnLoad || calendarFlipConsumed) return false;
+      calendarFlipConsumed = true;
+      return true;
+    }
+
+    function getLiveCalendarDate(date = new Date()) {
+      const today = date;
+      const mandarinWeekdays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+      return {
+        dateObject: today,
+        day: today.getDate(),
+        weekday: new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(today),
+        weekdayFull: new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(today),
+        monthShort: new Intl.DateTimeFormat('en-US', { month: 'short' }).format(today),
+        monthLong: new Intl.DateTimeFormat('en-US', { month: 'long' }).format(today),
+        monthYear: new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(today),
+        year: today.getFullYear(),
+        tamilWeekday: new Intl.DateTimeFormat('ta-IN', { weekday: 'long' }).format(today),
+        mandarinWeekday: mandarinWeekdays[today.getDay()],
+        tamilDate: new Intl.DateTimeFormat('ta-IN', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        }).format(today)
+      };
+    }
+
+    function renderMiniMonth(baseDate, offset = 0) {
+      const target = new Date(baseDate.getFullYear(), baseDate.getMonth() + offset, 1);
+      const daysInMonth = new Date(target.getFullYear(), target.getMonth() + 1, 0).getDate();
+      const firstWeekday = target.getDay();
+      const cells = [];
+
+      for (let i = 0; i < 35; i++) {
+        const day = i - firstWeekday + 1;
+        const isToday = offset === 0 && day === baseDate.getDate();
+        cells.push(`<span class="${day < 1 || day > daysInMonth ? 'muted' : ''} ${isToday ? 'today' : ''}">${day < 1 || day > daysInMonth ? '·' : day}</span>`);
+      }
+
+      return `<div class="calendar-mini-month" aria-hidden="true">${cells.join('')}</div>`;
+    }
+
+    function renderCalendarObject(size = '', variant = '', options = {}) {
+      const date = getLiveCalendarDate();
+      const yesterday = new Date(date.dateObject);
+      yesterday.setDate(yesterday.getDate() - 1);
+      const previousDate = getLiveCalendarDate(yesterday);
+      const shouldFlip = options.flip === false ? false : shouldUseCalendarFlip();
+      return `
+        <div class="calendar-object ${size} ${variant} ${shouldFlip ? 'flip-once' : ''}" aria-label="Tamil calendar showing ${date.weekdayFull}, ${date.monthYear} ${date.day}">
+          <div class="calendar-roll" data-prev-day="${previousDate.day}" data-month="${date.monthShort}" data-year="${date.year}"></div>
+          <div class="calendar-page">
+            <div class="calendar-top">
+              <div class="calendar-side">
+                <div class="calendar-side-label">${date.weekday}</div>
+              </div>
+              <div class="calendar-side calendar-side-right">
+                <div>${date.monthShort}</div>
+                <div>${date.year}</div>
+                ${renderMiniMonth(date.dateObject, 0)}
+              </div>
+            </div>
+            <div class="calendar-date-stack">
+              <div class="calendar-month-overline">${date.monthLong}</div>
+              <div class="calendar-main-day">${date.day}</div>
+            </div>
+            <div class="calendar-meta">
+              <span>${date.weekday}</span>
+              <span class="calendar-tamil-date">${date.tamilWeekday} · ${date.mandarinWeekday}</span>
+            </div>
+            <div class="calendar-dot-field"></div>
+            ${shouldFlip ? `<div class="calendar-page-flip" aria-hidden="true"><span>${previousDate.day}</span></div>` : ''}
+          </div>
+        </div>
+      `;
     }
 
     function getItemCategory(item) {
@@ -439,6 +1491,13 @@
                   </div>
                 `;
               }
+              if (item.type === "calendar") {
+                return `
+                  <div class="cursor-pointer" onclick="openModal(${item.id})" style="width:var(--shelf-item-width);">
+                    ${renderCalendarObject()}
+                  </div>
+                `;
+              }
               if (item.type === "painting") {
                 return `
                   <div class="cursor-pointer" onclick="openModal(${item.id})" style="width:var(--shelf-item-width);">
@@ -568,13 +1627,25 @@
       const actionLabel = item.type === "video" || item.category?.some(c => c === "Videos" || c === "Video")
         ? "Watch it"
         : "Read it";
+      const detailHtml = item.type === "calendar"
+        ? `<div class="calendar-display mt-4">${renderCalendarObject("large", "detail")}</div>`
+        : `<div class="${dm ? 'text-gray-300' : 'text-gray-700'} leading-relaxed">${notesHtml}</div>`;
+      const authorHtml = item.author
+        ? `<p class="${dm ? 'text-gray-400' : 'text-gray-500'} mb-6">${item.author}</p>`
+        : '';
+      const dateHtml = item.dateRead
+        ? `<p class="text-sm text-gray-400 mb-4">${formatDate(item.dateRead)}</p>`
+        : '';
+      const titleHtml = item.type === "calendar"
+        ? ''
+        : `<h2 class="text-2xl font-serif font-bold mb-1 pr-8 ${dm ? 'text-gray-100' : ''}">${item.title}</h2>`;
 
       return `
         <button onclick="closePanel()" class="${dm ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'} text-xl float-right">✕</button>
-        <h2 class="text-2xl font-serif font-bold mb-1 pr-8 ${dm ? 'text-gray-100' : ''}">${item.title}</h2>
-        <p class="${dm ? 'text-gray-400' : 'text-gray-500'} mb-6">${item.author}</p>
-        <p class="text-sm text-gray-400 mb-4">${formatDate(item.dateRead)}</p>
-        <div class="${dm ? 'text-gray-300' : 'text-gray-700'} leading-relaxed">${notesHtml}</div>
+        ${titleHtml}
+        ${authorHtml}
+        ${dateHtml}
+        ${detailHtml}
         ${item.url ? `<a href="${item.url}" target="_blank" class="text-orange-500 hover:text-orange-600 text-sm block mt-6">→ ${actionLabel}</a>` : ''}
       `;
     }
@@ -621,6 +1692,10 @@
       const item = items.find(item => item.id === id);
       if (!item) return;
 
+      if (item.type === "calendar") {
+        openCalendarModal(item);
+        return;
+      }
       if (item.type === "painting") {
         openPaintingModal(item);
         return;
@@ -666,7 +1741,21 @@
           <div class="text-center">
             <img src="${item.cover}" alt="${item.title}" style="max-width:90vw; max-height:80vh; object-fit:contain; border-radius:4px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);" />
             <h2 class="text-white text-2xl font-normal mt-4">${item.title}</h2>
-            <p class="text-gray-300 text-lg">${item.author}</p>
+            ${item.author ? `<p class="text-gray-300 text-lg">${item.author}</p>` : ''}
+          </div>
+        </div>
+      `;
+      paintingModal.classList.remove('hidden');
+      paintingModal.classList.add('flex');
+    }
+
+    function openCalendarModal(item) {
+      const paintingModal = document.getElementById('painting-modal');
+      paintingModal.innerHTML = `
+        <div class="relative w-full h-full flex items-center justify-center p-6" onclick="if(event.target===this)closePaintingModal()">
+          <button onclick="closePaintingModal()" class="absolute top-6 right-6 text-white text-3xl hover:text-gray-300 z-10">&#10005;</button>
+          <div class="calendar-display calendar-modal-display" onclick="event.stopPropagation()">
+            ${renderCalendarObject('large', '', { flip: false })}
           </div>
         </div>
       `;
