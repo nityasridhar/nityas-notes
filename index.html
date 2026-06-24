@@ -43,7 +43,7 @@
       grid-template-columns: repeat(auto-fill, 100px);
       grid-template-rows: repeat(auto-fill, 100px);
       gap: 0;
-      opacity: 0.35;
+      opacity: 0.315;
     }
 
     #wall-text {
@@ -439,8 +439,8 @@
     function syncWallTextClearZone() {
       const titleRect = document.getElementById('title-overlay').getBoundingClientRect();
       const horizontalClear = Math.min(
-        window.innerWidth * (isMobile ? 0.84 : 0.66),
-        Math.max(RADIUS + CARD_SIZE * (isMobile ? 3.8 : 5.4), titleRect.width / 2 + (isMobile ? 100 : 200))
+        window.innerWidth * (isMobile ? 0.8 : 0.62),
+        Math.max(RADIUS + CARD_SIZE * (isMobile ? 3.4 : 4.6), titleRect.width / 2 + (isMobile ? 92 : 180))
       );
       const verticalClear = Math.min(
         window.innerHeight * (isMobile ? 0.56 : 0.62),
