@@ -71,14 +71,14 @@
       mix-blend-mode: multiply;
       -webkit-mask-image: radial-gradient(
         ellipse var(--wall-clear-x) var(--wall-clear-y) at 50% 50%,
-        transparent 0 76%,
-        rgba(0, 0, 0, 0.12) 88%,
+        transparent 0 88%,
+        rgba(0, 0, 0, 0.12) 96%,
         #000 100%
       );
       mask-image: radial-gradient(
         ellipse var(--wall-clear-x) var(--wall-clear-y) at 50% 50%,
-        transparent 0 76%,
-        rgba(0, 0, 0, 0.12) 88%,
+        transparent 0 88%,
+        rgba(0, 0, 0, 0.12) 96%,
         #000 100%
       );
     }
@@ -439,12 +439,12 @@
     function syncWallTextClearZone() {
       const titleRect = document.getElementById('title-overlay').getBoundingClientRect();
       const horizontalClear = Math.min(
-        window.innerWidth * (isMobile ? 0.78 : 0.58),
-        Math.max(RADIUS + CARD_SIZE * (isMobile ? 3.2 : 5.1), titleRect.width / 2 + (isMobile ? 88 : 170))
+        window.innerWidth * (isMobile ? 0.9 : 0.72),
+        Math.max(RADIUS + CARD_SIZE * (isMobile ? 4.2 : 6.6), titleRect.width / 2 + (isMobile ? 110 : 220))
       );
       const verticalClear = Math.min(
-        window.innerHeight * (isMobile ? 0.43 : 0.44),
-        Math.max(RADIUS + CARD_SIZE * (isMobile ? 2.2 : 2.1), titleRect.height / 2 + RADIUS * 0.78 + (isMobile ? 56 : 94))
+        window.innerHeight * (isMobile ? 0.56 : 0.62),
+        Math.max(RADIUS + CARD_SIZE * (isMobile ? 3.4 : 4.6), titleRect.height / 2 + RADIUS + CARD_SIZE * (isMobile ? 2.2 : 3.2))
       );
 
       wallText.style.setProperty('--wall-clear-x', `${Math.round(horizontalClear)}px`);
