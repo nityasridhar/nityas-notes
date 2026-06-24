@@ -439,8 +439,8 @@
     function syncWallTextClearZone() {
       const titleRect = document.getElementById('title-overlay').getBoundingClientRect();
       const horizontalClear = Math.min(
-        window.innerWidth * (isMobile ? 0.9 : 0.72),
-        Math.max(RADIUS + CARD_SIZE * (isMobile ? 4.2 : 6.6), titleRect.width / 2 + (isMobile ? 110 : 220))
+        window.innerWidth * (isMobile ? 0.84 : 0.66),
+        Math.max(RADIUS + CARD_SIZE * (isMobile ? 3.8 : 5.4), titleRect.width / 2 + (isMobile ? 100 : 200))
       );
       const verticalClear = Math.min(
         window.innerHeight * (isMobile ? 0.56 : 0.62),
