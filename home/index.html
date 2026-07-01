@@ -77,7 +77,7 @@
     </footer>
   </div>
 
-  <script src="/Books.js?v=recent-reading-watching-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote-reader-caption-live-calendar-ok-kanmani-cover-readable-urls"></script>
+  <script src="/Books.js?v=recent-reading-watching-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote-reader-caption-live-calendar-ok-kanmani-cover-hash-urls"></script>
   <script>
     const recentWritingList = document.getElementById('recent-writing-list');
     const recentReadingList = document.getElementById('recent-reading-list');
@@ -156,7 +156,7 @@
     readingItems.forEach((item) => {
       const link = document.createElement('a');
       if (item.id !== undefined && item.id !== null) {
-        link.href = `/bookshelf/?item=${encodeURIComponent(getItemSlug(item))}`;
+        link.href = `/bookshelf/#${encodeURIComponent(getItemSlug(item))}`;
       } else {
         link.href = item.url || '#';
       }

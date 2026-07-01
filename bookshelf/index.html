@@ -1205,7 +1205,7 @@
   <!-- Fullscreen painting modal -->
   <div id="painting-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center z-50"></div>
 
-  <script src="/Books.js?v=bookshelf-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote-reader-caption-live-calendar-ok-kanmani-cover-labatut-cover-readable-urls"></script>
+  <script src="/Books.js?v=bookshelf-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote-reader-caption-live-calendar-ok-kanmani-cover-labatut-cover-hash-urls"></script>
   <script>
     let darkMode = localStorage.getItem('darkMode') === 'true';
 
@@ -1360,18 +1360,21 @@
       const item = items.find(i => i.id === id);
       if (!item) return;
       const url = new URL(window.location.href);
-      url.searchParams.set("item", getItemSlug(item));
+      url.searchParams.delete("item");
+      url.hash = getItemSlug(item);
       history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
     }
 
     function clearItemUrl() {
       const url = new URL(window.location.href);
       url.searchParams.delete("item");
+      url.hash = "";
       history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
     }
 
     function applyInitialItemFromUrl() {
-      const itemParam = new URLSearchParams(window.location.search).get("item");
+      const legacyItemParam = new URLSearchParams(window.location.search).get("item");
+      const itemParam = window.location.hash ? decodeURIComponent(window.location.hash.slice(1)) : legacyItemParam;
       if (!itemParam) return;
       const item = findItemByUrlParam(itemParam);
       if (!item) return;
