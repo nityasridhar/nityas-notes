@@ -1205,7 +1205,7 @@
   <!-- Fullscreen painting modal -->
   <div id="painting-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center z-50"></div>
 
-  <script src="/Books.js?v=bookshelf-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote-reader-caption-live-calendar-ok-kanmani-cover-labatut-cover"></script>
+  <script src="/Books.js?v=bookshelf-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote-reader-caption-live-calendar-ok-kanmani-cover-labatut-cover-readable-urls"></script>
   <script>
     let darkMode = localStorage.getItem('darkMode') === 'true';
 
@@ -1339,9 +1339,28 @@
       return item.category?.find(category => category !== "Bookshelf" && categories.includes(category)) || "Books";
     }
 
+    function getItemSlug(item) {
+      return (item.slug || item.title || String(item.id))
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/['’]/g, "")
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function findItemByUrlParam(itemParam) {
+      const normalizedParam = itemParam.toLowerCase();
+      return items.find(item => String(item.id) === itemParam) ||
+        items.find(item => getItemSlug(item) === normalizedParam);
+    }
+
     function updateItemUrl(id) {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
       const url = new URL(window.location.href);
-      url.searchParams.set("item", id);
+      url.searchParams.set("item", getItemSlug(item));
       history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
     }
 
@@ -1352,13 +1371,14 @@
     }
 
     function applyInitialItemFromUrl() {
-      const itemId = new URLSearchParams(window.location.search).get("item");
-      if (!itemId) return;
-      const item = items.find(i => String(i.id) === itemId);
+      const itemParam = new URLSearchParams(window.location.search).get("item");
+      if (!itemParam) return;
+      const item = findItemByUrlParam(itemParam);
       if (!item) return;
       selectedCategory = getItemCategory(item);
       selectedItemId = item.id;
       searchQuery = "";
+      updateItemUrl(item.id);
     }
 
     function scrollSelectedItemIntoView() {

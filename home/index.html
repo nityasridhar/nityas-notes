@@ -77,7 +77,7 @@
     </footer>
   </div>
 
-  <script src="/Books.js?v=recent-reading-watching-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote-reader-caption-live-calendar-ok-kanmani-cover"></script>
+  <script src="/Books.js?v=recent-reading-watching-videos-marriage-notes-phd-letter-scenes-rewired-wisdom-life-maker-schedule-cover-notes-bullets-happiness-health-italic-leisure-subbullets-vitality-maker-note-understanding-separate-note-long-quote-reader-caption-live-calendar-ok-kanmani-cover-readable-urls"></script>
   <script>
     const recentWritingList = document.getElementById('recent-writing-list');
     const recentReadingList = document.getElementById('recent-reading-list');
@@ -138,6 +138,17 @@
     }
 
     const readingCategories = new Set(['Books', 'Papers', 'Blogs', 'Movies', 'Videos', 'Video']);
+    function getItemSlug(item) {
+      return (item.slug || item.title || String(item.id))
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/['’]/g, "")
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
     const readingItems = items
       .filter((item) => item.showInRecent !== false && item.category?.some((category) => readingCategories.has(category)))
       .slice(0, 6);
@@ -145,7 +156,7 @@
     readingItems.forEach((item) => {
       const link = document.createElement('a');
       if (item.id !== undefined && item.id !== null) {
-        link.href = `/bookshelf/?item=${encodeURIComponent(item.id)}`;
+        link.href = `/bookshelf/?item=${encodeURIComponent(getItemSlug(item))}`;
       } else {
         link.href = item.url || '#';
       }
