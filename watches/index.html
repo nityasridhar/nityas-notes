@@ -419,7 +419,7 @@
 
     const toSlug = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const inscriptionLines = value => value.replace(/ \/ /g, '\n').replace(/ · /g, '\n');
-    const cutoutImage = value => `${value.replace('/images/watches/', '/images/watches/cutouts/').replace(/\.(?:jpe?g|png)$/i, '.webp')}?v=watch-cutouts-6`;
+    const cutoutImage = value => `${value.replace('/images/watches/', '/images/watches/cutouts/').replace(/\.(?:jpe?g|png)$/i, '.webp')}?v=watch-cutouts-7`;
     const modelReference = value => {
       const match = value.match(/\bref\.\s*[^\s,;]+/i);
       return match ? match[0].replace(/^ref\./i, 'Ref.') : '';
