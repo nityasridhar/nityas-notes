@@ -173,7 +173,8 @@
       transition: transform .58s cubic-bezier(.2,.7,.2,1);
     }
     .watch-card.flipped .watch-flip { transform: rotateY(180deg); }
-    .watch-toggle:focus-visible .watch-flip { outline: 1px solid var(--accent); outline-offset: 4px; }
+    .watch-toggle:focus-visible { outline: none; }
+    .watch-toggle:focus-visible ~ .card-caption .card-person { text-decoration: underline; text-underline-offset: 3px; }
 
     .watch-face {
       -webkit-backface-visibility: hidden;
