@@ -61,85 +61,6 @@
       z-index: 20;
     }
 
-    .featured-carousel {
-      background: #fff;
-      border-bottom: 1px solid var(--line);
-      overflow: hidden;
-      padding: 34px 0 38px;
-      position: relative;
-    }
-    .featured-track {
-      align-items: flex-end;
-      display: flex;
-      gap: clamp(28px, 3.5vw, 64px);
-      overflow-x: auto;
-      overscroll-behavior-x: contain;
-      padding: 0 clamp(58px, 10vw, 180px) 4px;
-      scroll-behavior: smooth;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-    }
-    .featured-track::-webkit-scrollbar { display: none; }
-    .featured-card {
-      flex: 0 0 clamp(270px, 30vw, 490px);
-      scroll-snap-align: center;
-      text-align: center;
-    }
-    .featured-stage {
-      align-items: center;
-      background: linear-gradient(145deg, #faf9f6, #eeeae3);
-      border-radius: 15px;
-      box-shadow: 0 7px 22px rgba(45, 38, 31, .08);
-      display: flex;
-      height: clamp(320px, 34vw, 500px);
-      justify-content: center;
-      overflow: hidden;
-      padding: clamp(18px, 2.5vw, 34px);
-    }
-    .featured-image {
-      filter: drop-shadow(0 12px 10px rgba(30, 24, 19, .2));
-      height: 100%;
-      object-fit: contain;
-      width: 100%;
-    }
-    .featured-person {
-      font-size: clamp(20px, 2vw, 29px);
-      font-weight: 300;
-      line-height: 1.1;
-      margin-top: 15px;
-    }
-    .featured-model {
-      color: #4f5960;
-      font-family: 'Suisse Intl', Arial, sans-serif;
-      font-size: clamp(11px, 1.05vw, 15px);
-      line-height: 1.35;
-      margin-top: 7px;
-    }
-    .featured-arrow {
-      align-items: center;
-      background: rgba(255,255,255,.96);
-      border: 1px solid rgba(70,64,57,.12);
-      border-radius: 50%;
-      box-shadow: 0 4px 14px rgba(28,24,20,.13);
-      color: var(--ink);
-      cursor: pointer;
-      display: flex;
-      font-family: 'Suisse Intl', Arial, sans-serif;
-      font-size: 31px;
-      height: 52px;
-      justify-content: center;
-      line-height: 1;
-      position: absolute;
-      top: 43%;
-      transform: translateY(-50%);
-      width: 52px;
-      z-index: 5;
-    }
-    .featured-arrow:hover { background: var(--paper); }
-    .featured-arrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-    .featured-arrow.previous { left: 14px; }
-    .featured-arrow.next { right: 14px; }
-
     .collection-grid {
       display: grid;
       gap: 56px 34px;
@@ -393,13 +314,6 @@
     }
 
     @media (max-width: 767px) {
-      .featured-carousel { padding: 22px 0 28px; }
-      .featured-track { gap: 20px; padding-left: 34px; padding-right: 34px; }
-      .featured-card { flex-basis: min(78vw, 330px); }
-      .featured-stage { height: 300px; }
-      .featured-arrow { height: 40px; width: 40px; }
-      .featured-arrow.previous { left: 7px; }
-      .featured-arrow.next { right: 7px; }
       .collection-grid { gap: 32px 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .watch-flip, .watch-stage { height: 215px; }
       .watch-photo { height: 202px; }
@@ -438,7 +352,6 @@
       Sport: '/images/watches/illustration-sport.png',
       Exploration: '/images/watches/illustration-exploration.png'
     };
-    const featuredWatchIds = [73, 1, 19, 5, 21, 32];
     let selectedWatchId = null;
     let flippedWatchId = null;
     let searchQuery = '';
@@ -472,21 +385,6 @@
       return `<div class="archive-search flex items-end gap-5"><label class="flex-1 min-w-0"><input class="search-input" type="search" value="${searchQuery.replace(/"/g, '&quot;')}" oninput="handleSearch(event)" placeholder="Search a person, watchmaker, model, or engraving…" aria-label="Search across all watch engravings"></label><span class="eyebrow whitespace-nowrap hidden sm:inline">${currentWatches().length} records</span></div>`;
     }
 
-    function renderFeaturedWatches() {
-      const featured = featuredWatchIds.map(id => watches.find(watch => watch.id === id)).filter(Boolean);
-      return `<section class="featured-carousel" aria-label="Featured watch engravings">
-        <button class="featured-arrow previous" type="button" onclick="scrollFeatured(-1)" aria-label="Previous featured watches">‹</button>
-        <div class="featured-track" id="featured-track">
-          ${featured.map((watch, index) => `<article class="featured-card">
-            <div class="featured-stage"><img class="featured-image" src="${cutoutImage(watch.image || editorialIllustrations[watch.category])}" alt="${watch.brand} ${watch.model} connected to ${watch.person}" ${index < 2 ? 'fetchpriority="high"' : 'loading="lazy"'}></div>
-            <h2 class="featured-person">${watch.person}</h2>
-            <p class="featured-model">${watch.brand}</p>
-          </article>`).join('')}
-        </div>
-        <button class="featured-arrow next" type="button" onclick="scrollFeatured(1)" aria-label="Next featured watches">›</button>
-      </section>`;
-    }
-
     function watchVisual(watch) {
       if (watch.image) return `<img class="watch-photo" src="${cutoutImage(watch.image)}" alt="${watch.brand} ${watch.model} connected to ${watch.person}" loading="lazy">`;
       return `<img class="watch-photo" src="${cutoutImage(editorialIllustrations[watch.category])}" alt="Editorial reconstruction for ${watch.person}; original photograph unavailable" loading="lazy"><span class="visual-note">Editorial reconstruction</span>`;
@@ -506,7 +404,6 @@
     function renderCollection() {
       const filtered = currentWatches();
       document.getElementById('main-area').innerHTML = `
-        ${renderFeaturedWatches()}
         <main class="w-full max-w-[1480px] mx-auto px-5 sm:px-8 py-8">
           <div class="max-w-2xl mb-7">
             <h1 class="text-3xl sm:text-5xl font-light leading-[1.05] mb-3">Search over Watch Engravings</h1>
@@ -581,12 +478,6 @@
 
     function render() {
       renderCollection();
-    }
-
-    function scrollFeatured(direction) {
-      const track = document.getElementById('featured-track');
-      if (!track) return;
-      track.scrollBy({ left: direction * Math.min(track.clientWidth * .78, 560), behavior: 'smooth' });
     }
 
     function handleSearch(event) { searchQuery = event.target.value; selectedWatchId = null; flippedWatchId = null; render(); requestAnimationFrame(() => { const input = document.querySelector('.search-input'); if (input) { input.focus(); input.setSelectionRange(searchQuery.length, searchQuery.length); } }); }
