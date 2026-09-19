@@ -299,8 +299,22 @@
     .card-caption { padding-top: 10px; text-align: left; }
     .card-person { font-size: 14px; line-height: 1.1; }
     .card-model { color: var(--muted); font-size: 11px; line-height: 1.2; margin-top: 3px; }
-    .card-source { color: #a75d3c; display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 8px; letter-spacing: .1em; margin-top: 6px; text-transform: uppercase; }
-    .card-source:hover { color: #6f3922; }
+    .back-source {
+      color: #a75d3c;
+      display: none;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 8px;
+      left: 50%;
+      letter-spacing: .1em;
+      position: absolute;
+      text-transform: uppercase;
+      top: 205px;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 4;
+    }
+    .watch-card.flipped .back-source { display: inline-block; }
+    .back-source:hover { color: #6f3922; }
 
     .record-row {
       border-bottom: 1px solid var(--line);
@@ -365,6 +379,7 @@
       .watch-flip, .watch-stage { height: 190px; }
       .watch-photo { height: 176px; }
       .quote-text { max-height: 138px; }
+      .back-source { top: 165px; }
       .card-person { font-size: 12px; }
       .card-model { display: none; }
     }
@@ -460,7 +475,8 @@
                     <div class="watch-face watch-quote ${quoteSize(watch)}" aria-hidden="true"><blockquote class="quote-text">${inscriptionLines(watch.inscription)}</blockquote></div>
                   </div>
                 </button>
-                <div class="card-caption"><div class="card-person">${watch.person}</div><div class="card-model">${watch.brand} · ${watch.model}</div><a class="card-source" href="${watch.source}" target="_blank" rel="noreferrer">Source ↗</a></div>
+                <a class="back-source" href="${watch.source}" target="_blank" rel="noreferrer">Source ↗</a>
+                <div class="card-caption"><div class="card-person">${watch.person}</div><div class="card-model">${watch.brand} · ${watch.model}</div></div>
               </article>`).join('')}
           </div>
           ${filtered.length ? '' : '<p class="text-stone-400 italic">No inscriptions found.</p>'}
