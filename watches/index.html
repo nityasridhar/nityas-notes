@@ -7,10 +7,11 @@
   <title>Watch inscriptions — Nitya's Notes</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
-    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Light.ttf'); font-weight: 300; }
-    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Regular.ttf'); font-weight: 400; }
-    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Medium.ttf'); font-weight: 500; }
+    @font-face { font-family: 'Suisse Intl'; src: url('/fonts/suisse-intl-regular.woff2') format('woff2'); font-display: swap; font-weight: 300; }
+    @font-face { font-family: 'Suisse Intl'; src: url('/fonts/suisse-intl-regular.woff2') format('woff2'); font-display: swap; font-weight: 400; }
+    @font-face { font-family: 'Suisse Intl'; src: url('/fonts/suisse-intl-medium.woff2') format('woff2'); font-display: swap; font-weight: 500; }
+    @font-face { font-family: 'Suisse Intl'; src: url('/fonts/suisseintl-semibold.woff2') format('woff2'); font-display: swap; font-weight: 600; }
+    @font-face { font-family: 'Suisse Intl'; src: url('/fonts/suisseintl-bold.woff2') format('woff2'); font-display: swap; font-weight: 700; }
 
     :root {
       --ink: #24211d;
@@ -24,12 +25,12 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { background: var(--paper); color: var(--ink); font-family: 'Spectral', Georgia, serif; overflow-x: hidden; }
+    body { background: var(--paper); color: var(--ink); font-family: 'Suisse Intl', Arial, sans-serif; overflow-x: hidden; }
     button, input { font: inherit; }
 
     .eyebrow {
       color: var(--muted);
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-family: 'Suisse Intl', Arial, sans-serif;
       font-size: 10px;
       letter-spacing: .15em;
       text-transform: uppercase;
@@ -109,7 +110,7 @@
     }
     .featured-model {
       color: #4f5960;
-      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-family: 'Suisse Intl', Arial, sans-serif;
       font-size: clamp(11px, 1.05vw, 15px);
       line-height: 1.35;
       margin-top: 7px;
@@ -123,7 +124,7 @@
       color: var(--ink);
       cursor: pointer;
       display: flex;
-      font-family: Georgia, serif;
+      font-family: 'Suisse Intl', Arial, sans-serif;
       font-size: 31px;
       height: 52px;
       justify-content: center;
@@ -207,7 +208,7 @@
       background: rgba(249,248,245,.9);
       bottom: 7px;
       color: var(--muted);
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-family: 'Suisse Intl', Arial, sans-serif;
       font-size: 7px;
       left: 8px;
       letter-spacing: .08em;
@@ -277,7 +278,7 @@
     .watch-card:hover .watch-back,
     .watch-card:focus-visible .watch-back { transform: translateY(-3px) rotateY(10deg); }
     .watch-back-mark {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-family: 'Suisse Intl', Arial, sans-serif;
       font-size: 7px;
       line-height: 1.18;
       max-height: 34px;
@@ -287,12 +288,12 @@
 
     .card-caption { padding-top: 13px; text-align: center; }
     .card-person { font-size: 18px; font-weight: 300; line-height: 1.12; }
-    .card-model { color: #4f5960; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; line-height: 1.25; margin-top: 5px; }
+    .card-model { color: #4f5960; font-family: 'Suisse Intl', Arial, sans-serif; font-size: 11px; line-height: 1.25; margin-top: 5px; }
     .back-meta {
       align-items: center;
       display: none;
       flex-direction: column;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-family: 'Suisse Intl', Arial, sans-serif;
       gap: 3px;
       left: 0;
       position: absolute;
@@ -342,7 +343,7 @@
       border-radius: 999px;
       color: var(--muted);
       display: inline-flex;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-family: 'Suisse Intl', Arial, sans-serif;
       font-size: 9px;
       gap: 5px;
       letter-spacing: .08em;
