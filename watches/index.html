@@ -238,7 +238,7 @@
       inset: 0;
       justify-content: center;
       overflow: hidden;
-      padding: 18px 12px;
+      padding: 16px 12px 46px;
       transform: rotateY(180deg);
     }
     .quote-text {
@@ -299,21 +299,27 @@
     .card-caption { padding-top: 10px; text-align: left; }
     .card-person { font-size: 14px; line-height: 1.1; }
     .card-model { color: var(--muted); font-size: 11px; line-height: 1.2; margin-top: 3px; }
-    .back-source {
-      color: #a75d3c;
+    .back-meta {
+      align-items: center;
       display: none;
+      flex-direction: column;
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 8px;
-      left: 50%;
-      letter-spacing: .1em;
+      gap: 3px;
+      left: 0;
       position: absolute;
-      text-transform: uppercase;
-      top: 205px;
-      transform: translateX(-50%);
-      white-space: nowrap;
+      right: 0;
+      top: 184px;
       z-index: 4;
     }
-    .watch-card.flipped .back-source { display: inline-block; }
+    .watch-card.flipped .back-meta { display: flex; }
+    .back-reference {
+      color: var(--muted);
+      font-size: 8px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .back-source { color: #a75d3c; font-size: 8px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
     .back-source:hover { color: #6f3922; }
 
     .record-row {
@@ -379,7 +385,7 @@
       .watch-flip, .watch-stage { height: 190px; }
       .watch-photo { height: 176px; }
       .quote-text { max-height: 138px; }
-      .back-source { top: 165px; }
+      .back-meta { top: 144px; }
       .card-person { font-size: 12px; }
       .card-model { display: none; }
     }
@@ -414,6 +420,16 @@
     const toSlug = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const inscriptionLines = value => value.replace(/ \/ /g, '\n').replace(/ · /g, '\n');
     const cutoutImage = value => `${value.replace('/images/watches/', '/images/watches/cutouts/').replace(/\.(?:jpe?g|png)$/i, '.webp')}?v=watch-cutouts-4`;
+    const modelReference = value => {
+      const match = value.match(/\bref\.\s*[^\s,;]+/i);
+      return match ? match[0].replace(/^ref\./i, 'Ref.') : '';
+    };
+    const modelWithoutReference = value => value
+      .replace(/\bref\.\s*[^\s,;]+/i, '')
+      .replace(/^\s*,\s*/, '')
+      .replace(/\s+,/g, ',')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
     const gradeText = { A: 'Direct source', B: 'Strong secondary source', C: 'Caution noted' };
 
     function matchesSearch(watch) {
@@ -438,7 +454,7 @@
           ${featured.map((watch, index) => `<article class="featured-card">
             <div class="featured-stage"><img class="featured-image" src="${cutoutImage(watch.image || editorialIllustrations[watch.category])}" alt="${watch.brand} ${watch.model} connected to ${watch.person}" ${index < 2 ? 'fetchpriority="high"' : 'loading="lazy"'}></div>
             <h2 class="featured-person">${watch.person}</h2>
-            <p class="featured-model">${watch.brand} · ${watch.model}</p>
+            <p class="featured-model">${watch.brand}${modelWithoutReference(watch.model) ? ` · ${modelWithoutReference(watch.model)}` : ''}</p>
           </article>`).join('')}
         </div>
         <button class="featured-arrow next" type="button" onclick="scrollFeatured(1)" aria-label="Next featured watches">›</button>
@@ -475,8 +491,8 @@
                     <div class="watch-face watch-quote ${quoteSize(watch)}" aria-hidden="true"><blockquote class="quote-text">${inscriptionLines(watch.inscription)}</blockquote></div>
                   </div>
                 </button>
-                <a class="back-source" href="${watch.source}" target="_blank" rel="noreferrer">Source ↗</a>
-                <div class="card-caption"><div class="card-person">${watch.person}</div><div class="card-model">${watch.brand} · ${watch.model}</div></div>
+                <div class="back-meta">${modelReference(watch.model) ? `<span class="back-reference">${modelReference(watch.model)}</span>` : ''}<a class="back-source" href="${watch.source}" target="_blank" rel="noreferrer">Source ↗</a></div>
+                <div class="card-caption"><div class="card-person">${watch.person}</div><div class="card-model">${watch.brand}${modelWithoutReference(watch.model) ? ` · ${modelWithoutReference(watch.model)}` : ''}</div></div>
               </article>`).join('')}
           </div>
           ${filtered.length ? '' : '<p class="text-stone-400 italic">No inscriptions found.</p>'}
