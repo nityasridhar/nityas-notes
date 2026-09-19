@@ -422,7 +422,9 @@
     }
 
     function currentWatches() {
-      return watches.filter(matchesSearch);
+      return watches
+        .filter(matchesSearch)
+        .sort((a, b) => (a.image ? 0 : 1) - (b.image ? 0 : 1));
     }
 
     function renderSearch() {
