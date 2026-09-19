@@ -7,6 +7,14 @@
     --text-muted: #9ca3af;
     --border-color: #f3f4f6;
   }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    overflow-x: hidden;
+  }
   
   .dark-mode {
     /* darkmode */
@@ -26,11 +34,22 @@ body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+img {
+    height: auto;
+    max-width: 100%;
 }
 .centered-content {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
+    padding-left: clamp(20px, 4vw, 32px);
+    padding-right: clamp(20px, 4vw, 32px);
+    width: 100%;
 }
 
 body.left-aligned {
@@ -38,8 +57,8 @@ body.left-aligned {
 }
 header {
     width: 100%;
-    padding-left: 32px;
-    padding-right: 32px;
+    padding-left: clamp(20px, 4vw, 32px);
+    padding-right: clamp(20px, 4vw, 32px);
     padding-top: 24px;
     padding-bottom: 24px;
 }
@@ -48,7 +67,8 @@ li a {
     color: #6b7280;  
 }
 .page-title {
-    padding-left: 32px;
+    padding-left: clamp(20px, 4vw, 32px);
+    padding-right: clamp(20px, 4vw, 32px);
     padding-top: 24px;
     padding-bottom: 24px;
 }
@@ -58,10 +78,18 @@ div.container {
 
 .two-column {
     display: flex;
+    gap: 24px;
 }
 
 .column {
     flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 640px) {
+    .two-column {
+        flex-direction: column;
+    }
 }
 
 @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }

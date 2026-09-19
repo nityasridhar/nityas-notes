@@ -411,6 +411,19 @@
       .back-watch-brand { font-size: 17px; }
       .back-watch-model { font-size: 11px; }
     }
+
+    @media (max-width: 560px) {
+      .collection-grid { gap: 44px; grid-template-columns: minmax(0, 1fr); }
+      .watch-flip, .watch-stage { height: 330px; }
+      .watch-photo { height: 315px; }
+      .back-meta { top: 284px; }
+      .card-person { font-size: 18px; }
+      .caption-quote,
+      .caption-quote.quote-medium { font-size: 13px; line-height: 1.24; max-width: 330px; }
+      .caption-quote.quote-long { font-size: 12px; line-height: 1.2; max-width: 340px; }
+      .back-watch-brand { font-size: 21px; }
+      .back-watch-model { font-size: 14px; }
+    }
   </style>
 </head>
 <body class="min-h-screen">
@@ -494,7 +507,7 @@
       const filtered = currentWatches();
       document.getElementById('main-area').innerHTML = `
         ${renderFeaturedWatches()}
-        <main class="px-5 sm:px-8 py-8 max-w-[1480px]">
+        <main class="w-full max-w-[1480px] mx-auto px-5 sm:px-8 py-8">
           <div class="max-w-2xl mb-7">
             <h1 class="text-3xl sm:text-5xl font-light leading-[1.05] mb-3">Search over Watch Engravings</h1>
             <p class="text-stone-500 leading-relaxed">An assortment of personalized watch engravings</p>

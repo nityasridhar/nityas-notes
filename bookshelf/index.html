@@ -1162,7 +1162,7 @@
 
   <header class="px-5 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row justify-between items-start sm:items-baseline gap-4">
     <a href="/home" class="text-2xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
-    <nav class="flex gap-4 sm:gap-6 text-sm tracking-wide">
+    <nav class="flex flex-wrap gap-x-4 gap-y-2 sm:gap-x-6 text-sm tracking-wide">
       <a href="/bookshelf" class="text-gray-900 dark:text-gray-100 font-normal">BOOKSHELF</a>
       <a href="/making-things" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">MAKING THINGS</a>
       <a href="/writing" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">WRITING</a>
@@ -1171,7 +1171,7 @@
 
   <div class="flex flex-col md:flex-row">
     <!-- Left: Categories -->
-    <aside class="w-full md:w-44 px-8 py-4 md:p-8 shrink-0">
+    <aside class="w-full md:w-44 px-5 sm:px-8 py-4 md:p-8 shrink-0">
       <nav id="categories" class="flex flex-row flex-wrap items-start justify-start gap-x-4 gap-y-1 md:flex-col md:gap-x-0 md:space-y-2"></nav>
     </aside>
 
@@ -1183,7 +1183,7 @@
 
   <!-- Popup Modal (only for Bookshelf tab) -->
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-8 max-w-lg mx-4 relative">
+    <div class="bg-white rounded-lg p-5 sm:p-8 max-w-lg mx-4 relative">
       <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl">✕</button>
       
       <div class="flex gap-6">
@@ -1505,7 +1505,7 @@
       );
       
       container.innerHTML = `
-        <main class="flex-1 min-w-0 p-8">
+        <main class="flex-1 min-w-0 p-5 sm:p-8">
           <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-11 gap-4">
             ${allItems.map(item => {
               if (item.type === "lamp") {
@@ -1587,7 +1587,7 @@
       const dm = darkMode;
       container.innerHTML = `
         <!-- List -->
-        <main class="list-panel min-w-0 w-full p-8 border-b xl:border-b-0 ${dm ? 'border-gray-600' : 'border-gray-200'} ${selectedItemId ? 'hidden xl:block' : ''}">
+        <main class="list-panel min-w-0 w-full p-5 sm:p-8 border-b xl:border-b-0 ${dm ? 'border-gray-600' : 'border-gray-200'} ${selectedItemId ? 'hidden xl:block' : ''}">
           <!-- Search bar -->
           <div class="mb-6">
             <input
@@ -1632,7 +1632,7 @@
         ></div>
 
         <!-- Side Panel -->
-        <aside class="w-full flex-1 p-8 ${dm ? 'bg-gray-800' : 'bg-white'} xl:min-h-screen ${selectedItemId ? '' : 'hidden xl:block'}">
+        <aside class="w-full flex-1 p-5 sm:p-8 ${dm ? 'bg-gray-800' : 'bg-white'} xl:min-h-screen ${selectedItemId ? '' : 'hidden xl:block'}">
           <div id="panel-content">
             ${selectedItemId ? renderPanelContent() : '<p class="text-gray-400 italic">Click an item to see notes</p>'}
           </div>
