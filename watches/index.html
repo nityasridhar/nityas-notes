@@ -232,18 +232,10 @@
       padding: 16px 12px 46px;
       transform: rotateY(180deg);
     }
-    .quote-text {
-      font-size: 18px;
-      font-weight: 400;
-      line-height: 1.18;
-      margin: auto 0;
-      max-height: 204px;
-      overflow: hidden;
-      text-wrap: balance;
-      white-space: pre-line;
-    }
-    .watch-quote.quote-medium .quote-text { font-size: 14px; line-height: 1.15; }
-    .watch-quote.quote-long .quote-text { font-size: 11px; line-height: 1.1; }
+    .back-watch-info { max-width: 280px; text-wrap: balance; }
+    .back-watch-brand { font-size: 21px; font-weight: 400; line-height: 1.1; }
+    .back-watch-model { color: var(--muted); font-size: 14px; line-height: 1.25; margin-top: 8px; }
+    .back-watch-info .back-reference { display: block; margin-top: 12px; }
 
     .watch-back {
       align-items: center;
@@ -289,7 +281,17 @@
 
     .card-caption { padding-top: 13px; text-align: center; }
     .card-person { font-size: 18px; font-weight: 300; line-height: 1.12; }
-    .card-model { color: #4f5960; font-family: 'Suisse Intl', Arial, sans-serif; font-size: 11px; line-height: 1.25; margin-top: 5px; }
+    .caption-quote {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.24;
+      margin: 9px auto 0;
+      max-width: 310px;
+      text-wrap: balance;
+      white-space: pre-line;
+    }
+    .caption-quote.quote-medium { font-size: 12px; line-height: 1.2; }
+    .caption-quote.quote-long { font-size: 11px; line-height: 1.16; }
     .back-meta {
       align-items: center;
       display: none;
@@ -322,6 +324,7 @@
       font-size: 8px;
       letter-spacing: .08em;
       line-height: 1.2;
+      margin-top: 7px;
       padding: 0 0 1px;
       text-transform: uppercase;
     }
@@ -400,10 +403,13 @@
       .collection-grid { gap: 32px 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .watch-flip, .watch-stage { height: 215px; }
       .watch-photo { height: 202px; }
-      .quote-text { max-height: 138px; }
       .back-meta { top: 169px; }
       .card-person { font-size: 15px; }
-      .card-model { font-size: 10px; }
+      .caption-quote { font-size: 12px; }
+      .caption-quote.quote-medium { font-size: 10.5px; }
+      .caption-quote.quote-long { font-size: 9.5px; }
+      .back-watch-brand { font-size: 17px; }
+      .back-watch-model { font-size: 11px; }
     }
   </style>
 </head>
@@ -434,6 +440,7 @@
       const match = value.match(/\bref\.\s*[^\s,;]+/i);
       return match ? match[0].replace(/^ref\./i, 'Ref.') : '';
     };
+    const modelWithoutReference = value => value.replace(/\s*\bref\.\s*[^\s,;]+/i, '').replace(/\s{2,}/g, ' ').trim();
     const gradeText = { A: 'Direct source', B: 'Strong secondary source', C: 'Caution noted' };
 
     function matchesSearch(watch) {
@@ -496,14 +503,14 @@
           <div class="collection-grid">
             ${filtered.map(watch => `
               <article class="watch-card ${flippedWatchId === watch.id ? 'flipped' : ''}" data-watch-id="${watch.id}">
-                <button class="watch-toggle" onclick="toggleWatch(${watch.id}, this)" aria-pressed="${flippedWatchId === watch.id}" aria-label="${flippedWatchId === watch.id ? `Show the watch for ${watch.person}` : `Show the inscription on ${watch.person}’s watch`}">
+                <button class="watch-toggle" onclick="toggleWatch(${watch.id}, this)" aria-pressed="${flippedWatchId === watch.id}" aria-label="${flippedWatchId === watch.id ? `Show the watch for ${watch.person}` : `Show watch details for ${watch.person}`}">
                   <div class="watch-flip">
                     <div class="watch-face watch-stage" aria-hidden="true">${watchVisual(watch)}</div>
-                    <div class="watch-face watch-quote ${quoteSize(watch)}" aria-hidden="true"><blockquote class="quote-text">${inscriptionLines(displayedInscription(watch))}</blockquote></div>
+                    <div class="watch-face watch-quote" aria-hidden="true"><div class="back-watch-info"><div class="back-watch-brand">${watch.brand}</div><div class="back-watch-model">${modelWithoutReference(watch.model)}</div>${modelReference(watch.model) ? `<span class="back-reference">${modelReference(watch.model)}</span>` : ''}</div></div>
                   </div>
                 </button>
-                <div class="back-meta">${watch.translation ? `<button class="translation-toggle" type="button" onclick="toggleTranslation(event, ${watch.id})" aria-pressed="${translatedWatchIds.has(watch.id)}">${translatedWatchIds.has(watch.id) ? 'French' : 'English'}</button>` : ''}${modelReference(watch.model) ? `<span class="back-reference">${modelReference(watch.model)}</span>` : ''}<a class="back-source" href="${watch.source}" target="_blank" rel="noreferrer">Source ↗</a></div>
-                <div class="card-caption"><div class="card-person">${watch.person}</div><div class="card-model">${watch.brand}</div></div>
+                <div class="back-meta"><a class="back-source" href="${watch.source}" target="_blank" rel="noreferrer">Source ↗</a></div>
+                <div class="card-caption"><div class="card-person">${watch.person}</div><blockquote class="caption-quote ${quoteSize(watch)}">${inscriptionLines(displayedInscription(watch))}</blockquote>${watch.translation ? `<button class="translation-toggle" type="button" onclick="toggleTranslation(event, ${watch.id})" aria-pressed="${translatedWatchIds.has(watch.id)}">${translatedWatchIds.has(watch.id) ? 'French' : 'English'}</button>` : ''}</div>
               </article>`).join('')}
           </div>
           ${filtered.length ? '' : '<p class="text-stone-400 italic">No inscriptions found.</p>'}
@@ -577,10 +584,9 @@
       if (translatedWatchIds.has(id)) translatedWatchIds.delete(id);
       else translatedWatchIds.add(id);
       const card = event.currentTarget.closest('.watch-card');
-      const quote = card.querySelector('.quote-text');
-      const quoteFace = card.querySelector('.watch-quote');
+      const quote = card.querySelector('.caption-quote');
       quote.textContent = inscriptionLines(displayedInscription(watch));
-      quoteFace.className = `watch-face watch-quote ${quoteSize(watch)}`;
+      quote.className = `caption-quote ${quoteSize(watch)}`;
       event.currentTarget.textContent = translatedWatchIds.has(id) ? 'French' : 'English';
       event.currentTarget.setAttribute('aria-pressed', String(translatedWatchIds.has(id)));
     }
@@ -594,11 +600,11 @@
         card.classList.remove('flipped');
         const previousButton = card.querySelector('.watch-toggle');
         previousButton.setAttribute('aria-pressed', 'false');
-        previousButton.setAttribute('aria-label', `Show the inscription on ${previous.person}’s watch`);
+        previousButton.setAttribute('aria-label', `Show watch details for ${previous.person}`);
       });
       card.classList.toggle('flipped', !wasFlipped);
       button.setAttribute('aria-pressed', String(!wasFlipped));
-      button.setAttribute('aria-label', wasFlipped ? `Show the inscription on ${watch.person}’s watch` : `Show the watch for ${watch.person}`);
+      button.setAttribute('aria-label', wasFlipped ? `Show watch details for ${watch.person}` : `Show the watch for ${watch.person}`);
       flippedWatchId = wasFlipped ? null : id;
     }
     function selectWatch(id) { selectedWatchId = id; const watch = watches.find(w => w.id === id); history.replaceState(null, '', `${location.pathname}#${toSlug(watch.person + '-' + watch.brand + '-' + watch.id)}`); renderList(); if (innerWidth < 1280) scrollTo(0, 0); }
