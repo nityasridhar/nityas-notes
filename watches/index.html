@@ -141,8 +141,8 @@
 
     .collection-grid {
       display: grid;
-      gap: 42px 24px;
-      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 56px 34px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
 
     .watch-card {
@@ -166,7 +166,7 @@
     }
 
     .watch-flip {
-      height: 230px;
+      height: 315px;
       position: relative;
       transform-style: preserve-3d;
       transition: transform .58s cubic-bezier(.2,.7,.2,1);
@@ -186,7 +186,7 @@
       align-items: center;
       background: var(--paper);
       display: flex;
-      height: 230px;
+      height: 315px;
       isolation: isolate;
       justify-content: center;
       overflow: hidden;
@@ -196,7 +196,7 @@
 
     .watch-photo {
       filter: drop-shadow(0 7px 5px rgba(30, 24, 19, .17));
-      height: 214px;
+      height: 298px;
       object-fit: contain;
       transition: transform .35s ease, filter .35s ease;
       width: 100%;
@@ -231,7 +231,7 @@
       transform: rotateY(180deg);
     }
     .quote-text {
-      font-size: 12px;
+      font-size: 15px;
       font-weight: 400;
       line-height: 1.16;
       margin: auto 0;
@@ -240,8 +240,8 @@
       text-wrap: balance;
       white-space: pre-line;
     }
-    .watch-quote.quote-medium .quote-text { font-size: 10px; line-height: 1.12; }
-    .watch-quote.quote-long .quote-text { font-size: 8px; line-height: 1.08; }
+    .watch-quote.quote-medium .quote-text { font-size: 12px; line-height: 1.12; }
+    .watch-quote.quote-long .quote-text { font-size: 10px; line-height: 1.08; }
 
     .watch-back {
       align-items: center;
@@ -297,7 +297,7 @@
       left: 0;
       position: absolute;
       right: 0;
-      top: 184px;
+      top: 269px;
       z-index: 4;
     }
     .watch-card.flipped .back-meta { display: flex; }
@@ -371,10 +371,10 @@
       .featured-arrow.previous { left: 7px; }
       .featured-arrow.next { right: 7px; }
       .collection-grid { gap: 32px 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .watch-flip, .watch-stage { height: 190px; }
-      .watch-photo { height: 176px; }
+      .watch-flip, .watch-stage { height: 215px; }
+      .watch-photo { height: 202px; }
       .quote-text { max-height: 138px; }
-      .back-meta { top: 144px; }
+      .back-meta { top: 169px; }
       .card-person { font-size: 15px; }
       .card-model { font-size: 10px; }
     }
