@@ -449,7 +449,7 @@
     }
 
     function renderSearch() {
-      return `<div class="archive-search flex items-end gap-5"><label class="flex-1 min-w-0"><input class="search-input" type="search" value="${searchQuery.replace(/"/g, '&quot;')}" oninput="handleSearch(event)" placeholder="Search a person, watchmaker, model, or inscription…" aria-label="Search across all watch inscriptions"></label><span class="eyebrow whitespace-nowrap hidden sm:inline">${currentWatches().length} records</span></div>`;
+      return `<div class="archive-search flex items-end gap-5"><label class="flex-1 min-w-0"><input class="search-input" type="search" value="${searchQuery.replace(/"/g, '&quot;')}" oninput="handleSearch(event)" placeholder="Search a person, watchmaker, model, or engraving…" aria-label="Search across all watch engravings"></label><span class="eyebrow whitespace-nowrap hidden sm:inline">${currentWatches().length} records</span></div>`;
     }
 
     function renderFeaturedWatches() {
