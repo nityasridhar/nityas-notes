@@ -185,7 +185,6 @@
     .watch-stage {
       align-items: center;
       background: var(--paper);
-      border-bottom: 2px solid #b6a792;
       display: flex;
       height: 230px;
       isolation: isolate;
@@ -193,16 +192,6 @@
       overflow: hidden;
       padding: 7px 5px 0;
       inset: 0;
-    }
-
-    .watch-stage::after {
-      background: linear-gradient(90deg, #c8b79e, #a38d70 50%, #d1c2ab);
-      bottom: -2px;
-      content: '';
-      height: 2px;
-      left: 0;
-      position: absolute;
-      right: 0;
     }
 
     .watch-photo {
@@ -296,9 +285,9 @@
       text-transform: uppercase;
     }
 
-    .card-caption { padding-top: 10px; text-align: left; }
-    .card-person { font-size: 14px; line-height: 1.1; }
-    .card-model { color: var(--muted); font-size: 11px; line-height: 1.2; margin-top: 3px; }
+    .card-caption { padding-top: 13px; text-align: center; }
+    .card-person { font-size: 18px; font-weight: 300; line-height: 1.12; }
+    .card-model { color: #4f5960; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px; line-height: 1.25; margin-top: 5px; }
     .back-meta {
       align-items: center;
       display: none;
@@ -386,8 +375,8 @@
       .watch-photo { height: 176px; }
       .quote-text { max-height: 138px; }
       .back-meta { top: 144px; }
-      .card-person { font-size: 12px; }
-      .card-model { display: none; }
+      .card-person { font-size: 15px; }
+      .card-model { font-size: 10px; }
     }
   </style>
 </head>
@@ -424,12 +413,6 @@
       const match = value.match(/\bref\.\s*[^\s,;]+/i);
       return match ? match[0].replace(/^ref\./i, 'Ref.') : '';
     };
-    const modelWithoutReference = value => value
-      .replace(/\bref\.\s*[^\s,;]+/i, '')
-      .replace(/^\s*,\s*/, '')
-      .replace(/\s+,/g, ',')
-      .replace(/\s{2,}/g, ' ')
-      .trim();
     const gradeText = { A: 'Direct source', B: 'Strong secondary source', C: 'Caution noted' };
 
     function matchesSearch(watch) {
@@ -454,7 +437,7 @@
           ${featured.map((watch, index) => `<article class="featured-card">
             <div class="featured-stage"><img class="featured-image" src="${cutoutImage(watch.image || editorialIllustrations[watch.category])}" alt="${watch.brand} ${watch.model} connected to ${watch.person}" ${index < 2 ? 'fetchpriority="high"' : 'loading="lazy"'}></div>
             <h2 class="featured-person">${watch.person}</h2>
-            <p class="featured-model">${watch.brand}${modelWithoutReference(watch.model) ? ` · ${modelWithoutReference(watch.model)}` : ''}</p>
+            <p class="featured-model">${watch.brand}</p>
           </article>`).join('')}
         </div>
         <button class="featured-arrow next" type="button" onclick="scrollFeatured(1)" aria-label="Next featured watches">›</button>
@@ -492,7 +475,7 @@
                   </div>
                 </button>
                 <div class="back-meta">${modelReference(watch.model) ? `<span class="back-reference">${modelReference(watch.model)}</span>` : ''}<a class="back-source" href="${watch.source}" target="_blank" rel="noreferrer">Source ↗</a></div>
-                <div class="card-caption"><div class="card-person">${watch.person}</div><div class="card-model">${watch.brand}${modelWithoutReference(watch.model) ? ` · ${modelWithoutReference(watch.model)}` : ''}</div></div>
+                <div class="card-caption"><div class="card-person">${watch.person}</div><div class="card-model">${watch.brand}</div></div>
               </article>`).join('')}
           </div>
           ${filtered.length ? '' : '<p class="text-stone-400 italic">No inscriptions found.</p>'}
