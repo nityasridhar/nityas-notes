@@ -312,6 +312,21 @@
     }
     .back-source { color: #a75d3c; font-size: 8px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
     .back-source:hover { color: #6f3922; }
+    .translation-toggle {
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid currentColor;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: 'Suisse Intl', Arial, sans-serif;
+      font-size: 8px;
+      letter-spacing: .08em;
+      line-height: 1.2;
+      padding: 0 0 1px;
+      text-transform: uppercase;
+    }
+    .translation-toggle:hover,
+    .translation-toggle:focus-visible { color: var(--accent); outline: none; }
 
     .record-row {
       border-bottom: 1px solid var(--line);
@@ -385,7 +400,7 @@
 <body class="min-h-screen">
   <div id="main-area" class="min-w-0"></div>
 
-  <script src="/Watches.js?v=watch-inscriptions-5"></script>
+  <script src="/Watches.js?v=watch-inscriptions-6"></script>
   <script>
     const categoryLabels = { Collection: 'All', Culture: 'Culture', Power: 'Presidents & power', Sport: 'Sport & racing', Exploration: 'Exploration & space' };
     const editorialIllustrations = {
@@ -398,6 +413,7 @@
     let selectedWatchId = null;
     let flippedWatchId = null;
     let searchQuery = '';
+    const translatedWatchIds = new Set();
     let listWidth = Number.parseFloat(localStorage.getItem('watchListWidth')) || 496;
     let resizeState = null;
 
@@ -412,7 +428,7 @@
 
     function matchesSearch(watch) {
       if (!searchQuery.trim()) return true;
-      const haystack = [watch.person, watch.giver, watch.brand, watch.model, watch.inscription, watch.context].filter(Boolean).join(' ').toLowerCase();
+      const haystack = [watch.person, watch.giver, watch.brand, watch.model, watch.inscription, watch.translation, watch.context].filter(Boolean).join(' ').toLowerCase();
       return searchQuery.toLowerCase().split(/\s+/).every(word => haystack.includes(word));
     }
 
@@ -446,9 +462,14 @@
       return `<img class="watch-photo" src="${cutoutImage(editorialIllustrations[watch.category])}" alt="Editorial reconstruction for ${watch.person}; original photograph unavailable" loading="lazy"><span class="visual-note">Editorial reconstruction</span>`;
     }
 
+    function displayedInscription(watch) {
+      return translatedWatchIds.has(watch.id) && watch.translation ? watch.translation : watch.inscription;
+    }
+
     function quoteSize(watch) {
-      if (watch.inscription.length > 180) return 'quote-long';
-      if (watch.inscription.length > 90) return 'quote-medium';
+      const inscription = displayedInscription(watch);
+      if (inscription.length > 180) return 'quote-long';
+      if (inscription.length > 90) return 'quote-medium';
       return '';
     }
 
@@ -468,10 +489,10 @@
                 <button class="watch-toggle" onclick="toggleWatch(${watch.id}, this)" aria-pressed="${flippedWatchId === watch.id}" aria-label="${flippedWatchId === watch.id ? `Show the watch for ${watch.person}` : `Show the inscription on ${watch.person}’s watch`}">
                   <div class="watch-flip">
                     <div class="watch-face watch-stage" aria-hidden="true">${watchVisual(watch)}</div>
-                    <div class="watch-face watch-quote ${quoteSize(watch)}" aria-hidden="true"><blockquote class="quote-text">${inscriptionLines(watch.inscription)}</blockquote></div>
+                    <div class="watch-face watch-quote ${quoteSize(watch)}" aria-hidden="true"><blockquote class="quote-text">${inscriptionLines(displayedInscription(watch))}</blockquote></div>
                   </div>
                 </button>
-                <div class="back-meta">${modelReference(watch.model) ? `<span class="back-reference">${modelReference(watch.model)}</span>` : ''}<a class="back-source" href="${watch.source}" target="_blank" rel="noreferrer">Source ↗</a></div>
+                <div class="back-meta">${watch.translation ? `<button class="translation-toggle" type="button" onclick="toggleTranslation(event, ${watch.id})" aria-pressed="${translatedWatchIds.has(watch.id)}">${translatedWatchIds.has(watch.id) ? 'French' : 'English'}</button>` : ''}${modelReference(watch.model) ? `<span class="back-reference">${modelReference(watch.model)}</span>` : ''}<a class="back-source" href="${watch.source}" target="_blank" rel="noreferrer">Source ↗</a></div>
                 <div class="card-caption"><div class="card-person">${watch.person}</div><div class="card-model">${watch.brand}</div></div>
               </article>`).join('')}
           </div>
@@ -538,6 +559,20 @@
     }
 
     function handleSearch(event) { searchQuery = event.target.value; selectedWatchId = null; flippedWatchId = null; render(); requestAnimationFrame(() => { const input = document.querySelector('.search-input'); if (input) { input.focus(); input.setSelectionRange(searchQuery.length, searchQuery.length); } }); }
+    function toggleTranslation(event, id) {
+      event.stopPropagation();
+      const watch = watches.find(item => item.id === id);
+      if (!watch?.translation) return;
+      if (translatedWatchIds.has(id)) translatedWatchIds.delete(id);
+      else translatedWatchIds.add(id);
+      const card = event.currentTarget.closest('.watch-card');
+      const quote = card.querySelector('.quote-text');
+      const quoteFace = card.querySelector('.watch-quote');
+      quote.textContent = inscriptionLines(displayedInscription(watch));
+      quoteFace.className = `watch-face watch-quote ${quoteSize(watch)}`;
+      event.currentTarget.textContent = translatedWatchIds.has(id) ? 'French' : 'English';
+      event.currentTarget.setAttribute('aria-pressed', String(translatedWatchIds.has(id)));
+    }
     function toggleWatch(id, button) {
       const watch = watches.find(item => item.id === id);
       const card = button.closest('.watch-card');
