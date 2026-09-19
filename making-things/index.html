@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Making Things — Nitya's Notes</title>
+  <link rel="alternate" type="application/rss+xml" title="Nitya's Notes" href="https://nityasnotes.com/feed.xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Medium.ttf'); font-weight: 500; }
+    body { font-family: 'Spectral', serif; }
+    body.dark-mode { background: #1a1a1a; color: #e0e0e0; }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-transparent">
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a1a';
+    }
+  </script>
+
+  <div class="max-w-5xl mx-auto">
+    <header class="px-5 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row justify-between items-start sm:items-baseline gap-4">
+      <a href="/home" class="text-2xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+      <nav class="flex gap-4 sm:gap-6 text-sm tracking-wide">
+        <a href="/bookshelf" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">BOOKSHELF</a>
+        <a href="/making-things" class="text-gray-900 dark:text-gray-100 font-normal">MAKING THINGS</a>
+        <a href="/writing" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">WRITING</a>
+      </nav>
+    </header>
+
+    <main class="px-8 py-12">
+      <h1 class="text-3xl font-light tracking-tight text-gray-900 dark:text-gray-100 mb-8">Making Things</h1>
+      <a href="/watches" class="block border-b border-gray-200 dark:border-gray-700 py-6 group">
+        <h2 class="text-xl font-normal text-gray-900 dark:text-gray-100 group-hover:text-gray-500">Search over Watch Engravings</h2>
+        <p class="text-gray-500 dark:text-gray-400 mt-2">An assortment of personalized watch engravings</p>
+      </a>
+    </main>
+  </div>
+</body>
+</html>
