@@ -229,28 +229,17 @@
 
     .watch-quote {
       align-items: center;
-      background:
-        radial-gradient(circle at 32% 24%, rgba(255,255,255,.72), transparent 19%),
-        repeating-radial-gradient(circle at center, transparent 0 31px, rgba(83,67,45,.055) 32px 33px),
-        linear-gradient(145deg, #ead8ac, #bfa36d 48%, #ead9ae 76%, #aa8d58);
-      border: 1px solid #aa9168;
-      border-bottom: 2px solid #9e8764;
-      box-shadow: inset 0 0 0 4px rgba(255,255,255,.2);
-      color: #342b21;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      color: var(--ink);
       display: flex;
       flex-direction: column;
       inset: 0;
-      justify-content: flex-start;
+      justify-content: center;
       overflow: hidden;
-      padding: 13px 10px 10px;
+      padding: 18px 12px;
       transform: rotateY(180deg);
-    }
-    .quote-label {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 7px;
-      letter-spacing: .13em;
-      opacity: .66;
-      text-transform: uppercase;
     }
     .quote-text {
       font-size: 12px;
@@ -468,7 +457,7 @@
                 <button class="watch-toggle" onclick="toggleWatch(${watch.id}, this)" aria-pressed="${flippedWatchId === watch.id}" aria-label="${flippedWatchId === watch.id ? `Show the watch for ${watch.person}` : `Show the inscription on ${watch.person}’s watch`}">
                   <div class="watch-flip">
                     <div class="watch-face watch-stage" aria-hidden="true">${watchVisual(watch)}</div>
-                    <div class="watch-face watch-quote ${quoteSize(watch)}" aria-hidden="true"><span class="quote-label">On the back</span><blockquote class="quote-text">${inscriptionLines(watch.inscription)}</blockquote></div>
+                    <div class="watch-face watch-quote ${quoteSize(watch)}" aria-hidden="true"><blockquote class="quote-text">${inscriptionLines(watch.inscription)}</blockquote></div>
                   </div>
                 </button>
                 <div class="card-caption"><div class="card-person">${watch.person}</div><div class="card-model">${watch.brand} · ${watch.model}</div><a class="card-source" href="${watch.source}" target="_blank" rel="noreferrer">Source ↗</a></div>
