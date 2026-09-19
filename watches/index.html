@@ -370,6 +370,16 @@
     .grade-b .grade-dot { background: #b68b47; }
     .grade-c .grade-dot { background: #a87b70; }
 
+    .site-credit {
+      color: var(--muted);
+      font-family: 'Suisse Intl', Arial, sans-serif;
+      font-size: 9px;
+      letter-spacing: .08em;
+      padding: 18px 20px 32px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
     .split-resizer { display: none; }
     @media (min-width: 1280px) {
       .watch-list { flex: 0 0 var(--watch-list-width); width: var(--watch-list-width); }
@@ -497,7 +507,8 @@
               </article>`).join('')}
           </div>
           ${filtered.length ? '' : '<p class="text-stone-400 italic">No inscriptions found.</p>'}
-        </main>`;
+        </main>
+        <footer class="site-credit">Made with Codex and Exa</footer>`;
     }
 
     function setListWidth(width, persist = true) {
