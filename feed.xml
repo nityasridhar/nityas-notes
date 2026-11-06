@@ -6,7 +6,15 @@
     <atom:link href="https://nityasnotes.com/feed.xml" rel="self" type="application/rss+xml" />
     <description>Writing and notes from Nitya Sridhar.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 18 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 06 Nov 2026 00:00:00 GMT</lastBuildDate>
+
+    <item>
+      <title>A Conversation with a Flow Cytometrist</title>
+      <link>https://nityasnotes.com/writing/can-super-intelligence-come-up-with-novel-ideas/</link>
+      <guid isPermaLink="true">https://nityasnotes.com/writing/can-super-intelligence-come-up-with-novel-ideas/</guid>
+      <pubDate>Fri, 06 Nov 2026 00:00:00 GMT</pubDate>
+      <description>how AI will be most useful to science</description>
+    </item>
 
     <item>
       <title>genius needs leisure to think, and so do you</title>

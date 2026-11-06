@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Conversation with a Flow Cytometrist - Nitya's Notes</title>
+  <link rel="alternate" type="application/rss+xml" title="Nitya's Notes" href="https://nityasnotes.com/feed.xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <style>
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Medium.ttf'); font-weight: 500; }
+    body { font-family: 'Spectral', serif; }
+    body.dark-mode { background: #1a1a1a; color: #e0e0e0; }
+  </style>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-transparent">
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a1a';
+    }
+  </script>
+
+  <header class="max-w-5xl mx-auto px-5 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row justify-between items-start sm:items-baseline gap-4">
+    <a href="/home" class="text-2xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+    <nav class="flex flex-wrap gap-x-4 gap-y-2 sm:gap-x-6 text-sm tracking-wide">
+      <a href="/bookshelf" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">BOOKSHELF</a>
+      <a href="/writing" class="text-gray-900 dark:text-gray-100 font-normal">WRITING</a>
+    </nav>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-5 sm:px-8 py-8 sm:py-12">
+    <p class="text-sm text-gray-400 mb-3">November 2026</p>
+    <h1 class="text-3xl sm:text-4xl font-light tracking-tight text-black dark:text-gray-100 mb-4 leading-snug">A Conversation with a Flow Cytometrist</h1>
+    <p class="text-lg sm:text-xl font-light text-gray-500 dark:text-gray-400 mb-10 leading-relaxed">how AI will be most useful to science</p>
+
+    <article class="text-black dark:text-gray-100 leading-relaxed text-lg space-y-5">
+      <p>I recently spoke to a flow cytometrist in Boston about where AI will be most useful for science. Her baseline stance, as for most in bio, is of skepticism - the lack of data and verifiable tasks, real world experimental loops - mean that there are only specific areas of work where AI has been useful to biology so far <a href="#footnote-1" class="align-super text-sm underline decoration-gray-400 underline-offset-4 hover:text-gray-600 dark:hover:text-gray-300">1</a></p>
+
+      <p>Her pov was this: AI will be most useful in science and math broadly when targetted at problems that are 1) at the frontier of two complex fields that would require multiple human lifetimes of ongoing mastery 2) require very large scale data analysis</p>
+
+      <p>The obviously fitting solution that comes to mind here is Navier Strokes. At its most simplistic abstraction, it is a complex set of derivatives that explain every edge case of fluid dynamic movements. The sheer number of edge cases one has to consider to solve this would require ongoing study and mastery of nonlinear partial differential equations, functional analysis, fluid mechanics (among other things). You can imagine it is not a particular priority of how to spend a human lifetime (a few million agent hours on the other hand…).</p>
+
+      <p>I am reminded of a line in the 3 Body Problem where the Chinese emperor tells Von Neuman “you may be clever but we have manpower which you don’t have. We can reach the same discovery through brute force.” The flow cytometrist appears to be correct - for problems like Navier Strokes that meet her two prerequisites: brute force mathematics, with human guidance and compute at scale is what proves most valuable.</p>
+
+      <p>Are we really to believe superintelligence cannot come up with creative ideas outside of her stated constraints? I can't help but think her argument is limited, but I do not have a strong counterargument yet. In fact, a lot of what I have read agrees with her. One of my favorite writers in biotech, Alex Telford, <a href="https://x.com/atelfo/status/2116288011533164643?a=-8O-lpEZjA-9euYKOLg&amp;s=46" class="underline decoration-gray-400 underline-offset-4 hover:text-gray-600 dark:hover:text-gray-300" target="_blank" rel="noopener noreferrer">recently wrote</a> about how &lt;5% of new drugs entering the clinic are going after targets that haven't been tested clinically before, ~60% are going after targets with an approved drug.</p>
+
+      <p>Coding in contrast benefits from a large corpus of data from the <a href="https://x.com/DanielLockyer/status/2115360923145712015?a=zZBDAgGT8xFKbKRFU4s&amp;s=20" class="underline decoration-gray-400 underline-offset-4 hover:text-gray-600 dark:hover:text-gray-300" target="_blank" rel="noopener noreferrer">open internet</a>, which due to <a href="https://x.com/nityasnotes/status/1875191251395580201?a=NSH1Bd9NbIjMXvRTDQM&amp;s=20" class="underline decoration-gray-400 underline-offset-4 hover:text-gray-600 dark:hover:text-gray-300" target="_blank" rel="noopener noreferrer">costs</a>, bureaucracy, time are all much faster with software.</p>
+
+      <p>My current hypothesis as a result is that the emergence of discovery maps to the ability and pace of experimental validation.</p>
+
+      <hr class="my-10 border-gray-200 dark:border-gray-700">
+
+      <aside id="footnote-1" class="text-base text-gray-600 dark:text-gray-400 space-y-4">
+        <p><span class="font-medium text-black dark:text-gray-100">1)</span> I worked at Amgen when we first had access to BioNemo and were running experiments with AlphaFold. I recall how hopeful the industry was towards predictive protein capabilities in a way that now feels naive. My manager in the data science team at the time was running a number of experiments related to predicting the ability of molecular glues to bind to certain target proteins.</p>
+
+        <p>The difficulty to create validation paths for these predictive experiments meant the project gradually just fizzled out in lieu of things that were more top of mind for the business.</p>
+      </aside>
+    </article>
+  </main>
+
+</body>
+</html>
