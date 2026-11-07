@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History of the San Francisco Office - Nitya's Notes</title>
+  <link rel="alternate" type="application/rss+xml" title="Nitya's Notes" href="https://nityasnotes.com/feed.xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <style>
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Light.ttf'); font-weight: 300; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Spectral'; src: url('/fonts/Spectral-Medium.ttf'); font-weight: 500; }
+    body { font-family: 'Spectral', serif; }
+    body.dark-mode { background: #1a1a1a; color: #e0e0e0; }
+  </style>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-transparent">
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a1a';
+    }
+  </script>
+
+  <header class="max-w-5xl mx-auto px-5 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row justify-between items-start sm:items-baseline gap-4">
+    <a href="/home" class="text-2xl sm:text-4xl font-light tracking-tight text-gray-900 dark:text-gray-100 no-underline">Nitya's Notes</a>
+    <nav class="flex flex-wrap gap-x-4 gap-y-2 sm:gap-x-6 text-sm tracking-wide">
+      <a href="/bookshelf" class="text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">BOOKSHELF</a>
+      <a href="/writing" class="text-gray-900 dark:text-gray-100 font-normal">WRITING</a>
+    </nav>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-5 sm:px-8 py-8 sm:py-12">
+    <p class="text-sm text-gray-400 mb-3">November 7, 2026</p>
+    <h1 class="text-3xl sm:text-4xl font-light tracking-tight text-black dark:text-gray-100 mb-10 leading-snug">History of the San Francisco Office</h1>
+
+    <article class="text-black dark:text-gray-100 leading-relaxed text-lg space-y-5">
+      <p>I turned the corner at the Exa office the other day and saw a monitor that had the word Stripe glowing. This used to be the Stripe office when it was just a few hundred people, before being used by OpenAI, SpaceX and eventually Exa. When we first moved in to the building, some leftover spaceX mattresses were still on the floor.</p>
+
+      <figure class="max-w-md mx-auto">
+        <img src="/images/stripe-monitor-exa-office.png" alt="A wall monitor at the Exa office displaying the Stripe logo" class="w-full aspect-[4/5] object-cover rounded-sm">
+      </figure>
+
+      <p>“History is literally present in all that we do.” James Baldwin once wrote and in San Francisco the history of technology feels very close to you.</p>
+
+      <p>You can't help but think: if that group of people was able to figure it out with the set of cards they were dealt, why can't we? Impossible outcomes doesn't seem unrealistic when you have examples all around you of people that have defied reality.</p>
+
+      <p>A few months after I had moved to San Francisco, I remember reading the <a href="https://x.com/nityasnotes/status/1834432548291674169?s=20" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-700 dark:hover:text-gray-300">Tinkering of Bob Noyce</a>, about the founder of intel and the story of how the chip age turned Santa Clara into Silicon Valley. On a micro level, I felt how close the future he envisioned was in my immediate environment - the people behind superintelligence and global financial infrastructure spent all their time in the same rooms I do every day.</p>
+
+      <p>Even if none of us can recreate the journey they had, the idea that someone sitting in the same office walls cannot create meaningful things with outsized impact feels naive. Everytime I walk by the Stripe monitor in the office, I get a little jolt of how tangibly close that future feels to me in this city.</p>
+    </article>
+  </main>
+
+</body>
+</html>
