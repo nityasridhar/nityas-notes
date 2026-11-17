@@ -1,5 +1,6 @@
 const items = [
     /* 28>*/
+    { id: 220, type: "blog", title: "Be impatient", author: "Ben Kuhn", category: ["Blogs","Bookshelf"], url: "https://www.benkuhn.net/impatient/", notes: "" },
     { id: 219, type: "blog", title: "The Sane Asylum", author: "Brie Wolfson", category: ["Blogs","Bookshelf"], url: "https://colossus.com/article/sane-asylum-turbopuffer/", notes: "" },
     { id: 218, type: "blog", title: "sustaining creative aliveness while working a full time job", author: "Nix", category: ["Blogs","Bookshelf"], url: "https://www.startingfromnix.com/p/sustaining-creative-aliveness-while", notes: "" },
     { id: 217, type: "blog", title: "OBLIQ-Bench", author: "Diane Tchuindjo, Devavrat Shah, Omar Khattab", category: ["Papers","Bookshelf"], url: "https://arxiv.org/abs/2605.06235", notes: "" },
