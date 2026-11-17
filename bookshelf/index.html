@@ -1205,7 +1205,7 @@
   <!-- Fullscreen painting modal -->
   <div id="painting-modal" class="fixed inset-0 bg-black bg-opacity-90 hidden items-center justify-center z-50"></div>
 
-  <script src="/Books.js?v=bookshelf-be-impatient"></script>
+  <script src="/Books.js?v=bookshelf-nix-illustration"></script>
   <script>
     let darkMode = localStorage.getItem('darkMode') === 'true';
 
@@ -1650,9 +1650,15 @@
       const actionLabel = item.type === "video" || item.category?.some(c => c === "Videos" || c === "Video")
         ? "Watch it"
         : "Read it";
+      const detailImageHtml = item.detailImage
+        ? `<figure class="mb-6">
+            <img src="${item.detailImage}" alt="${item.detailImageAlt || item.title}" class="w-full h-auto rounded-sm" />
+            ${item.detailImageCredit ? `<figcaption class="mt-2 text-xs ${dm ? 'text-gray-500' : 'text-gray-400'}">${item.detailImageCreditUrl ? `<a href="${item.detailImageCreditUrl}" target="_blank" class="hover:text-orange-500">${item.detailImageCredit}</a>` : item.detailImageCredit}</figcaption>` : ''}
+          </figure>`
+        : '';
       const detailHtml = item.type === "calendar"
         ? `<div class="calendar-display mt-4">${renderCalendarObject("large", "detail")}</div>`
-        : `<div class="${dm ? 'text-gray-300' : 'text-gray-700'} leading-relaxed">${notesHtml}</div>`;
+        : `${detailImageHtml}<div class="${dm ? 'text-gray-300' : 'text-gray-700'} leading-relaxed">${notesHtml}</div>`;
       const authorHtml = item.author
         ? `<p class="${dm ? 'text-gray-400' : 'text-gray-500'} mb-6">${item.author}</p>`
         : '';
