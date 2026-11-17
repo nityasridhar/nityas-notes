@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nitya's Notes</title>
   <link rel="alternate" type="application/rss+xml" title="Nitya's Notes" href="https://nityasnotes.com/feed.xml">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config = { darkMode: 'class' }</script>
   <style>
     @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-ExtraLight.ttf'); font-weight: 200; }
     @font-face { font-family: 'Spectral'; src: url('fonts/Spectral-Light.ttf'); font-weight: 300; }
@@ -240,7 +238,6 @@
     <div id="globe"></div>
   </div>
 
-  <script src="/Books.js?v=landing-globe-mind-at-play"></script>
   <script>
     const wallText = document.getElementById('wall-text');
     const FALLBACK_WALL_TEXT_LINES = [
@@ -286,20 +283,17 @@
     }
 
     function renderWallText(lines) {
-      const sourceLines = dedupeLines(lines).length ? dedupeLines(lines) : FALLBACK_WALL_TEXT_LINES;
-      wallText.textContent = '';
+      const uniqueLines = dedupeLines(lines);
+      const sourceLines = uniqueLines.length ? uniqueLines : FALLBACK_WALL_TEXT_LINES;
+      const viewportArea = window.innerWidth * window.innerHeight;
+      const lineCount = Math.min(420, Math.max(140, Math.ceil(viewportArea / 4200)));
+      const renderedLines = Array.from(
+        { length: lineCount },
+        (_, index) => cleanWallText(sourceLines[index % sourceLines.length])
+      );
 
-      const maxLineAttempts = 420;
-      for (let index = 0; index < maxLineAttempts; index++) {
-        appendWallTextLine(sourceLines[index % sourceLines.length]);
-        if (
-          wallText.scrollHeight > wallText.clientHeight + 2 ||
-          wallText.scrollWidth > wallText.clientWidth + 2
-        ) {
-          wallText.lastElementChild.remove();
-          break;
-        }
-      }
+      // A single text update avoids hundreds of forced layouts during startup.
+      wallText.textContent = `${renderedLines.join(' / ')} / `;
     }
 
     function parseWritingDate(dateText) {
@@ -384,8 +378,17 @@
       tileBg.appendChild(tile);
     }
 
-    // Fallback keeps the landing page alive if Books.js ever fails to load.
-    const FALLBACK_IMAGE_PATHS = [
+    // This lean manifest keeps the landing page independent of the full
+    // Books.js catalog, whose notes and metadata are not needed here.
+    const IMAGE_PATHS = [
+      'images/one-hundred-years-of-solitude.jpg',
+      'images/three-body-problem.jpg',
+      'images/mind_at_play.jpg',
+      'images/picture-of-dorian-gray.jpg',
+      'images/when-we-cease-to-understand-the-world.jpg',
+      'images/wisdom_of_life.avif',
+      'images/what-i-talk-about-running.jpg',
+      'images/scenes-from-a-marriage-1973.jpg',
       'images/bugonia.jpg',
       'images/before_sunrise.jpg',
       'images/in_the_mood_for_love.jpg',
@@ -411,14 +414,6 @@
       'images/spirited_away.jpg',
       'images/tenet.jpg'
     ];
-    const bookshelfItems = typeof items !== 'undefined' ? items : [];
-    const IMAGE_PATHS = bookshelfItems
-      .filter((item) => item.cover && Array.isArray(item.category) && item.category.includes('Bookshelf'))
-      .map((item) => item.cover.replace(/^\//, ''));
-
-    if (!IMAGE_PATHS.length) {
-      IMAGE_PATHS.push(...FALLBACK_IMAGE_PATHS);
-    }
 
     // Scale the globe to the available viewport while keeping the whole sphere legible.
     const viewportMin = Math.min(window.innerWidth, window.innerHeight);
@@ -454,11 +449,22 @@
 
     syncWallTextClearZone();
     renderWallText(cachedWallTextLines);
-    loadRecentWritingWallTextLines().then((lines) => {
-      cachedWallTextLines = lines;
-      syncWallTextClearZone();
-      renderWallText(cachedWallTextLines);
-    });
+
+    // The fallback copy is ready immediately. Fetch recent writing only after
+    // the globe's first image set has loaded so it cannot compete for bandwidth.
+    window.addEventListener('load', () => {
+      const loadWallText = () => loadRecentWritingWallTextLines().then((lines) => {
+        cachedWallTextLines = lines;
+        syncWallTextClearZone();
+        renderWallText(cachedWallTextLines);
+      });
+
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(loadWallText, { timeout: 1800 });
+      } else {
+        setTimeout(loadWallText, 250);
+      }
+    }, { once: true });
     window.addEventListener('resize', debounce(() => {
       syncWallTextClearZone();
       renderWallText(cachedWallTextLines);
@@ -496,6 +502,8 @@
 
     // Create image cards on the sphere
     const spherePoints = buildSpherePoints(N);
+    const initialImageCount = isMobile ? 10 : 16;
+    const deferredImages = [];
     DISPLAY_IMAGE_PATHS.forEach((path, i) => {
       const point = spherePoints[i];
       const x = point.x * RADIUS;
@@ -517,12 +525,38 @@
         rotateX(${pitch}deg)
       `;
       const img = document.createElement('img');
-      img.src = path;
       img.alt = '';
-      img.loading = 'eager';
+      img.decoding = 'async';
+      if (i < initialImageCount) {
+        img.src = path;
+        img.loading = 'eager';
+        if (i < 6) img.fetchPriority = 'high';
+      } else {
+        img.dataset.src = path;
+        img.loading = 'lazy';
+        deferredImages.push(img);
+      }
       card.appendChild(img);
       globe.appendChild(card);
     });
+
+    function loadDeferredGlobeImages() {
+      let index = 0;
+      const loadBatch = () => {
+        deferredImages.slice(index, index + 6).forEach((img) => {
+          img.src = img.dataset.src;
+          delete img.dataset.src;
+        });
+        index += 6;
+        if (index < deferredImages.length) requestAnimationFrame(loadBatch);
+      };
+      loadBatch();
+    }
+
+    // Let the nearest covers paint first, then fill in the back of the globe.
+    window.addEventListener('load', () => {
+      requestAnimationFrame(() => requestAnimationFrame(loadDeferredGlobeImages));
+    }, { once: true });
 
     // Rotation state
     let rotX = 0;
